@@ -217,15 +217,10 @@ export default function Hero() {
       className="relative min-h-dvh flex items-end overflow-hidden"
       style={{ background: "#000" }}
     >
-      {/* ── Photo with parallax — larger, centered ── */}
+      {/* ── Photo — full section, centered ── */}
       <motion.div
-        className="absolute z-0"
-        style={{
-          x: imgX, y: imgY,
-          inset: "-15%",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
+        className="absolute inset-0 z-0"
+        style={{ x: imgX, y: imgY }}
       >
         <Image
           src="/assets/images/hero-trainer.png"
