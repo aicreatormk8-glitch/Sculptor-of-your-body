@@ -66,10 +66,20 @@ export interface Dict {
     eyebrow: string;
     title: string;
     titleAccent: string;
-    desc: string;
+    subtitle: string;
+    beforeLabel: string;
+    afterLabel: string;
+    transformations: {
+      name: string;
+      period: string;
+      result: string;
+      beforeImg: string;
+      afterImg: string;
+    }[];
+    testimonialsTitle: string;
+    testimonialsAccent: string;
+    testimonials: { name: string; meta: string; text: string }[];
     startBtn: string;
-    items: { icon: string; text: string }[];
-    stats: { num: string; label: string }[];
   };
   cta: {
     eyebrow: string;
