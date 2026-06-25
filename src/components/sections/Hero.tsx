@@ -21,17 +21,18 @@ export default function Hero() {
     <section
       id="hero"
       className="relative min-h-dvh flex items-end overflow-hidden"
+      style={{ background: "#000" }}
     >
       {/* ─── Full-screen background image ─── */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" style={{ background: "#000" }}>
         <Image
           src="/assets/images/hero-trainer.png"
           alt="Sculptor of Your Body"
           fill
           priority
           style={{
-            objectFit: "cover",
-            objectPosition: "center 70%",
+            objectFit: "contain",
+            objectPosition: "center center",
             filter: "brightness(1.1) contrast(1.05) saturate(1.1)",
           }}
         />
