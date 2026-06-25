@@ -20,7 +20,7 @@ export default function About() {
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none" style={{ background: "rgba(0,100,200,0.06)" }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="mb-16">
+        <AnimatedSection className="mb-16 flex flex-col items-center text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
             <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">{about.eyebrow}</span>
