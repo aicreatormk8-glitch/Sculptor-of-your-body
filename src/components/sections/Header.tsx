@@ -49,7 +49,7 @@ export default function Header() {
             className="logo-glow text-sm sm:text-base font-800 tracking-[0.2em] uppercase text-white transition-all duration-300"
             style={{ textDecoration: "none", lineHeight: 1 }}
           >
-            Sculptor of Your Body™
+            Sculptor of Your Body
           </a>
 
           {/* Desktop Nav */}
