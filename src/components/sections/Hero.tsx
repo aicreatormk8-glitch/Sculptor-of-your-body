@@ -217,13 +217,14 @@ export default function Hero() {
       className="relative min-h-dvh flex items-end overflow-hidden"
       style={{ background: "#000" }}
     >
-      {/* ── Photo with parallax — 12% larger, shifted right ── */}
+      {/* ── Photo with parallax — larger, centered ── */}
       <motion.div
         className="absolute z-0"
         style={{
           x: imgX, y: imgY,
-          inset: "-6%",
-          left: "3%",
+          inset: "-15%",
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
       >
         <Image
@@ -233,7 +234,7 @@ export default function Hero() {
           priority
           style={{
             objectFit: "contain",
-            objectPosition: "58% center",
+            objectPosition: "50% center",
             filter: "brightness(1.08) contrast(1.08) saturate(1.1)",
           }}
         />
