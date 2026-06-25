@@ -53,7 +53,7 @@ export default function Hero() {
           fill
           priority
           style={{
-            objectFit: "cover",
+            objectFit: "contain",
             objectPosition: "center center",
             filter: "brightness(1.1) contrast(1.05) saturate(1.1)",
           }}
