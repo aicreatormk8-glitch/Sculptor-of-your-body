@@ -40,82 +40,167 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Canvas smoke
+  // Canvas smoke — живой 5D дым
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let W = 0, H = 0;
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
     };
     resize();
     window.addEventListener("resize", resize);
 
+    // Simple noise helper (hash-based pseudo-noise)
+    const hash = (x: number, y: number) => {
+      let h = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+      return h - Math.floor(h);
+    };
+    const noise = (x: number, y: number) => {
+      const ix = Math.floor(x), iy = Math.floor(y);
+      const fx = x - ix, fy = y - iy;
+      const ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
+      const a = hash(ix, iy), b = hash(ix + 1, iy);
+      const c = hash(ix, iy + 1), d = hash(ix + 1, iy + 1);
+      return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+    };
+    const fbm = (x: number, y: number, oct: number) => {
+      let v = 0, amp = 0.5, freq = 1;
+      for (let i = 0; i < oct; i++) {
+        v += amp * noise(x * freq, y * freq);
+        amp *= 0.5; freq *= 2;
+      }
+      return v;
+    };
+
     type Puff = {
       x: number; y: number; vx: number; vy: number;
-      radius: number; opacity: number; hue: number; life: number; maxLife: number;
+      ox: number; oy: number; // origin for turbulence
+      radius: number; targetRadius: number;
+      opacity: number; hue: number; saturation: number;
+      life: number; maxLife: number;
+      rotation: number; rotSpeed: number;
+      layer: number; // 0=bg, 1=mid, 2=fg
+      phase: number;
     };
 
     const puffs: Puff[] = [];
 
-    const spawnPuff = () => {
-      const cx = canvas.width * (0.4 + Math.random() * 0.25);
-      const cy = canvas.height * (0.2 + Math.random() * 0.5);
+    const spawnPuff = (layer = Math.floor(Math.random() * 3)) => {
+      const cx = W * (0.3 + Math.random() * 0.4);
+      const cy = H * (0.1 + Math.random() * 0.75);
+      const maxLife = layer === 0
+        ? 400 + Math.random() * 200
+        : layer === 1
+          ? 250 + Math.random() * 150
+          : 120 + Math.random() * 80;
+
       puffs.push({
-        x: cx, y: cy,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: -Math.random() * 0.3 - 0.1,
-        radius: 60 + Math.random() * 100,
+        x: cx, y: cy, ox: cx, oy: cy,
+        vx: (Math.random() - 0.5) * (layer === 2 ? 0.6 : 0.25),
+        vy: -(Math.random() * (layer === 2 ? 0.5 : 0.2) + 0.05),
+        radius: layer === 0 ? 80 + Math.random() * 120
+          : layer === 1 ? 40 + Math.random() * 80
+          : 20 + Math.random() * 40,
+        targetRadius: 0,
         opacity: 0,
-        hue: 200 + Math.random() * 40,
-        life: 0,
-        maxLife: 220 + Math.random() * 120,
+        hue: 200 + Math.random() * 50,
+        saturation: 60 + Math.random() * 30,
+        life: 0, maxLife,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.003,
+        layer,
+        phase: Math.random() * 100,
       });
     };
 
-    for (let i = 0; i < 12; i++) spawnPuff();
+    // Seed initial puffs on all layers
+    for (let i = 0; i < 6; i++) spawnPuff(0);
+    for (let i = 0; i < 8; i++) spawnPuff(1);
+    for (let i = 0; i < 6; i++) spawnPuff(2);
 
     let frame = 0;
     let animId: number;
+    let t = 0;
 
     const draw = () => {
       animId = requestAnimationFrame(draw);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, W, H);
       frame++;
+      t += 0.004;
 
-      if (frame % 18 === 0) spawnPuff();
+      // Spawn schedule
+      if (frame % 25 === 0) spawnPuff(0);
+      if (frame % 12 === 0) spawnPuff(1);
+      if (frame % 8 === 0) spawnPuff(2);
+
+      // Sort by layer (bg first)
+      puffs.sort((a, b) => a.layer - b.layer);
 
       for (let i = puffs.length - 1; i >= 0; i--) {
         const p = puffs[i];
         p.life++;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.radius += 0.15;
+        p.rotation += p.rotSpeed;
 
-        const t = p.life / p.maxLife;
-        p.opacity = t < 0.25
-          ? (t / 0.25) * 0.22
-          : t < 0.7
-            ? 0.22
-            : (1 - (t - 0.7) / 0.3) * 0.22;
+        // Turbulence via fBm noise
+        const nx = fbm((p.x / W) * 2 + t, (p.y / H) * 2 + p.phase, 4);
+        const ny = fbm((p.x / W) * 2 + p.phase + 5, (p.y / H) * 2 + t, 4);
+        const turbStr = p.layer === 0 ? 0.6 : p.layer === 1 ? 1.0 : 1.5;
 
-        if (p.life >= p.maxLife) {
-          puffs.splice(i, 1);
-          continue;
+        p.x += p.vx + (nx - 0.5) * turbStr;
+        p.y += p.vy + (ny - 0.5) * turbStr * 0.5;
+        p.radius += p.layer === 0 ? 0.08 : p.layer === 1 ? 0.12 : 0.18;
+
+        const prog = p.life / p.maxLife;
+        const maxOp = p.layer === 0 ? 0.28 : p.layer === 1 ? 0.22 : 0.16;
+        p.opacity = prog < 0.2
+          ? (prog / 0.2) * maxOp
+          : prog < 0.65
+            ? maxOp
+            : (1 - (prog - 0.65) / 0.35) * maxOp;
+
+        if (p.life >= p.maxLife) { puffs.splice(i, 1); continue; }
+
+        // Draw with rotation transform
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+
+        // Multi-pass bloom: draw 3 times at different scales
+        for (let pass = 0; pass < 3; pass++) {
+          const scale = 1 + pass * 0.3;
+          const alpha = p.opacity * (pass === 0 ? 1 : pass === 1 ? 0.5 : 0.25);
+          const r = p.radius * scale;
+
+          const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
+          grad.addColorStop(0,   `hsla(${p.hue}, ${p.saturation}%, 65%, ${alpha})`);
+          grad.addColorStop(0.3, `hsla(${p.hue}, ${p.saturation - 10}%, 50%, ${alpha * 0.7})`);
+          grad.addColorStop(0.6, `hsla(${p.hue - 10}, ${p.saturation - 20}%, 35%, ${alpha * 0.3})`);
+          grad.addColorStop(1,   `hsla(${p.hue}, 40%, 20%, 0)`);
+
+          ctx.beginPath();
+          // Ellipse for more organic shape
+          ctx.ellipse(0, 0, r, r * (0.7 + Math.sin(p.phase + p.life * 0.01) * 0.15), 0, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
         }
 
-        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-        grad.addColorStop(0, `hsla(${p.hue}, 85%, 60%, ${p.opacity})`);
-        grad.addColorStop(0.5, `hsla(${p.hue}, 70%, 45%, ${p.opacity * 0.5})`);
-        grad.addColorStop(1, `hsla(${p.hue}, 60%, 30%, 0)`);
+        ctx.restore();
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
+        // Extra: bright core for foreground wisps
+        if (p.layer === 2) {
+          const coreGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 0.4);
+          coreGrad.addColorStop(0, `hsla(${p.hue + 20}, 95%, 80%, ${p.opacity * 0.8})`);
+          coreGrad.addColorStop(1, `hsla(${p.hue}, 80%, 60%, 0)`);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = coreGrad;
+          ctx.fill();
+        }
       }
     };
 
