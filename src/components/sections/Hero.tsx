@@ -258,14 +258,12 @@ export default function Hero() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute z-10 text-6xl sm:text-7xl lg:text-[7rem] font-700 leading-[0.92] tracking-[-0.02em]"
-        style={{ left: "clamp(2rem, 8vw, 7rem)", bottom: "clamp(16%, 20vh, 22%)" }}
+        className="absolute z-10 text-5xl sm:text-6xl lg:text-7xl font-700 leading-[0.95] tracking-[-0.02em]"
+        style={{ left: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(18%, 22vh, 24%)", maxWidth: "40vw" }}
       >
         <span className="block text-white drop-shadow-lg">SCULPTOR</span>
-        <span className="block drop-shadow-lg">
-          <span className="text-white">OF YOUR </span>
-          <span className="glow-text" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>BODY</span>
-        </span>
+        <span className="block text-white drop-shadow-lg">OF YOUR</span>
+        <span className="block glow-text drop-shadow-lg" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>BODY</span>
       </motion.h1>
 
       {/* ── Premium signature (right) ── */}
@@ -274,7 +272,7 @@ export default function Hero() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="absolute z-10 hidden md:flex flex-col items-end gap-5"
-        style={{ right: "clamp(2rem, 8vw, 7rem)", bottom: "clamp(11%, 14vh, 15%)" }}
+        style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(30%, 34vh, 38%)", maxWidth: "34vw" }}
       >
         <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, var(--blue-neon))" }} />
         <span
