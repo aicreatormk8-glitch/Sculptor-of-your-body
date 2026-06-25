@@ -43,50 +43,47 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-dvh flex items-center overflow-hidden"
+      className="relative min-h-dvh flex items-end overflow-hidden"
     >
-      {/* Dark background */}
-      <div className="absolute inset-0 z-0 bg-[#04060f]" />
+      {/* ─── Full-screen background image ─── */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/assets/images/hero-trainer.png"
+          alt="Sculptor of Your Body"
+          fill
+          priority
+          style={{
+            objectFit: "cover",
+            objectPosition: "center center",
+            filter: "brightness(1.1) contrast(1.05) saturate(1.1)",
+          }}
+        />
 
-      {/* ─── Trainer image — full body, right side ─── */}
-      <div className="absolute inset-0 z-0 flex items-end justify-center lg:justify-end">
+        {/* Dark vignette — edges only, keep centre bright */}
         <div
-          className="relative w-full h-full lg:w-[62%]"
-          style={{ minHeight: "100dvh" }}
-        >
-          <Image
-            src="/assets/images/hero-trainer.png"
-            alt="Sculptor of Your Body"
-            fill
-            priority
-            style={{
-              objectFit: "contain",
-              objectPosition: "center bottom",
-              filter: "brightness(1.15) contrast(1.05) saturate(1.1)",
-            }}
-          />
-        </div>
-
-        {/* Left text-area fade only */}
-        <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to right, #04060f 20%, rgba(4,6,15,0.82) 42%, rgba(4,6,15,0.3) 65%, transparent 85%)",
+              "radial-gradient(ellipse 80% 90% at 50% 50%, transparent 40%, rgba(4,6,15,0.55) 80%, rgba(4,6,15,0.85) 100%)",
           }}
         />
-        {/* Bottom subtle fade */}
+
+        {/* Bottom text-readability gradient */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0"
           style={{
-            background: "linear-gradient(to top, #04060f 0%, transparent 100%)",
+            height: "55%",
+            background:
+              "linear-gradient(to top, rgba(4,6,15,0.92) 0%, rgba(4,6,15,0.6) 35%, transparent 70%)",
           }}
         />
-        {/* Top subtle fade */}
+
+        {/* Top header space fade */}
         <div
-          className="absolute top-0 left-0 right-0 h-24 pointer-events-none"
+          className="absolute top-0 left-0 right-0 h-40"
           style={{
-            background: "linear-gradient(to bottom, #04060f 0%, transparent 100%)",
+            background:
+              "linear-gradient(to bottom, rgba(4,6,15,0.7) 0%, transparent 100%)",
           }}
         />
       </div>
@@ -95,112 +92,58 @@ export default function Hero() {
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 1 }}
-        animate={{
-          x: [0, -40, 20, -25, 0],
-          opacity: [0.5, 0.75, 0.45, 0.7, 0.5],
-        }}
+        animate={{ x: [0, -50, 25, -30, 0], opacity: [0.45, 0.7, 0.35, 0.65, 0.45] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 75% at 68% 52%, rgba(0,80,200,0.28) 0%, rgba(0,30,100,0.1) 55%, transparent 78%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 65% 80% at 55% 50%, rgba(0,70,180,0.22) 0%, rgba(0,20,80,0.08) 55%, transparent 78%)",
+        }} />
       </motion.div>
 
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 1 }}
-        animate={{
-          x: [15, -20, 30, -10, 15],
-          y: [0, -18, 12, -10, 0],
-          opacity: [0.3, 0.55, 0.2, 0.5, 0.3],
-        }}
+        animate={{ x: [20, -25, 35, -12, 20], y: [0, -20, 14, -10, 0], opacity: [0.3, 0.5, 0.18, 0.45, 0.3] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 40% 55% at 58% 38%, rgba(0,140,255,0.22) 0%, rgba(0,80,200,0.08) 50%, transparent 72%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 45% 60% at 62% 38%, rgba(0,130,255,0.2) 0%, rgba(0,70,200,0.07) 52%, transparent 72%)",
+        }} />
       </motion.div>
 
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 1 }}
-        animate={{
-          x: [-25, 30, -15, 20, -25],
-          y: [8, -22, 16, -12, 8],
-          opacity: [0.2, 0.4, 0.12, 0.35, 0.2],
-          scaleX: [1, 1.2, 0.9, 1.1, 1],
-        }}
+        animate={{ x: [-30, 35, -18, 25, -30], y: [10, -25, 18, -14, 10], opacity: [0.18, 0.38, 0.1, 0.3, 0.18], scaleX: [1, 1.2, 0.88, 1.1, 1] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 8 }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 30% 45% at 75% 65%, rgba(0,200,255,0.18) 0%, transparent 68%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 35% 50% at 45% 65%, rgba(0,190,255,0.16) 0%, transparent 68%)",
+        }} />
       </motion.div>
 
       {/* Ground mist */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: "55%", zIndex: 1 }}
-        animate={{
-          opacity: [0.55, 0.85, 0.45, 0.75, 0.55],
-          y: [0, -10, 5, -7, 0],
-        }}
-        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        style={{ height: "50%", zIndex: 1 }}
+        animate={{ opacity: [0.5, 0.8, 0.4, 0.72, 0.5], y: [0, -12, 6, -8, 0] }}
+        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(0,40,120,0.38) 0%, rgba(0,60,160,0.12) 35%, transparent 70%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to top, rgba(0,35,110,0.35) 0%, rgba(0,55,150,0.1) 38%, transparent 70%)",
+        }} />
       </motion.div>
 
-      {/* Cyan accent wisp */}
+      {/* Pulsing backlight */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 1 }}
-        animate={{
-          x: [20, -30, 15, -20, 20],
-          opacity: [0.15, 0.3, 0.08, 0.25, 0.15],
-        }}
-        transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: 12 }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 25% 35% at 60% 75%, rgba(0,212,255,0.15) 0%, transparent 65%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Pulsing backlight behind figure */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1 }}
-        animate={{ opacity: [0.7, 1, 0.65, 1, 0.7] }}
+        animate={{ opacity: [0.6, 1, 0.55, 0.95, 0.6] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 35% 55% at 63% 48%, rgba(0,120,255,0.18) 0%, transparent 60%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 40% 60% at 50% 45%, rgba(0,110,255,0.16) 0%, transparent 62%)",
+        }} />
       </motion.div>
 
       {/* Particles */}
@@ -210,113 +153,106 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* ─── Content ─── */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full" style={{ zIndex: 10 }}>
-        <div className="max-w-xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="w-8 h-px bg-[var(--blue-neon)]" />
-            <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">
-              Body Architect
-            </span>
-          </motion.div>
+      {/* ─── Content (bottom-left) ─── */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32" style={{ zIndex: 10 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex items-center gap-3 mb-4"
+        >
+          <div className="w-8 h-px bg-[var(--blue-neon)]" />
+          <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">
+            Body Architect
+          </span>
+        </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-800 leading-[0.92] tracking-tight mb-6"
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-800 leading-[0.92] tracking-tight mb-5"
+        >
+          <span className="block text-white drop-shadow-lg">SCULPTOR</span>
+          <span className="block text-white drop-shadow-lg">OF YOUR</span>
+          <span
+            className="block glow-text"
+            style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}
           >
-            <span className="block text-white">SCULPTOR</span>
-            <span className="block text-white">OF YOUR</span>
-            <span
-              className="block glow-text"
-              style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}
-            >
-              BODY
-            </span>
-          </motion.h1>
+            BODY
+          </span>
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed mb-3 max-w-md"
-          >
-            Онлайн-фитнес сопровождение, питание и программа трансформации тела
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed mb-2 max-w-lg"
+        >
+          Онлайн-фитнес сопровождение, питание и программа трансформации тела
+        </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="text-sm text-[var(--text-muted)] leading-relaxed mb-8 max-w-sm"
-          >
-            Создай свою лучшую версию с профессиональным подходом к тренировкам, питанию и дисциплине.
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="text-sm text-[var(--text-muted)] leading-relaxed mb-8 max-w-md"
+        >
+          Создай свою лучшую версию с профессиональным подходом к тренировкам, питанию и дисциплине.
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-4 mb-10"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="flex flex-col sm:flex-row gap-4 mb-8"
+        >
+          <a
+            href="#contact"
+            onClick={(e) => handleScroll(e, "#contact")}
+            className="group relative px-8 py-4 text-sm font-700 tracking-wide text-white rounded-xl overflow-hidden transition-all duration-300 text-center"
+            style={{
+              background: "linear-gradient(135deg, #0066cc, #00b4d8)",
+              boxShadow: "0 0 30px rgba(0,180,216,0.4), 0 4px 20px rgba(0,0,0,0.3)",
+            }}
           >
-            <a
-              href="#contact"
-              onClick={(e) => handleScroll(e, "#contact")}
-              className="group relative px-8 py-4 text-sm font-700 tracking-wide text-white rounded-xl overflow-hidden transition-all duration-300 text-center"
+            <span className="relative z-10">Начать трансформацию</span>
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "linear-gradient(135deg, #0080ff, #00d4ff)" }} />
+          </a>
+          <a
+            href="#services"
+            onClick={(e) => handleScroll(e, "#services")}
+            className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-xl transition-all duration-300 text-center hover:bg-[rgba(0,212,255,0.08)]"
+            style={{ border: "1px solid rgba(0,212,255,0.35)", backdropFilter: "blur(10px)" }}
+          >
+            Смотреть услуги
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="flex flex-wrap gap-2"
+        >
+          {badges.map((badge, i) => (
+            <motion.span
+              key={badge}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9 + i * 0.1 }}
+              className="px-3 py-1.5 text-xs font-500 rounded-full"
               style={{
-                background: "linear-gradient(135deg, #0066cc, #00b4d8)",
-                boxShadow: "0 0 30px rgba(0,180,216,0.4), 0 4px 20px rgba(0,0,0,0.3)",
+                background: "rgba(0,212,255,0.08)",
+                border: "1px solid rgba(0,212,255,0.2)",
+                color: "rgba(0,212,255,0.9)",
               }}
             >
-              <span className="relative z-10">Начать трансформацию</span>
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: "linear-gradient(135deg, #0080ff, #00d4ff)" }}
-              />
-            </a>
-            <a
-              href="#services"
-              onClick={(e) => handleScroll(e, "#services")}
-              className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-xl transition-all duration-300 text-center hover:bg-[rgba(0,212,255,0.08)]"
-              style={{
-                border: "1px solid rgba(0,212,255,0.35)",
-                backdropFilter: "blur(10px)",
-              }}
-            >
-              Смотреть услуги
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="flex flex-wrap gap-2"
-          >
-            {badges.map((badge, i) => (
-              <motion.span
-                key={badge}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9 + i * 0.1 }}
-                className="px-3 py-1.5 text-xs font-500 rounded-full"
-                style={{
-                  background: "rgba(0,212,255,0.08)",
-                  border: "1px solid rgba(0,212,255,0.2)",
-                  color: "rgba(0,212,255,0.9)",
-                }}
-              >
-                ✦ {badge}
-              </motion.span>
-            ))}
-          </motion.div>
-        </div>
+              ✦ {badge}
+            </motion.span>
+          ))}
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
