@@ -236,9 +236,9 @@ export default function Hero() {
           className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-800 leading-[0.92] tracking-tight mb-6"
         >
           <span className="block text-white drop-shadow-lg">SCULPTOR</span>
-          <span className="block text-white drop-shadow-lg">OF YOUR</span>
-          <span className="block glow-text" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>
-            BODY
+          <span className="block drop-shadow-lg">
+            <span className="text-white">OF YOUR </span>
+            <span className="glow-text" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>BODY</span>
           </span>
         </motion.h1>
 
