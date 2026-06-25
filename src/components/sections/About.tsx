@@ -21,19 +21,24 @@ export default function About() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
             <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">{about.eyebrow}</span>
+            <div className="w-8 h-px bg-[var(--blue-neon)]" />
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-800 text-white leading-tight max-w-2xl">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-800 text-white leading-tight max-w-3xl mx-auto text-center">
             {about.title}{" "}
             <span className="text-[var(--blue-neon)]">{about.titleAccent}</span>
           </h2>
+          <div className="max-w-3xl mx-auto mt-8 space-y-4">
+            {about.desc.split("\n").map((para, i) => (
+              <p key={i} className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed text-center">{para}</p>
+            ))}
+          </div>
         </AnimatedSection>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection delay={0.1}>
-            <p className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed mb-10">{about.desc}</p>
             <div className="grid grid-cols-2 gap-4 mb-10">
               {about.stats.map((s) => (
                 <div key={s.label} className="glass rounded-2xl p-5">
