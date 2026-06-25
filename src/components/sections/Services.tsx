@@ -18,7 +18,7 @@ export default function Services() {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] blur-[150px] pointer-events-none" style={{ background: "rgba(0,100,200,0.05)" }} />
 
       <div className="relative w-full flex flex-col items-center px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-16 w-full">
+        <AnimatedSection className="text-center mb-24 w-full">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
             <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">{services.eyebrow}</span>
@@ -56,8 +56,8 @@ export default function Services() {
                 </div>
                 <div className="mb-6">
                   {s.oldPrice && (
-                    <div className="mb-1">
-                      <span className="text-xs font-400" style={{ color: "rgba(139,163,199,0.38)", textDecoration: "line-through" }}>{s.oldPrice}</span>
+                    <div className="mb-1.5">
+                      <span className="text-base sm:text-lg font-500" style={{ color: "rgba(139,163,199,0.55)", textDecoration: "line-through" }}>{s.oldPrice}</span>
                     </div>
                   )}
                   <div className="flex items-baseline gap-2">

@@ -31,23 +31,28 @@ export default function Footer() {
       <div className="absolute inset-0 bg-[var(--bg-primary)]" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[1px]" style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 mb-12 items-start">
 
           {/* Brand */}
           <div>
-            <div className="mb-4 leading-none">
-              <div className="text-[10px] font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)] mb-0.5">Sculptor of</div>
-              <div className="text-lg font-800 tracking-[0.15em] uppercase text-white">Your Body</div>
-            </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-[200px]">
-              {footer.tagline}
+            <h2
+              className="text-3xl sm:text-4xl font-700 leading-[0.95] tracking-[-0.02em] mb-6"
+              style={{ color: "#EAF4FF", textShadow: "0 0 24px rgba(120, 210, 255, 0.18)" }}
+            >
+              <span className="block">SCULPTOR</span>
+              <span className="block">OF YOUR <span style={{ color: "#00d4ff" }}>BODY</span></span>
+            </h2>
+            <p className="text-sm font-500 leading-relaxed mb-4" style={{ color: "#A8B3C7" }}>
+              Онлайн-ведение • Персональные тренировки • Питание
+            </p>
+            <p className="text-sm leading-relaxed max-w-[320px]" style={{ color: "#A8B3C7" }}>
+              Без жёстких диет. Без случайных тренировок.<br />Только индивидуальная система, созданная под тебя.
             </p>
           </div>
 
           {/* Socials */}
-          <div>
-            <h4 className="text-[10px] font-700 tracking-[0.25em] uppercase text-[var(--text-muted)] mb-4">{footer.followLabel}</h4>
+          <div className="flex sm:justify-center">
             <div className="flex flex-col gap-3">
               <motion.a
                 href="https://instagram.com/mk.sculptor"
@@ -86,8 +91,7 @@ export default function Footer() {
           </div>
 
           {/* Documents */}
-          <div>
-            <h4 className="text-[10px] font-700 tracking-[0.25em] uppercase text-[var(--text-muted)] mb-4">{footer.documentsLabel}</h4>
+          <div className="flex sm:justify-end">
             <div className="flex flex-col gap-2.5">
               {[
                 { href: "/privacy", label: footer.privacy },
