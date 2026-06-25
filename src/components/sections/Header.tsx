@@ -63,7 +63,7 @@ export default function Header() {
         borderBottom: "1px solid rgba(0, 210, 255, 0.12)",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-10 lg:px-16">
         <div className="flex items-center justify-between h-16 md:h-[70px]">
 
           {/* Logo */}
