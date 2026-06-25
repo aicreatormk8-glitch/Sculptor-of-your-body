@@ -119,6 +119,12 @@ body::before {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
+/* Logo glow on hover */
+.logo-glow:hover {
+  color: var(--blue-neon);
+  text-shadow: 0 0 12px rgba(0,212,255,0.95), 0 0 30px rgba(0,212,255,0.55), 0 0 60px rgba(0,212,255,0.25);
+}
+
 /* Strike-through for old price */
 .line-through-price {
   text-decoration: line-through;

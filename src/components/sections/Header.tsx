@@ -46,14 +46,10 @@ export default function Header() {
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, "#hero")}
-            className="flex flex-col leading-none group"
+            className="logo-glow text-sm sm:text-base font-800 tracking-[0.2em] uppercase text-white transition-all duration-300"
+            style={{ textDecoration: "none", lineHeight: 1 }}
           >
-            <span className="text-[10px] sm:text-xs font-700 tracking-[0.25em] uppercase text-[var(--blue-neon)] group-hover:text-white transition-colors duration-300">
-              Sculptor of
-            </span>
-            <span className="text-base sm:text-lg font-800 tracking-[0.15em] uppercase text-white">
-              Your Body™
-            </span>
+            Sculptor of Your Body™
           </a>
 
           {/* Desktop Nav */}
