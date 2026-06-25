@@ -4,7 +4,7 @@ export const ru: Dict = {
   locale: "ru",
   header: {
     nav: { home: "Главная", about: "Обо мне", services: "Услуги", program: "Программа", results: "Результаты", contact: "Контакты" },
-    cta: "Записаться",
+    cta: "Начать трансформацию",
   },
   hero: {
     eyebrow: "Body Architect",
