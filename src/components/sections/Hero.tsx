@@ -259,13 +259,16 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         className="absolute z-10 text-4xl sm:text-5xl lg:text-6xl font-700 leading-[0.95] tracking-[-0.02em]"
-        style={{ left: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(52%, 56vh, 60%)", maxWidth: "42vw" }}
+        style={{
+          left: "clamp(2rem, 6vw, 5rem)",
+          bottom: "clamp(52%, 56vh, 60%)",
+          maxWidth: "42vw",
+          color: "#EAF4FF",
+          textShadow: "0 0 24px rgba(120, 210, 255, 0.18)",
+        }}
       >
-        <span className="block text-white drop-shadow-lg">SCULPTOR</span>
-        <span className="block drop-shadow-lg">
-          <span className="text-white">OF YOUR </span>
-          <span className="glow-text" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>BODY</span>
-        </span>
+        <span className="block">SCULPTOR</span>
+        <span className="block">OF YOUR BODY</span>
       </motion.h1>
 
       {/* ── Premium signature (right) ── */}
@@ -276,10 +279,10 @@ export default function Hero() {
         className="absolute z-10 hidden md:flex flex-col items-end gap-5"
         style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(40%, 44vh, 48%)", maxWidth: "34vw" }}
       >
-        <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, var(--blue-neon))" }} />
+        <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(0,217,255,0.6))" }} />
         <span
           className="text-xl lg:text-2xl font-500 uppercase"
-          style={{ color: "var(--blue-neon)", letterSpacing: "0.45em", textShadow: "0 0 22px rgba(0,212,255,0.45)" }}
+          style={{ color: "rgba(0, 217, 255, 0.78)", letterSpacing: "0.45em", textShadow: "0 0 14px rgba(0,212,255,0.22)" }}
         >
           Body Architect
         </span>
@@ -296,18 +299,30 @@ export default function Hero() {
         <motion.a
           href="#services"
           onClick={(e) => handleScroll(e, "#services")}
-          className="text-lg sm:text-xl md:text-2xl font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer"
-          style={{ color: "#00e5ff" }}
+          className="text-sm sm:text-base md:text-lg font-700 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer rounded-full px-8 py-3.5"
+          style={{
+            color: "#EAF4FF",
+            background: "rgba(0, 212, 255, 0.08)",
+            border: "1px solid rgba(0, 217, 255, 0.55)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+          }}
           animate={{
-            scale: [1, 1.12, 1, 1.08, 1],
-            textShadow: [
-              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
-              "0 0 34px rgba(0,229,255,1), 0 0 80px rgba(0,212,255,0.6)",
-              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
-              "0 0 30px rgba(0,229,255,0.9), 0 0 70px rgba(0,212,255,0.5)",
-              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
+            scale: [1, 1.07, 1, 1.04, 1],
+            boxShadow: [
+              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
+              "0 0 40px rgba(0,229,255,0.7), inset 0 0 22px rgba(0,212,255,0.22)",
+              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
+              "0 0 34px rgba(0,229,255,0.55), inset 0 0 18px rgba(0,212,255,0.18)",
+              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
             ],
-            color: ["#00e5ff", "#7df9ff", "#00e5ff", "#5ef2ff", "#00e5ff"],
+            borderColor: [
+              "rgba(0,217,255,0.55)",
+              "rgba(0,229,255,0.95)",
+              "rgba(0,217,255,0.55)",
+              "rgba(0,229,255,0.85)",
+              "rgba(0,217,255,0.55)",
+            ],
           }}
           transition={{
             duration: 1.3,
@@ -315,7 +330,7 @@ export default function Hero() {
             ease: "easeInOut",
             times: [0, 0.15, 0.4, 0.55, 1],
           }}
-          whileHover={{ scale: 1.18 }}
+          whileHover={{ scale: 1.1, backgroundColor: "rgba(0,212,255,0.16)" }}
         >
           НАЧАТЬ ТРАНСФОРМАЦИЮ
         </motion.a>
