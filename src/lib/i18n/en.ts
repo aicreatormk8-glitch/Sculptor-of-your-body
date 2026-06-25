@@ -17,10 +17,10 @@ export const en: Dict = {
   },
   about: {
     eyebrow: "About Me",
-    title: "A coach who helps you not just lose weight, but",
-    titleAccent: "build your body",
-    desc: "I help women build a beautiful, strong and toned body through training, nutrition and a systematic approach. No chaos, no strict restrictions and no random decisions.",
-    cta: "Book Coaching",
+    title: "Not just a fitness coach.",
+    titleAccent: "An architect of the female body.",
+    desc: "Just as a sculptor creates a work of art, I help women build a strong, beautiful and harmonious body, step by step.\nEvery program is built individually — based on your goals, lifestyle and possibilities.\nNo templates. No extremes. Only a system that truly works.",
+    cta: "Book Your Coaching",
     stats: [
       { value: "100+", label: "Transformations" },
       { value: "98%", label: "Client Results" },

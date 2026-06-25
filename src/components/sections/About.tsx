@@ -30,48 +30,65 @@ export default function About() {
             {about.title}{" "}
             <span className="text-[var(--blue-neon)]">{about.titleAccent}</span>
           </h2>
-          <div className="max-w-3xl mx-auto mt-8 space-y-4">
+          <div className="mx-auto mt-8 space-y-5" style={{ maxWidth: "760px" }}>
             {about.desc.split("\n").map((para, i) => (
               <p key={i} className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed text-center">{para}</p>
             ))}
           </div>
         </AnimatedSection>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <AnimatedSection delay={0.1}>
-            <div className="grid grid-cols-2 gap-4 mb-10">
-              {about.stats.map((s) => (
-                <div key={s.label} className="glass rounded-2xl p-5">
-                  <div className="text-3xl sm:text-4xl font-800 mb-1" style={{ color: "var(--blue-neon)", textShadow: "0 0 20px rgba(0,212,255,0.4)" }}>{s.value}</div>
-                  <div className="text-xs sm:text-sm text-[var(--text-muted)] font-500 tracking-wide">{s.label}</div>
-                </div>
-              ))}
-            </div>
-            <a
-              href="#contact"
-              onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-700 text-white rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.3)]"
-              style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
-            >
-              {about.cta}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
-            </a>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {about.features.map((f, i) => (
-              <AnimatedSection key={f.title} delay={0.15 + i * 0.08}>
-                <div className="glass rounded-2xl p-5 h-full group hover:border-[rgba(0,212,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.08)]">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 text-[var(--blue-neon)]" style={{ background: "rgba(0,212,255,0.08)" }}>
-                    {icons[i]}
-                  </div>
-                  <h3 className="text-sm font-700 text-white mb-2 leading-tight">{f.title}</h3>
-                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">{f.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+        {/* Statistics */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-20 max-w-5xl mx-auto">
+          {about.stats.map((s, i) => (
+            <AnimatedSection key={s.label} delay={0.1 + i * 0.08}>
+              <div
+                className="glass rounded-2xl px-6 py-8 text-center h-full flex flex-col items-center justify-center transition-all duration-300 hover:shadow-[0_0_36px_rgba(0,212,255,0.12)]"
+                style={{ border: "1px solid rgba(0,212,255,0.1)" }}
+              >
+                <div className="text-4xl sm:text-5xl font-800 leading-none mb-3" style={{ color: "var(--blue-neon)", textShadow: "0 0 24px rgba(0,212,255,0.4)" }}>{s.value}</div>
+                <div className="text-[11px] sm:text-xs text-[var(--text-muted)] font-500 tracking-[0.12em] uppercase opacity-80">{s.label}</div>
+              </div>
+            </AnimatedSection>
+          ))}
         </div>
+
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {about.features.map((f, i) => (
+            <AnimatedSection key={f.title} delay={0.15 + i * 0.08}>
+              <div
+                className="glass rounded-2xl p-7 h-full group transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,255,0.1)] hover:-translate-y-1"
+                style={{ border: "1px solid rgba(0,212,255,0.08)" }}
+              >
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-[var(--blue-neon)] transition-all duration-300 group-hover:shadow-[0_0_24px_rgba(0,212,255,0.25)]" style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.12)" }}>
+                  {icons[i]}
+                </div>
+                <h3 className="text-base font-700 text-white mb-3 leading-tight">{f.title}</h3>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">{f.desc}</p>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <AnimatedSection delay={0.2} className="flex justify-center">
+          <a
+            href="#contact"
+            onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
+            className="group inline-flex items-center gap-3 px-10 py-5 text-base sm:text-lg font-700 tracking-wide rounded-full transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,212,255,0.45)] hover:-translate-y-0.5"
+            style={{
+              color: "#EAF4FF",
+              background: "rgba(0, 8, 18, 0.62)",
+              border: "1px solid rgba(0, 210, 255, 0.4)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              boxShadow: "0 0 24px rgba(0,212,255,0.18), inset 0 0 16px rgba(0,212,255,0.06)",
+            }}
+          >
+            {about.cta}
+            <svg className="transition-transform duration-300 group-hover:translate-x-1" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+          </a>
+        </AnimatedSection>
       </div>
     </section>
   );
