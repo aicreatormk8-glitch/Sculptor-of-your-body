@@ -252,12 +252,6 @@ export default function Hero() {
         background: "radial-gradient(ellipse 85% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0.85) 100%)",
       }} />
 
-      {/* ── Bottom gradient for text readability ── */}
-      <div className="absolute bottom-0 left-0 right-0 z-3 pointer-events-none" style={{
-        height: "60%",
-        background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 35%, transparent 70%)",
-      }} />
-
       {/* ── Top gradient ── */}
       <div className="absolute top-0 left-0 right-0 z-3 pointer-events-none" style={{
         height: "25%",
