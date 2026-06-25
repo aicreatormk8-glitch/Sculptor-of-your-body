@@ -266,7 +266,7 @@ export default function Hero() {
       {/* ── Content with parallax ── */}
       <motion.div
         className="relative w-full max-w-7xl mx-auto pb-20 pt-32"
-        style={{ zIndex: 10, x: textX, y: textY, paddingLeft: "clamp(2rem, 12vw, 10rem)", paddingRight: "1.5rem" }}
+        style={{ zIndex: 10, x: textX, y: textY, paddingLeft: "clamp(3rem, 15vw, 12rem)", paddingRight: "1.5rem" }}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
