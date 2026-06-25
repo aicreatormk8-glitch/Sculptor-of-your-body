@@ -261,12 +261,14 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         style={{ zIndex: 10 }}
       >
-        <span
-          className="text-xl sm:text-2xl md:text-3xl font-800 tracking-[0.16em] uppercase whitespace-nowrap"
+        <a
+          href="#services"
+          onClick={(e) => handleScroll(e, "#services")}
+          className="text-sm sm:text-base md:text-lg font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer transition-all duration-300 hover:scale-105"
           style={{ color: "#00e5ff", textShadow: "0 0 30px rgba(0,212,255,0.8), 0 0 70px rgba(0,212,255,0.4)" }}
         >
           НАЧАТЬ ТРАНСФОРМАЦИЮ
-        </span>
+        </a>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
