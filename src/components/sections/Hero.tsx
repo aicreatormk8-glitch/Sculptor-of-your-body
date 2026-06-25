@@ -266,7 +266,7 @@ export default function Hero() {
           style={{ color: "#EAF4FF", textShadow: "0 0 24px rgba(120, 210, 255, 0.18)" }}
         >
           <span className="block">SCULPTOR</span>
-          <span className="block">OF YOUR BODY</span>
+          <span className="block">OF YOUR <span style={{ color: "#00d4ff" }}>BODY</span></span>
         </h1>
 
         <p className="mt-6 text-sm sm:text-base font-700 leading-relaxed" style={{ color: "#EAF4FF" }}>
@@ -288,7 +288,7 @@ export default function Hero() {
         <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(0,217,255,0.6))" }} />
         <span
           className="text-xl lg:text-2xl font-500 uppercase"
-          style={{ color: "rgba(0, 217, 255, 0.78)", letterSpacing: "0.45em", textShadow: "0 0 14px rgba(0,212,255,0.22)" }}
+          style={{ color: "rgba(0, 190, 220, 0.62)", letterSpacing: "0.58em", textShadow: "0 0 10px rgba(0,200,230,0.16)" }}
         >
           Body Architect
         </span>
@@ -308,26 +308,26 @@ export default function Hero() {
           className="text-sm sm:text-base md:text-lg font-700 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer rounded-full px-8 py-3.5"
           style={{
             color: "#EAF4FF",
-            background: "rgba(0, 212, 255, 0.08)",
-            border: "1px solid rgba(0, 217, 255, 0.55)",
+            background: "rgba(0, 8, 18, 0.62)",
+            border: "1px solid rgba(0, 210, 255, 0.28)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
           }}
           animate={{
             scale: [1, 1.07, 1, 1.04, 1],
             boxShadow: [
-              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
-              "0 0 40px rgba(0,229,255,0.7), inset 0 0 22px rgba(0,212,255,0.22)",
-              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
-              "0 0 34px rgba(0,229,255,0.55), inset 0 0 18px rgba(0,212,255,0.18)",
-              "0 0 18px rgba(0,212,255,0.25), inset 0 0 12px rgba(0,212,255,0.08)",
+              "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
+              "0 0 32px rgba(0,229,255,0.55), inset 0 0 18px rgba(0,212,255,0.16)",
+              "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
+              "0 0 26px rgba(0,229,255,0.42), inset 0 0 14px rgba(0,212,255,0.12)",
+              "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
             ],
             borderColor: [
-              "rgba(0,217,255,0.55)",
-              "rgba(0,229,255,0.95)",
-              "rgba(0,217,255,0.55)",
-              "rgba(0,229,255,0.85)",
-              "rgba(0,217,255,0.55)",
+              "rgba(0,210,255,0.28)",
+              "rgba(0,229,255,0.75)",
+              "rgba(0,210,255,0.28)",
+              "rgba(0,229,255,0.62)",
+              "rgba(0,210,255,0.28)",
             ],
           }}
           transition={{
@@ -336,7 +336,12 @@ export default function Hero() {
             ease: "easeInOut",
             times: [0, 0.15, 0.4, 0.55, 1],
           }}
-          whileHover={{ scale: 1.1, backgroundColor: "rgba(0,212,255,0.16)" }}
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "rgba(0,12,28,0.75)",
+            boxShadow: "0 0 42px rgba(0,212,255,0.65), inset 0 0 24px rgba(0,212,255,0.18)",
+            borderColor: "rgba(0,229,255,0.9)",
+          }}
         >
           НАЧАТЬ ТРАНСФОРМАЦИЮ
         </motion.a>
