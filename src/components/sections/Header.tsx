@@ -13,6 +13,8 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [hoveredLang, setHoveredLang] = useState<string | null>(null);
+  const [hoveredCta, setHoveredCta] = useState(false);
 
   // Track active section via IntersectionObserver
   useEffect(() => {
@@ -84,8 +86,8 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => { setActiveSection(link.id); handleNavClick(e, link.href); }}
-                  onMouseEnter={() => { console.log('hover:', link.id); setHoveredLink(link.id); }}
-                  onMouseLeave={() => { console.log('leave:', link.id); setHoveredLink(null); }}
+                  onMouseEnter={() => setHoveredLink(link.id)}
+                  onMouseLeave={() => setHoveredLink(null)}
                   className="relative text-[13px] font-500 tracking-wide pb-0.5"
                   style={{
                     color: isActive || isHovered ? "#00d4ff" : "rgba(139,163,199,0.9)",
@@ -112,52 +114,43 @@ export default function Header() {
 
             {/* Language switcher — text only, no background blocks */}
             <div className="flex items-center">
-              {(["ru", "uk", "en"] as Locale[]).map((loc, i) => (
-                <button
-                  key={loc}
-                  onClick={() => setLocale(loc)}
-                  className="text-[12px] font-700 tracking-wide transition-colors duration-200 px-2.5 py-1"
-                  style={{
-                    color: loc === currentLocale ? "#00d4ff" : "rgba(74,96,128,0.9)",
-                    borderRight: i < 2 ? "1px solid rgba(0,210,255,0.15)" : "none",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (loc !== currentLocale)
-                      (e.currentTarget as HTMLElement).style.color = "rgba(139,163,199,0.9)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (loc !== currentLocale)
-                      (e.currentTarget as HTMLElement).style.color = "rgba(74,96,128,0.9)";
-                  }}
-                >
-                  {localeNames[loc]}
-                </button>
-              ))}
+              {(["ru", "uk", "en"] as Locale[]).map((loc, i) => {
+                const isLangActive = loc === currentLocale;
+                const isLangHovered = hoveredLang === loc;
+                return (
+                  <button
+                    key={loc}
+                    onClick={() => setLocale(loc)}
+                    onMouseEnter={() => setHoveredLang(loc)}
+                    onMouseLeave={() => setHoveredLang(null)}
+                    className="text-[12px] font-700 tracking-wide px-2.5 py-1"
+                    style={{
+                      color: isLangActive || isLangHovered ? "#00d4ff" : "rgba(74,96,128,0.9)",
+                      borderRight: i < 2 ? "1px solid rgba(0,210,255,0.15)" : "none",
+                      transition: "color 0.15s ease-in-out",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {localeNames[loc]}
+                  </button>
+                );
+              })}
             </div>
 
             {/* CTA */}
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="text-[13px] font-600 tracking-wide transition-all duration-250 rounded-lg px-5 py-2.5"
+              onMouseEnter={() => setHoveredCta(true)}
+              onMouseLeave={() => setHoveredCta(false)}
+              className="text-[13px] font-600 tracking-wide rounded-lg px-5 py-2.5"
               style={{
-                color: "#00d4ff",
-                background: "rgba(0,212,255,0.06)",
-                border: "1px solid rgba(0,212,255,0.28)",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = "#fff";
-                el.style.background = "rgba(0,212,255,0.14)";
-                el.style.borderColor = "rgba(0,212,255,0.5)";
-                el.style.boxShadow = "0 0 22px rgba(0,212,255,0.22)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = "#00d4ff";
-                el.style.background = "rgba(0,212,255,0.06)";
-                el.style.borderColor = "rgba(0,212,255,0.28)";
-                el.style.boxShadow = "none";
+                color: hoveredCta ? "#fff" : "#00d4ff",
+                background: hoveredCta ? "rgba(0,212,255,0.14)" : "rgba(0,212,255,0.06)",
+                border: `1px solid ${hoveredCta ? "rgba(0,212,255,0.5)" : "rgba(0,212,255,0.28)"}`,
+                boxShadow: hoveredCta ? "0 0 22px rgba(0,212,255,0.22)" : "none",
+                transition: "all 0.2s ease-in-out",
+                cursor: "pointer",
               }}
             >
               {dict.header.cta}
