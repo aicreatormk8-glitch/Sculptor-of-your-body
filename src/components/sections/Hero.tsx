@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
 const badges = [
@@ -10,8 +11,121 @@ const badges = [
   "Индивидуальный подход",
 ];
 
-
 export default function Hero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { stiffness: 60, damping: 25, mass: 1 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  // Parallax transforms
+  const imgX = useTransform(smoothX, [-1, 1], [-18, 18]);
+  const imgY = useTransform(smoothY, [-1, 1], [-10, 10]);
+  const glowX = useTransform(smoothX, [-1, 1], [-30, 30]);
+  const glowY = useTransform(smoothY, [-1, 1], [-20, 20]);
+  const textX = useTransform(smoothX, [-1, 1], [8, -8]);
+  const textY = useTransform(smoothY, [-1, 1], [5, -5]);
+
+  // Mouse tracking
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  // Canvas smoke
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    type Puff = {
+      x: number; y: number; vx: number; vy: number;
+      radius: number; opacity: number; hue: number; life: number; maxLife: number;
+    };
+
+    const puffs: Puff[] = [];
+
+    const spawnPuff = () => {
+      const cx = canvas.width * (0.4 + Math.random() * 0.25);
+      const cy = canvas.height * (0.2 + Math.random() * 0.5);
+      puffs.push({
+        x: cx, y: cy,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -Math.random() * 0.3 - 0.1,
+        radius: 60 + Math.random() * 100,
+        opacity: 0,
+        hue: 200 + Math.random() * 40,
+        life: 0,
+        maxLife: 220 + Math.random() * 120,
+      });
+    };
+
+    for (let i = 0; i < 12; i++) spawnPuff();
+
+    let frame = 0;
+    let animId: number;
+
+    const draw = () => {
+      animId = requestAnimationFrame(draw);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frame++;
+
+      if (frame % 18 === 0) spawnPuff();
+
+      for (let i = puffs.length - 1; i >= 0; i--) {
+        const p = puffs[i];
+        p.life++;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.radius += 0.15;
+
+        const t = p.life / p.maxLife;
+        p.opacity = t < 0.25
+          ? (t / 0.25) * 0.22
+          : t < 0.7
+            ? 0.22
+            : (1 - (t - 0.7) / 0.3) * 0.22;
+
+        if (p.life >= p.maxLife) {
+          puffs.splice(i, 1);
+          continue;
+        }
+
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+        grad.addColorStop(0, `hsla(${p.hue}, 85%, 60%, ${p.opacity})`);
+        grad.addColorStop(0.5, `hsla(${p.hue}, 70%, 45%, ${p.opacity * 0.5})`);
+        grad.addColorStop(1, `hsla(${p.hue}, 60%, 30%, 0)`);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    };
+
+    draw();
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -23,8 +137,11 @@ export default function Hero() {
       className="relative min-h-dvh flex items-end overflow-hidden"
       style={{ background: "#000" }}
     >
-      {/* ─── Full-screen background image ─── */}
-      <div className="absolute inset-0 z-0" style={{ background: "#000" }}>
+      {/* ── Photo with parallax ── */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{ x: imgX, y: imgY, scale: 1.06 }}
+      >
         <Image
           src="/assets/images/hero-trainer.png"
           alt="Sculptor of Your Body"
@@ -33,99 +150,73 @@ export default function Hero() {
           style={{
             objectFit: "contain",
             objectPosition: "center center",
-            filter: "brightness(1.1) contrast(1.05) saturate(1.1)",
+            filter: "brightness(1.05) contrast(1.08) saturate(1.1)",
           }}
         />
+      </motion.div>
 
-        {/* Dark vignette — edges only, keep centre bright */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 90% at 50% 50%, transparent 40%, rgba(4,6,15,0.55) 80%, rgba(4,6,15,0.85) 100%)",
-          }}
-        />
-
-        {/* Bottom text-readability gradient */}
-        <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{
-            height: "55%",
-            background:
-              "linear-gradient(to top, rgba(4,6,15,0.92) 0%, rgba(4,6,15,0.6) 35%, transparent 70%)",
-          }}
-        />
-
-        {/* Top header space fade */}
-        <div
-          className="absolute top-0 left-0 right-0 h-40"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(4,6,15,0.7) 0%, transparent 100%)",
-          }}
-        />
-      </div>
-
-      {/* ─── Animated smoke layers ─── */}
+      {/* ── Volumetric blue backlight (parallax) ── */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1 }}
-        animate={{ x: [0, -50, 25, -30, 0], opacity: [0.45, 0.7, 0.35, 0.65, 0.45] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 z-1 pointer-events-none"
+        style={{ x: glowX, y: glowY }}
       >
+        {/* Core backlight */}
         <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 65% 80% at 55% 50%, rgba(0,70,180,0.22) 0%, rgba(0,20,80,0.08) 55%, transparent 78%)",
+          background: "radial-gradient(ellipse 38% 55% at 52% 42%, rgba(0,140,255,0.55) 0%, rgba(0,80,200,0.25) 35%, rgba(0,40,120,0.08) 65%, transparent 85%)",
+        }} />
+        {/* Wide atmospheric glow */}
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 70% 80% at 52% 44%, rgba(0,80,180,0.2) 0%, rgba(0,30,100,0.06) 55%, transparent 80%)",
         }} />
       </motion.div>
 
+      {/* ── Light beam from top ── */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1 }}
-        animate={{ x: [20, -25, 35, -12, 20], y: [0, -20, 14, -10, 0], opacity: [0.3, 0.5, 0.18, 0.45, 0.3] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        className="absolute inset-0 z-1 pointer-events-none"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 45% 60% at 62% 38%, rgba(0,130,255,0.2) 0%, rgba(0,70,200,0.07) 52%, transparent 72%)",
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "30%",
+          height: "70%",
+          background: "linear-gradient(to bottom, rgba(0,160,255,0.18) 0%, rgba(0,120,220,0.08) 40%, transparent 80%)",
+          clipPath: "polygon(30% 0%, 70% 0%, 90% 100%, 10% 100%)",
         }} />
       </motion.div>
 
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1 }}
-        animate={{ x: [-30, 35, -18, 25, -30], y: [10, -25, 18, -14, 10], opacity: [0.18, 0.38, 0.1, 0.3, 0.18], scaleX: [1, 1.2, 0.88, 1.1, 1] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 8 }}
-      >
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 35% 50% at 45% 65%, rgba(0,190,255,0.16) 0%, transparent 68%)",
-        }} />
-      </motion.div>
+      {/* ── Canvas smoke ── */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 2 }}
+      />
 
-      {/* Ground mist */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{ height: "50%", zIndex: 1 }}
-        animate={{ opacity: [0.5, 0.8, 0.4, 0.72, 0.5], y: [0, -12, 6, -8, 0] }}
-        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      >
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to top, rgba(0,35,110,0.35) 0%, rgba(0,55,150,0.1) 38%, transparent 70%)",
-        }} />
-      </motion.div>
+      {/* ── Edge vignette ── */}
+      <div className="absolute inset-0 z-3 pointer-events-none" style={{
+        background: "radial-gradient(ellipse 85% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0.85) 100%)",
+      }} />
 
-      {/* Pulsing backlight */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1 }}
-        animate={{ opacity: [0.6, 1, 0.55, 0.95, 0.6] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 40% 60% at 50% 45%, rgba(0,110,255,0.16) 0%, transparent 62%)",
-        }} />
-      </motion.div>
+      {/* ── Bottom gradient for text readability ── */}
+      <div className="absolute bottom-0 left-0 right-0 z-3 pointer-events-none" style={{
+        height: "60%",
+        background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 35%, transparent 70%)",
+      }} />
 
-      {/* ─── Content (bottom-left) ─── */}
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32" style={{ zIndex: 10 }}>
+      {/* ── Top gradient ── */}
+      <div className="absolute top-0 left-0 right-0 z-3 pointer-events-none" style={{
+        height: "25%",
+        background: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)",
+      }} />
+
+      {/* ── Content with parallax ── */}
+      <motion.div
+        className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32"
+        style={{ zIndex: 10, x: textX, y: textY }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -142,14 +233,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-800 leading-[0.92] tracking-tight mb-5"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-800 leading-[0.92] tracking-tight mb-6"
         >
           <span className="block text-white drop-shadow-lg">SCULPTOR</span>
           <span className="block text-white drop-shadow-lg">OF YOUR</span>
-          <span
-            className="block glow-text"
-            style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}
-          >
+          <span className="block glow-text" style={{ color: "var(--blue-neon)", WebkitTextStroke: "1px rgba(0,212,255,0.3)" }}>
             BODY
           </span>
         </motion.h1>
@@ -224,7 +312,7 @@ export default function Hero() {
             </motion.span>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
