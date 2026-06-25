@@ -274,7 +274,7 @@ export default function Hero() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="absolute z-10 hidden md:flex flex-col items-end gap-5"
-        style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(30%, 34vh, 38%)", maxWidth: "34vw" }}
+        style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(18%, 22vh, 24%)", maxWidth: "34vw" }}
       >
         <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, var(--blue-neon))" }} />
         <span
