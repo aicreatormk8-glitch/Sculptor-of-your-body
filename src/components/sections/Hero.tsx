@@ -293,14 +293,32 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         style={{ zIndex: 10 }}
       >
-        <a
+        <motion.a
           href="#services"
           onClick={(e) => handleScroll(e, "#services")}
-          className="text-sm sm:text-base md:text-lg font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer transition-all duration-300 hover:scale-105"
-          style={{ color: "#00e5ff", textShadow: "0 0 30px rgba(0,212,255,0.8), 0 0 70px rgba(0,212,255,0.4)" }}
+          className="text-sm sm:text-base md:text-lg font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer"
+          style={{ color: "#00e5ff" }}
+          animate={{
+            scale: [1, 1.12, 1, 1.08, 1],
+            textShadow: [
+              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
+              "0 0 34px rgba(0,229,255,1), 0 0 80px rgba(0,212,255,0.6)",
+              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
+              "0 0 30px rgba(0,229,255,0.9), 0 0 70px rgba(0,212,255,0.5)",
+              "0 0 16px rgba(0,229,255,0.5), 0 0 40px rgba(0,212,255,0.25)",
+            ],
+            color: ["#00e5ff", "#7df9ff", "#00e5ff", "#5ef2ff", "#00e5ff"],
+          }}
+          transition={{
+            duration: 1.3,
+            repeat: Infinity,
+            ease: "easeInOut",
+            times: [0, 0.15, 0.4, 0.55, 1],
+          }}
+          whileHover={{ scale: 1.18 }}
         >
           НАЧАТЬ ТРАНСФОРМАЦИЮ
-        </a>
+        </motion.a>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
