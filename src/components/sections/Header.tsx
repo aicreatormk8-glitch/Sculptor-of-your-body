@@ -79,16 +79,19 @@ export default function Header() {
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               const isHovered = hoveredLink === link.id;
-              const color = isActive ? "#00d4ff" : isHovered ? "#00d4ff" : "rgba(139,163,199,0.9)";
               return (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => { setActiveSection(link.id); handleNavClick(e, link.href); }}
-                  onMouseEnter={() => setHoveredLink(link.id)}
-                  onMouseLeave={() => setHoveredLink(null)}
+                  onMouseEnter={() => { console.log('hover:', link.id); setHoveredLink(link.id); }}
+                  onMouseLeave={() => { console.log('leave:', link.id); setHoveredLink(null); }}
                   className="relative text-[13px] font-500 tracking-wide pb-0.5"
-                  style={{ color, transition: "color 0.2s ease" }}
+                  style={{
+                    color: isActive || isHovered ? "#00d4ff" : "rgba(139,163,199,0.9)",
+                    transition: "color 0.15s ease-in-out",
+                    cursor: "pointer"
+                  }}
                 >
                   {link.label}
                   <span
