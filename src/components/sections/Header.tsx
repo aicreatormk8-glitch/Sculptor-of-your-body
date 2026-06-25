@@ -56,8 +56,7 @@ export default function Header() {
             href="#hero"
             onClick={(e) => handleNavClick(e, "#hero")}
             className="logo-glow text-sm sm:text-base font-800 tracking-[0.2em] uppercase text-white transition-all duration-300"
-            style={{ marginLeft: "1.5rem", paddingLeft: "0.25rem" }}
-            style={{ textDecoration: "none", lineHeight: 1 }}
+            style={{ textDecoration: "none", lineHeight: 1, marginLeft: "1.5rem" }}
           >
             Sculptor of your body
           </a>
