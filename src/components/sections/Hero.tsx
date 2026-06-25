@@ -303,7 +303,7 @@ export default function Hero() {
 
       {/* ── Content with parallax ── */}
       <motion.div
-        className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32"
+        className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32 lg:pl-32"
         style={{ zIndex: 10, x: textX, y: textY }}
       >
         <motion.div
