@@ -45,8 +45,8 @@ const socials = [
   },
   {
     platform: "Telegram",
-    handle: "@sculptorofyourbody",
-    url: "https://t.me/sculptorofyourbody",
+    handle: "@MK_sculptor1",
+    url: "https://t.me/MK_sculptor1",
     icon: <TelegramIcon />,
     gradient: "from-[#0088cc] to-[#00b4d8]",
     glow: "rgba(0,180,216,0.25)",
@@ -67,7 +67,7 @@ export default function Contact() {
     setLoading(false);
     setSubmitted(true);
     if (selected === "program") {
-      setTimeout(() => { window.open("https://t.me/+KhFZoWiTgjphYmQy", "_blank"); }, 1500);
+      setTimeout(() => { window.open("https://t.me/+E2usDmxEgsg4OTVi", "_blank"); }, 1500);
     }
   };
 

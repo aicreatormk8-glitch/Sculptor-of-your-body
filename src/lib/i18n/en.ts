@@ -161,7 +161,7 @@ export const en: Dict = {
     privacyLink: "privacy policy",
     successTitle: "Application Sent!",
     successMsg: "Thank you! I'll contact you within 24 hours to discuss the details and get started.",
-    programSuccessMsg: "The Telegram channel with program access will open now. Welcome to your transformation! 🔥",
+    programSuccessMsg: "Payment successful. Redirecting you to the private Telegram channel with the program...",
   },
   footer: {
     tagline: "Online training, nutrition and body transformation programs.",

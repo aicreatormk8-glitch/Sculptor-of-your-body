@@ -16,6 +16,12 @@ const TikTokIcon = () => (
   </svg>
 );
 
+const TelegramIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
+  </svg>
+);
+
 export default function Footer() {
   const { footer } = useDict();
   const year = new Date().getFullYear();
@@ -64,6 +70,17 @@ export default function Footer() {
               >
                 <span className="text-[var(--text-muted)] group-hover:text-[#69C9D0] transition-colors duration-200"><TikTokIcon /></span>
                 <span className="text-xs font-500 text-[var(--text-muted)] group-hover:text-white transition-colors duration-200">@sculptor_of_your_body_</span>
+              </motion.a>
+              <motion.a
+                href="https://t.me/MK_sculptor1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 group w-fit"
+                whileHover={{ x: 3 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <span className="text-[var(--text-muted)] group-hover:text-[#0088cc] transition-colors duration-200"><TelegramIcon /></span>
+                <span className="text-xs font-500 text-[var(--text-muted)] group-hover:text-white transition-colors duration-200">@MK_sculptor1</span>
               </motion.a>
             </div>
           </div>
