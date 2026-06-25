@@ -75,6 +75,7 @@ export interface Dict {
       result: string;
       beforeImg: string;
       afterImg: string;
+      gallery: string[];
     }[];
     testimonialsTitle: string;
     testimonialsAccent: string;

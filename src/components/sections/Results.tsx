@@ -1,11 +1,20 @@
 "use client";
 
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import AnimatedSection from "../ui/AnimatedSection";
 import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Results() {
   const { results } = useDict();
+  const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
+
+  const open = (images: string[]) => images.length > 0 && setLightbox({ images, index: 0 });
+  const close = useCallback(() => setLightbox(null), []);
+  const step = useCallback((dir: number) => {
+    setLightbox((lb) => (lb ? { ...lb, index: (lb.index + dir + lb.images.length) % lb.images.length } : lb));
+  }, []);
 
   return (
     <section id="results" className="section-padding relative overflow-hidden">
@@ -30,37 +39,56 @@ export default function Results() {
 
         {/* ── Before / After transformations ── */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {results.transformations.map((t, i) => (
-            <AnimatedSection key={i} delay={0.1 + i * 0.1} direction="up">
-              <div className="glass rounded-2xl overflow-hidden group h-full">
-                <div className="grid grid-cols-2 gap-px aspect-[4/5]">
-                  <BeforeAfterPane src={t.beforeImg} label={results.beforeLabel} accent={false} />
-                  <BeforeAfterPane src={t.afterImg} label={results.afterLabel} accent />
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center justify-between gap-3 mb-2">
-                    <span className="text-base font-700 text-white">
-                      {t.name || <span className="text-[var(--text-muted)]">—</span>}
-                    </span>
-                    {t.period && (
-                      <span className="text-xs text-[var(--text-muted)] whitespace-nowrap">{t.period}</span>
+          {results.transformations.map((t, i) => {
+            const gallery = (t.gallery.length ? t.gallery : [t.beforeImg, t.afterImg]).filter(Boolean);
+            const clickable = gallery.length > 0;
+            return (
+              <AnimatedSection key={i} delay={0.1 + i * 0.1} direction="up">
+                <div
+                  className={`glass rounded-2xl overflow-hidden group h-full ${clickable ? "cursor-pointer" : ""}`}
+                  onClick={() => open(gallery)}
+                  role={clickable ? "button" : undefined}
+                  tabIndex={clickable ? 0 : undefined}
+                  onKeyDown={(e) => { if (clickable && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); open(gallery); } }}
+                  aria-label={clickable ? `${t.name || "Трансформация"} — открыть галерею` : undefined}
+                >
+                  <div className="relative grid grid-cols-2 gap-px aspect-[4/5]">
+                    <BeforeAfterPane src={t.beforeImg} label={results.beforeLabel} accent={false} />
+                    <BeforeAfterPane src={t.afterImg} label={results.afterLabel} accent />
+                    {clickable && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/35 transition-colors duration-300 pointer-events-none">
+                        <span className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-700 text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300" style={{ background: "rgba(0,212,255,0.85)", color: "#04111c" }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
+                          {gallery.length} фото
+                        </span>
+                      </div>
                     )}
                   </div>
-                  {t.result ? (
-                    <div
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-600"
-                      style={{ background: "rgba(0,212,255,0.1)", color: "var(--blue-neon)", border: "1px solid rgba(0,212,255,0.2)" }}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2 11l4-4 3 3 5-6" /></svg>
-                      {t.result}
+                  <div className="p-5">
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <span className="text-base font-700 text-white">
+                        {t.name || <span className="text-[var(--text-muted)]">—</span>}
+                      </span>
+                      {t.period && (
+                        <span className="text-xs text-[var(--text-muted)] whitespace-nowrap">{t.period}</span>
+                      )}
                     </div>
-                  ) : (
-                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">Скоро здесь появится история трансформации</p>
-                  )}
+                    {t.result ? (
+                      <div
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-600"
+                        style={{ background: "rgba(0,212,255,0.1)", color: "var(--blue-neon)", border: "1px solid rgba(0,212,255,0.2)" }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2 11l4-4 3 3 5-6" /></svg>
+                        {t.result}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-[var(--text-muted)] leading-relaxed">Скоро здесь появится история трансформации</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </AnimatedSection>
-          ))}
+              </AnimatedSection>
+            );
+          })}
         </div>
 
         {/* ── Testimonials ── */}
@@ -73,7 +101,7 @@ export default function Results() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.testimonials.map((rev, i) => (
-            <AnimatedSection key={i} delay={0.1 + i * 0.1} direction="up">
+            <AnimatedSection key={i} delay={0.05 + i * 0.07} direction="up">
               <div className="glass rounded-2xl p-6 h-full flex flex-col">
                 <div className="flex gap-1 mb-4" aria-hidden="true">
                   {Array.from({ length: 5 }).map((_, s) => (
@@ -112,7 +140,99 @@ export default function Results() {
           </a>
         </AnimatedSection>
       </div>
+
+      {/* ── Lightbox gallery ── */}
+      <AnimatePresence>
+        {lightbox && (
+          <Lightbox images={lightbox.images} index={lightbox.index} onClose={close} onStep={step} />
+        )}
+      </AnimatePresence>
     </section>
+  );
+}
+
+function Lightbox({ images, index, onClose, onStep }: { images: string[]; index: number; onClose: () => void; onStep: (dir: number) => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") onStep(1);
+      else if (e.key === "ArrowLeft") onStep(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, onStep]);
+
+  const multiple = images.length > 1;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+      style={{ background: "rgba(2,5,12,0.92)", backdropFilter: "blur(8px)" }}
+      role="dialog"
+      aria-modal="true"
+    >
+      {/* Close */}
+      <button
+        onClick={onClose}
+        aria-label="Закрыть"
+        className="absolute top-5 right-5 w-11 h-11 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+        style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+
+      {/* Prev */}
+      {multiple && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onStep(-1); }}
+          aria-label="Предыдущее фото"
+          className="absolute left-3 sm:left-6 w-11 h-11 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+      )}
+
+      {/* Image */}
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-3xl h-[78vh] rounded-xl overflow-hidden"
+      >
+        <Image src={images[index]} alt={`Фото ${index + 1}`} fill style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, 768px" priority />
+      </motion.div>
+
+      {/* Next */}
+      {multiple && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onStep(1); }}
+          aria-label="Следующее фото"
+          className="absolute right-3 sm:right-6 w-11 h-11 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
+        </button>
+      )}
+
+      {/* Counter */}
+      {multiple && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-600 text-white/90" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
+          {index + 1} / {images.length}
+        </div>
+      )}
+    </motion.div>
   );
 }
 
