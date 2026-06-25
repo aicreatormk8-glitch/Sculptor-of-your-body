@@ -239,21 +239,6 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* ── Volumetric blue backlight (parallax) ── */}
-      <motion.div
-        className="absolute inset-0 z-1 pointer-events-none"
-        style={{ x: glowX, y: glowY }}
-      >
-        {/* Core backlight */}
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 38% 55% at 52% 42%, rgba(0,140,255,0.55) 0%, rgba(0,80,200,0.25) 35%, rgba(0,40,120,0.08) 65%, transparent 85%)",
-        }} />
-        {/* Wide atmospheric glow */}
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 70% 80% at 52% 44%, rgba(0,80,180,0.2) 0%, rgba(0,30,100,0.06) 55%, transparent 80%)",
-        }} />
-      </motion.div>
-
       {/* ── Light beam from top ── */}
       <motion.div
         className="absolute inset-0 z-1 pointer-events-none"
