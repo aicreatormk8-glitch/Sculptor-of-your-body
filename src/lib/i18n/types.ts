@@ -67,15 +67,11 @@ export interface Dict {
     title: string;
     titleAccent: string;
     subtitle: string;
-    beforeLabel: string;
-    afterLabel: string;
     transformations: {
       name: string;
       period: string;
       result: string;
-      beforeImg: string;
-      afterImg: string;
-      gallery: string[];
+      image: string;
     }[];
     testimonialsTitle: string;
     testimonialsAccent: string;
