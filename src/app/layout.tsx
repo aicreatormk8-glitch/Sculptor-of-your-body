@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Онлайн-ведение, персональный план питания и 8-недельная программа «Твоя лучшая версия» для трансформации тела.",
   keywords: "онлайн тренер, фитнес, план питания, программа тренировок, трансформация тела, ягодицы",
   openGraph: {
-    title: "Sculptor of Your Body™ | Body Architect",
+    title: "Sculptor of Your Body | Body Architect",
     description: "Онлайн-ведение, персональный план питания и 8-недельная программа трансформации тела.",
     type: "website",
   },
