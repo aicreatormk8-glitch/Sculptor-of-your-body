@@ -391,8 +391,8 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ zIndex: 10, top: "68%" }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        style={{ zIndex: 10 }}
       >
         <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)]">НАЧАТЬ ТРАНСФОРМАЦИЮ</span>
         <motion.div
