@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDict } from "@/lib/i18n/DictContext";
+import { useDict, useLang } from "@/lib/i18n/DictContext";
 import type { Locale } from "@/lib/i18n";
 
 const localeNames: Record<Locale, string> = {
@@ -14,13 +13,10 @@ const localeNames: Record<Locale, string> = {
 
 export default function Header() {
   const dict = useDict();
-  const pathname = usePathname();
-  const router = useRouter();
+  const { locale: currentLocale, setLocale } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-
-  const currentLocale = (pathname.split("/")[1] ?? "ru") as Locale;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -53,9 +49,9 @@ export default function Header() {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const switchLocale = (locale: Locale) => {
+  const switchLocale = (loc: Locale) => {
     setMenuOpen(false);
-    router.push(`/${locale}`);
+    setLocale(loc);
   };
 
   const navLinks = [
