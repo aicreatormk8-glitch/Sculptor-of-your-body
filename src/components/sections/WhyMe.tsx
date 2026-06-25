@@ -32,7 +32,7 @@ export default function WhyMe() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {whyMe.reasons.map((r, i) => (
             <AnimatedSection key={r.num} delay={i * 0.1}>
-              <div className="glass rounded-2xl p-6 h-full group hover:border-[rgba(0,212,255,0.3)] transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,212,255,0.08)] cursor-default">
+              <div className="glass rounded-2xl p-6 h-full group hover:border-[rgba(0,212,255,0.3)] transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,212,255,0.08)] cursor-default flex flex-col items-center text-center">
                 <div className="text-5xl font-800 leading-none mb-4 select-none" style={{ color: "transparent", WebkitTextStroke: "1px rgba(0,212,255,0.25)" }}>{r.num}</div>
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-[var(--blue-neon)] group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all duration-300" style={{ background: "rgba(0,212,255,0.07)" }}>
                   {icons[i]}
