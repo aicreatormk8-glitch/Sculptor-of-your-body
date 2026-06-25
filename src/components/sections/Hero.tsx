@@ -10,31 +10,8 @@ const badges = [
   "Индивидуальный подход",
 ];
 
-const Particle = ({ style }: { style: React.CSSProperties }) => (
-  <div
-    className="absolute rounded-full pointer-events-none"
-    style={{
-      width: "3px",
-      height: "3px",
-      background: "rgba(0, 212, 255, 0.7)",
-      boxShadow: "0 0 6px rgba(0, 212, 255, 0.8)",
-      animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-      ...style,
-    }}
-  />
-);
 
 export default function Hero() {
-  const particles = Array.from({ length: 18 }, (_, i) => ({
-    id: i,
-    style: {
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      animationDelay: `${Math.random() * 4}s`,
-      animationDuration: `${3 + Math.random() * 4}s`,
-    },
-  }));
-
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -145,13 +122,6 @@ export default function Hero() {
           background: "radial-gradient(ellipse 40% 60% at 50% 45%, rgba(0,110,255,0.16) 0%, transparent 62%)",
         }} />
       </motion.div>
-
-      {/* Particles */}
-      <div className="absolute inset-0" style={{ zIndex: 2 }}>
-        {particles.map((p) => (
-          <Particle key={p.id} style={p.style} />
-        ))}
-      </div>
 
       {/* ─── Content (bottom-left) ─── */}
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32" style={{ zIndex: 10 }}>
