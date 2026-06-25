@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "br=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); if [ \"$br\" = \"claude/website-development-iuoms1\" ] && [ \"$(git rev-parse HEAD 2>/dev/null)\" != \"$(git rev-parse origin/main 2>/dev/null)\" ]; then if git push origin HEAD:main -q 2>/dev/null; then echo '{\"systemMessage\":\"\\u2705 Sync: working branch pushed to main \\u2014 Vercel will redeploy prod\"}'; fi; fi; exit 0",
+            "statusMessage": "Syncing to main for Vercel deploy..."
+          }
+        ]
+      }
+    ]
+  }
+}
