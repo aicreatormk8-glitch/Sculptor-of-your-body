@@ -47,8 +47,8 @@ export default function CTA() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, #0080ff, #00d4ff)" }} />
             </a>
             <a
-              href="#program"
-              onClick={(e) => handleScroll(e, "#program")}
+              href="#services"
+              onClick={(e) => handleScroll(e, "#services")}
               className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-xl transition-all duration-300 hover:bg-[rgba(0,212,255,0.08)] hover:shadow-[0_0_20px_rgba(0,212,255,0.2)]"
               style={{ border: "1px solid rgba(0,212,255,0.35)", backdropFilter: "blur(10px)" }}
             >

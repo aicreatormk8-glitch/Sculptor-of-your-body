@@ -4,7 +4,6 @@ import Header from "@/components/sections/Header";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
-import Program from "@/components/sections/Program";
 import WhyMe from "@/components/sections/WhyMe";
 import Results from "@/components/sections/Results";
 import CTA from "@/components/sections/CTA";
@@ -25,7 +24,6 @@ export default async function LocalePage({
         <Hero />
         <About />
         <Services />
-        <Program />
         <WhyMe />
         <Results />
         <CTA />
