@@ -253,23 +253,29 @@ export default function Hero() {
         background: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)",
       }} />
 
-      {/* ── Dominant brand title (left) ── */}
-      <motion.h1
+      {/* ── Dominant brand title + subtitle (left) ── */}
+      <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute z-10 text-4xl sm:text-5xl lg:text-6xl font-700 leading-[0.95] tracking-[-0.02em]"
-        style={{
-          left: "clamp(2rem, 6vw, 5rem)",
-          bottom: "clamp(52%, 56vh, 60%)",
-          maxWidth: "42vw",
-          color: "#EAF4FF",
-          textShadow: "0 0 24px rgba(120, 210, 255, 0.18)",
-        }}
+        className="absolute z-10"
+        style={{ left: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(38%, 42vh, 46%)", maxWidth: "44vw" }}
       >
-        <span className="block">SCULPTOR</span>
-        <span className="block">OF YOUR BODY</span>
-      </motion.h1>
+        <h1
+          className="text-4xl sm:text-5xl lg:text-6xl font-700 leading-[0.95] tracking-[-0.02em]"
+          style={{ color: "#EAF4FF", textShadow: "0 0 24px rgba(120, 210, 255, 0.18)" }}
+        >
+          <span className="block">SCULPTOR</span>
+          <span className="block">OF YOUR BODY</span>
+        </h1>
+
+        <p className="mt-6 text-sm sm:text-base font-700 leading-relaxed" style={{ color: "#EAF4FF" }}>
+          Онлайн-коучинг • Персональные программы тренировок • Индивидуальные планы питания
+        </p>
+        <p className="mt-3 text-sm sm:text-base font-700 leading-relaxed" style={{ color: "rgba(234,244,255,0.85)" }}>
+          Без жёстких диет. Без хаотичных тренировок. Только система, которая меняет тело.
+        </p>
+      </motion.div>
 
       {/* ── Premium signature (right) ── */}
       <motion.div
