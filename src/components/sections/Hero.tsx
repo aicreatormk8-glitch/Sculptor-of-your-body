@@ -427,7 +427,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         style={{ zIndex: 10 }}
       >
-        <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)]">Scroll</span>
+        <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--text-muted)]">НАЧАТЬ ТРАНСФОРМАЦИЮ</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
