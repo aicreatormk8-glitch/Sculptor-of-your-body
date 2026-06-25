@@ -8,7 +8,6 @@ import Program from "@/components/sections/Program";
 import WhyMe from "@/components/sections/WhyMe";
 import Results from "@/components/sections/Results";
 import CTA from "@/components/sections/CTA";
-import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 
 export default async function LocalePage({
@@ -30,7 +29,6 @@ export default async function LocalePage({
         <WhyMe />
         <Results />
         <CTA />
-        <Contact />
       </main>
       <Footer />
     </DictProvider>

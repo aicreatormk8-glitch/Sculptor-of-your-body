@@ -85,8 +85,8 @@ export default function Program() {
                 ))}
               </ul>
               <a
-                href="#contact"
-                onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
+                href="#services"
+                onClick={(e) => { e.preventDefault(); document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" }); }}
                 className="block text-center py-4 text-sm font-700 tracking-wide text-white rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] pulse-glow"
                 style={{ background: "linear-gradient(135deg, #0066cc, #00d4ff)", boxShadow: "0 0 30px rgba(0,212,255,0.35)" }}
               >

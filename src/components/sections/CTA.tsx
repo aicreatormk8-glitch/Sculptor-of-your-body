@@ -38,8 +38,8 @@ export default function CTA() {
         <AnimatedSection delay={0.2}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
             <a
-              href="#contact"
-              onClick={(e) => handleScroll(e, "#contact")}
+              href="#services"
+              onClick={(e) => handleScroll(e, "#services")}
               className="group relative px-8 py-4 text-sm font-700 tracking-wide text-white rounded-xl overflow-hidden transition-all duration-300"
               style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", boxShadow: "0 0 30px rgba(0,180,216,0.35)" }}
             >
@@ -55,8 +55,8 @@ export default function CTA() {
               {cta.btn2}
             </a>
             <a
-              href="#contact"
-              onClick={(e) => handleScroll(e, "#contact")}
+              href="#services"
+              onClick={(e) => handleScroll(e, "#services")}
               className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--text-secondary)] rounded-xl transition-all duration-300 hover:text-white hover:bg-[rgba(255,255,255,0.05)]"
               style={{ border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(10px)" }}
             >

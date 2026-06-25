@@ -80,8 +80,8 @@ export default function About() {
         {/* CTA */}
         <AnimatedSection delay={0.22} className="mt-12">
           <a
-            href="#contact"
-            onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
+            href="#services"
+            onClick={(e) => { e.preventDefault(); document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" }); }}
             className="inline-block px-12 py-5 text-lg font-700 tracking-wide rounded-full transition-all duration-300 hover:shadow-[0_0_60px_rgba(0,212,255,0.55)] hover:-translate-y-2"
             style={{
               color: "#EAF4FF",

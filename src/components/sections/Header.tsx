@@ -18,7 +18,7 @@ export default function Header() {
 
   // Track active section via IntersectionObserver
   useEffect(() => {
-    const ids = ["hero", "about", "services", "program", "results", "contact"];
+    const ids = ["hero", "about", "services", "program", "results"];
     const ratios: Record<string, number> = {};
     const observers: IntersectionObserver[] = [];
     ids.forEach((id) => {
@@ -50,7 +50,6 @@ export default function Header() {
     { href: "#services", label: dict.header.nav.services, id: "services" },
     { href: "#program",  label: dict.header.nav.program,  id: "program" },
     { href: "#results",  label: dict.header.nav.results,  id: "results" },
-    { href: "#contact",  label: dict.header.nav.contact,  id: "contact" },
   ];
 
   return (
@@ -139,8 +138,8 @@ export default function Header() {
 
             {/* CTA */}
             <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
+              href="#services"
+              onClick={(e) => handleNavClick(e, "#services")}
               onMouseEnter={() => setHoveredCta(true)}
               onMouseLeave={() => setHoveredCta(false)}
               className="text-[13px] font-600 tracking-wide rounded-lg px-5 py-2.5"
@@ -219,8 +218,8 @@ export default function Header() {
               </div>
 
               <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, "#contact")}
+                href="#services"
+                onClick={(e) => handleNavClick(e, "#services")}
                 className="mt-3 text-center py-3.5 text-sm font-700 text-white rounded-xl"
                 style={{
                   background: "linear-gradient(135deg, rgba(0,100,204,0.9), rgba(0,210,255,0.7))",

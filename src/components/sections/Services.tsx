@@ -17,18 +17,17 @@ export default function Services() {
       <div className="absolute inset-0 bg-[var(--bg-primary)]" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] blur-[150px] pointer-events-none" style={{ background: "rgba(0,100,200,0.05)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-16">
+      <div className="relative w-full flex flex-col items-center px-4 sm:px-6 lg:px-8">
+        <AnimatedSection className="text-center mb-16 w-full">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
             <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">{services.eyebrow}</span>
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-800 text-white mb-4">{services.title}</h2>
-          <p className="text-[var(--text-secondary)] max-w-lg mx-auto">{services.subtitle}</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-800 text-white">{services.title}</h2>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        <div className="w-full max-w-6xl grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {services.items.map((s, i) => (
             <AnimatedSection key={s.title} delay={i * 0.1}>
               <div
@@ -57,11 +56,13 @@ export default function Services() {
                 </div>
                 <div className="mb-6">
                   {s.oldPrice && (
-                    <span className="text-sm font-500 mr-2" style={{ color: "rgba(139,163,199,0.5)", textDecoration: "line-through" }}>{s.oldPrice}</span>
+                    <div className="mb-1">
+                      <span className="text-xs font-400" style={{ color: "rgba(139,163,199,0.38)", textDecoration: "line-through" }}>{s.oldPrice}</span>
+                    </div>
                   )}
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-4xl sm:text-5xl font-800" style={{ color: s.featured ? "var(--blue-neon)" : "white", textShadow: s.featured ? "0 0 20px rgba(0,212,255,0.4)" : "none" }}>{s.price}</span>
-                    {s.period && <span className="text-sm text-[var(--text-muted)]">{s.period}</span>}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-5xl sm:text-6xl font-800 leading-none" style={{ color: s.featured ? "var(--blue-neon)" : "white", textShadow: s.featured ? "0 0 28px rgba(0,212,255,0.5)" : "0 0 20px rgba(255,255,255,0.08)" }}>{s.price}</span>
+                    {s.period && <span className="text-sm text-[var(--text-muted)] pb-1">{s.period}</span>}
                   </div>
                 </div>
                 <hr className="hr-glow mb-6" />
