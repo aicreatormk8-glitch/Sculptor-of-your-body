@@ -262,7 +262,7 @@ export default function Hero() {
         style={{ zIndex: 10 }}
       >
         <span
-          className="text-2xl sm:text-3xl md:text-4xl font-800 tracking-[0.16em] uppercase whitespace-nowrap"
+          className="text-xl sm:text-2xl md:text-3xl font-800 tracking-[0.16em] uppercase whitespace-nowrap"
           style={{ color: "#00e5ff", textShadow: "0 0 30px rgba(0,212,255,0.8), 0 0 70px rgba(0,212,255,0.4)" }}
         >
           НАЧАТЬ ТРАНСФОРМАЦИЮ
