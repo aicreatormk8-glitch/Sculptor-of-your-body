@@ -3,15 +3,10 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
-
-const badges = [
-  "Онлайн-ведение",
-  "План питания",
-  "8-недельная программа",
-  "Индивидуальный подход",
-];
+import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Hero() {
+  const dict = useDict();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -314,7 +309,7 @@ export default function Hero() {
         >
           <div className="w-8 h-px bg-[var(--blue-neon)]" />
           <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">
-            Body Architect
+            {dict.hero.eyebrow}
           </span>
         </motion.div>
 
@@ -337,7 +332,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed mb-2 max-w-lg"
         >
-          Онлайн-фитнес сопровождение, питание и программа трансформации тела
+          {dict.hero.desc1}
         </motion.p>
 
         <motion.p
@@ -346,7 +341,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.6 }}
           className="text-sm text-[var(--text-muted)] leading-relaxed mb-8 max-w-md"
         >
-          Создай свою лучшую версию с профессиональным подходом к тренировкам, питанию и дисциплине.
+          {dict.hero.desc2}
         </motion.p>
 
         <motion.div
@@ -374,7 +369,7 @@ export default function Hero() {
               (e.currentTarget as HTMLElement).style.boxShadow = "0 0 25px rgba(0,180,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1)";
             }}
           >
-            <span className="relative z-10">Начать трансформацию</span>
+            <span className="relative z-10">{dict.hero.btn1}</span>
           </a>
           <a
             href="#services"
@@ -395,7 +390,7 @@ export default function Hero() {
               (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.05)";
             }}
           >
-            Смотреть услуги
+            {dict.hero.btn2}
           </a>
         </motion.div>
 
@@ -405,7 +400,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.9 }}
           className="flex flex-wrap gap-2"
         >
-          {badges.map((badge, i) => (
+          {dict.hero.badges.map((badge, i) => (
             <motion.span
               key={badge}
               initial={{ opacity: 0, scale: 0.8 }}

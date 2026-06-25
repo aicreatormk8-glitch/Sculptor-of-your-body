@@ -10,26 +10,14 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Sculptor of your body — онлайн фитнес-тренер, питание и программа тренировок",
-  description: "Онлайн-ведение, персональный план питания и 8-недельная программа «Твоя лучшая версия» для трансформации тела.",
-  keywords: "онлайн тренер, фитнес, план питания, программа тренировок, трансформация тела, ягодицы",
-  openGraph: {
-    title: "Sculptor of Your Body | Body Architect",
-    description: "Онлайн-ведение, персональный план питания и 8-недельная программа трансформации тела.",
-    type: "website",
-  },
+  title: "Sculptor of your body",
+  description: "Online fitness coaching, nutrition and body transformation program",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru" className="scroll-smooth">
-      <body className={`${manrope.variable} antialiased`}>
-        {children}
-      </body>
+      <body className={`${manrope.variable} antialiased`}>{children}</body>
     </html>
   );
 }
