@@ -18,7 +18,7 @@ export default function Header() {
 
   // Track active section via IntersectionObserver
   useEffect(() => {
-    const ids = ["hero", "about", "services", "program", "results"];
+    const ids = ["hero", "about", "services", "results"];
     const ratios: Record<string, number> = {};
     const observers: IntersectionObserver[] = [];
     ids.forEach((id) => {
@@ -48,7 +48,6 @@ export default function Header() {
     { href: "#hero",     label: dict.header.nav.home,     id: "hero" },
     { href: "#about",    label: dict.header.nav.about,    id: "about" },
     { href: "#services", label: dict.header.nav.services, id: "services" },
-    { href: "#program",  label: dict.header.nav.program,  id: "program" },
     { href: "#results",  label: dict.header.nav.results,  id: "results" },
   ];
 
