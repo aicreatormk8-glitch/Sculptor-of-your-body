@@ -222,10 +222,14 @@ export default function Hero() {
       className="relative min-h-dvh flex items-end overflow-hidden"
       style={{ background: "#000" }}
     >
-      {/* ── Photo with parallax ── */}
+      {/* ── Photo with parallax — 12% larger, shifted right ── */}
       <motion.div
-        className="absolute inset-0 z-0"
-        style={{ x: imgX, y: imgY, scale: 1.06 }}
+        className="absolute z-0"
+        style={{
+          x: imgX, y: imgY,
+          inset: "-6%",
+          left: "3%",
+        }}
       >
         <Image
           src="/assets/images/hero-trainer.png"
@@ -234,8 +238,8 @@ export default function Hero() {
           priority
           style={{
             objectFit: "contain",
-            objectPosition: "center center",
-            filter: "brightness(1.05) contrast(1.08) saturate(1.1)",
+            objectPosition: "58% center",
+            filter: "brightness(1.08) contrast(1.08) saturate(1.1)",
           }}
         />
       </motion.div>
@@ -318,7 +322,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-800 leading-[0.92] tracking-tight mb-6"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-700 leading-[1.02] tracking-[-0.02em] mb-6"
         >
           <span className="block text-white drop-shadow-lg">SCULPTOR</span>
           <span className="block drop-shadow-lg">
@@ -354,21 +358,42 @@ export default function Hero() {
           <a
             href="#contact"
             onClick={(e) => handleScroll(e, "#contact")}
-            className="group relative px-8 py-4 text-sm font-700 tracking-wide text-white rounded-xl overflow-hidden transition-all duration-300 text-center"
+            className="group relative px-8 py-4 text-sm font-700 tracking-wide text-white rounded-xl overflow-hidden transition-all duration-300 text-center hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, #0066cc, #00b4d8)",
-              boxShadow: "0 0 30px rgba(0,180,216,0.4), 0 4px 20px rgba(0,0,0,0.3)",
+              background: "rgba(0,100,200,0.25)",
+              border: "1px solid rgba(0,212,255,0.45)",
+              backdropFilter: "blur(16px)",
+              boxShadow: "0 0 25px rgba(0,180,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(0,140,255,0.35)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 45px rgba(0,200,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15)";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(0,100,200,0.25)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 25px rgba(0,180,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1)";
             }}
           >
             <span className="relative z-10">Начать трансформацию</span>
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ background: "linear-gradient(135deg, #0080ff, #00d4ff)" }} />
           </a>
           <a
             href="#services"
             onClick={(e) => handleScroll(e, "#services")}
-            className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-xl transition-all duration-300 text-center hover:bg-[rgba(0,212,255,0.08)]"
-            style={{ border: "1px solid rgba(0,212,255,0.35)", backdropFilter: "blur(10px)" }}
+            className="px-8 py-4 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-xl transition-all duration-300 text-center hover:scale-105"
+            style={{
+              background: "rgba(0,212,255,0.05)",
+              border: "1px solid rgba(0,212,255,0.25)",
+              backdropFilter: "blur(16px)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(0,212,255,0.12)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 25px rgba(0,212,255,0.2), inset 0 1px 0 rgba(255,255,255,0.08)";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(0,212,255,0.05)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.05)";
+            }}
           >
             Смотреть услуги
           </a>

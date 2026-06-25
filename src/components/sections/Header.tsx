@@ -34,11 +34,20 @@ export default function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[rgba(5,8,16,0.85)] backdrop-blur-xl border-b border-[rgba(0,212,255,0.1)]"
-          : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-700"
+      style={{
+        background: scrolled
+          ? "rgba(4,6,15,0.65)"
+          : "rgba(4,6,15,0.15)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: scrolled
+          ? "1px solid rgba(0,212,255,0.18)"
+          : "1px solid rgba(0,212,255,0.06)",
+        boxShadow: scrolled
+          ? "0 1px 30px rgba(0,212,255,0.08)"
+          : "none",
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -72,15 +81,23 @@ export default function Header() {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="relative px-6 py-2.5 text-sm font-600 tracking-wide text-white rounded-lg overflow-hidden group transition-all duration-300"
+              className="relative px-6 py-2.5 text-sm font-600 tracking-wide text-[var(--blue-neon)] rounded-lg overflow-hidden group transition-all duration-300 hover:scale-105 hover:text-white"
               style={{
-                background: "linear-gradient(135deg, rgba(0,102,204,0.8), rgba(0,212,255,0.6))",
-                border: "1px solid rgba(0,212,255,0.4)",
-                boxShadow: "0 0 20px rgba(0,212,255,0.2)",
+                background: "rgba(0,212,255,0.06)",
+                border: "1px solid rgba(0,212,255,0.35)",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 0 15px rgba(0,212,255,0.1), inset 0 1px 0 rgba(255,255,255,0.05)",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 30px rgba(0,212,255,0.35), inset 0 1px 0 rgba(255,255,255,0.1)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(0,212,255,0.15)";
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 15px rgba(0,212,255,0.1), inset 0 1px 0 rgba(255,255,255,0.05)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(0,212,255,0.06)";
               }}
             >
               <span className="relative z-10">Записаться</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0066cc] to-[#00d4ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
           </div>
 
