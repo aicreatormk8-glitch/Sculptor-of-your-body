@@ -20,7 +20,7 @@ export const en: Dict = {
     title: "More Than a Fitness Coach.",
     titleAccent: "The Architect of the Female Body.",
     desc: "Just like a sculptor creates a work of art, I help women build a strong, beautiful and harmonious body, step by step.\n\nEvery program is built individually — based on your goals, lifestyle and possibilities.\n\nNo templates. No extremes. Only a system that truly works.",
-    cta: "Book Your Coaching →",
+    cta: "Book Your Coaching",
     stats: [
       { value: "100+", label: "Transformations" },
       { value: "98%", label: "Client Results" },

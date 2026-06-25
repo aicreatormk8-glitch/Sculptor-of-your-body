@@ -78,22 +78,21 @@ export default function About() {
         </div>
 
         {/* CTA */}
-        <AnimatedSection delay={0.2}>
+        <AnimatedSection delay={0.22} className="mt-12">
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="group inline-flex items-center gap-3 px-9 py-4 text-base font-700 tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_52px_rgba(0,212,255,0.5)] hover:-translate-y-1"
+            className="inline-block px-12 py-5 text-lg font-700 tracking-wide rounded-full transition-all duration-300 hover:shadow-[0_0_60px_rgba(0,212,255,0.55)] hover:-translate-y-2"
             style={{
               color: "#EAF4FF",
-              background: "rgba(0, 8, 18, 0.68)",
-              border: "1px solid rgba(0, 210, 255, 0.35)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              boxShadow: "0 0 28px rgba(0,212,255,0.16), inset 0 0 20px rgba(0,212,255,0.05)",
+              background: "rgba(0, 8, 18, 0.72)",
+              border: "1.5px solid rgba(0, 210, 255, 0.4)",
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
+              boxShadow: "0 0 32px rgba(0,212,255,0.18), inset 0 0 24px rgba(0,212,255,0.06)",
             }}
           >
             {about.cta}
-            <svg className="transition-transform duration-300 group-hover:translate-x-1.5" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
           </a>
         </AnimatedSection>
       </div>
