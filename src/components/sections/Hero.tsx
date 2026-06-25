@@ -274,7 +274,7 @@ export default function Hero() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="absolute z-10 hidden md:flex flex-col items-end gap-5"
-        style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(18%, 22vh, 24%)", maxWidth: "34vw" }}
+        style={{ right: "clamp(2rem, 6vw, 5rem)", bottom: "clamp(40%, 44vh, 48%)", maxWidth: "34vw" }}
       >
         <div className="w-20 h-px" style={{ background: "linear-gradient(to right, transparent, var(--blue-neon))" }} />
         <span
@@ -290,13 +290,13 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         style={{ zIndex: 10 }}
       >
         <motion.a
           href="#services"
           onClick={(e) => handleScroll(e, "#services")}
-          className="text-sm sm:text-base md:text-lg font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer"
+          className="text-lg sm:text-xl md:text-2xl font-800 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer"
           style={{ color: "#00e5ff" }}
           animate={{
             scale: [1, 1.12, 1, 1.08, 1],
