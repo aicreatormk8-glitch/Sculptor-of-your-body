@@ -40,10 +40,13 @@ export default function Services() {
               >
                 {s.tag && (
                   <motion.div
-                    animate={{ scale: [1, 1.05, 1] }}
+                    animate={s.tag === "SALE" ? { scale: [1, 1.05, 1] } : {}}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="absolute -top-3.5 left-6 px-4 py-1 text-xs font-800 tracking-widest rounded-full"
-                    style={{ background: "linear-gradient(135deg, #0066cc, #00d4ff)", boxShadow: "0 0 20px rgba(0,212,255,0.5)", color: "white" }}
+                    style={s.tag === "SALE"
+                      ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", boxShadow: "0 0 20px rgba(0,212,255,0.5)", color: "white" }
+                      : { background: "rgba(0,8,20,0.85)", border: "1px solid rgba(0,210,255,0.5)", color: "#00d4ff", boxShadow: "0 0 14px rgba(0,212,255,0.3)" }
+                    }
                   >
                     {s.tag}
                   </motion.div>
@@ -53,9 +56,11 @@ export default function Services() {
                   <p className="text-xs text-[var(--text-muted)] leading-relaxed">{s.description}</p>
                 </div>
                 <div className="mb-6">
-                  {s.oldPrice && <span className="text-sm text-[var(--text-muted)] line-through-price mr-2">{s.oldPrice}</span>}
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-800" style={{ color: s.featured ? "var(--blue-neon)" : "white", textShadow: s.featured ? "0 0 20px rgba(0,212,255,0.4)" : "none" }}>{s.price}</span>
+                  {s.oldPrice && (
+                    <span className="text-sm font-500 mr-2" style={{ color: "rgba(139,163,199,0.5)", textDecoration: "line-through" }}>{s.oldPrice}</span>
+                  )}
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-4xl sm:text-5xl font-800" style={{ color: s.featured ? "var(--blue-neon)" : "white", textShadow: s.featured ? "0 0 20px rgba(0,212,255,0.4)" : "none" }}>{s.price}</span>
                     {s.period && <span className="text-sm text-[var(--text-muted)]">{s.period}</span>}
                   </div>
                 </div>

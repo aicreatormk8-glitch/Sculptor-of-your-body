@@ -19,41 +19,37 @@ export default function About() {
       <div className="absolute inset-0 bg-[var(--bg-secondary)]" />
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none" style={{ background: "rgba(0,100,200,0.06)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Single centered composition */}
+      <div className="relative w-full flex flex-col items-center px-4 sm:px-6 lg:px-8">
+
         {/* Heading */}
-        <AnimatedSection className="mb-20 flex flex-col items-center text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
+        <AnimatedSection className="w-full max-w-2xl text-center mb-10">
+          <div className="flex items-center justify-center gap-3 mb-8">
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
             <span className="text-xs font-600 tracking-[0.3em] uppercase text-[var(--blue-neon)]">{about.eyebrow}</span>
             <div className="w-8 h-px bg-[var(--blue-neon)]" />
           </div>
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-700 text-white leading-tight mb-3">
-              {about.title}
-            </h2>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-800 leading-tight" style={{ color: "var(--blue-neon)", textShadow: "0 0 32px rgba(0,212,255,0.35)" }}>
-              {about.titleAccent}
-            </h3>
-          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-700 text-white leading-tight mb-3">
+            {about.title}
+          </h2>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-800 leading-tight" style={{ color: "var(--blue-neon)", textShadow: "0 0 32px rgba(0,212,255,0.35)" }}>
+            {about.titleAccent}
+          </h3>
         </AnimatedSection>
 
         {/* Body text */}
-        <AnimatedSection delay={0.1} className="mb-24 flex justify-center">
-          <div className="mx-auto space-y-6" style={{ maxWidth: "780px" }}>
-            {about.desc.split("\n\n").map((para, i) => (
-              <p key={i} className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed text-center">
-                {para}
-              </p>
-            ))}
-          </div>
+        <AnimatedSection delay={0.08} className="w-full max-w-[780px] text-center mb-20 space-y-6">
+          {about.desc.split("\n\n").map((para, i) => (
+            <p key={i} className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed">{para}</p>
+          ))}
         </AnimatedSection>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-24 max-w-6xl mx-auto">
+        {/* Statistics — 4 equal cards */}
+        <div className="w-full max-w-5xl grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-20">
           {about.stats.map((s, i) => (
-            <AnimatedSection key={s.label} delay={0.12 + i * 0.06}>
+            <AnimatedSection key={s.label} delay={0.1 + i * 0.07} className="h-full">
               <div
-                className="glass rounded-2xl px-6 py-10 text-center h-full flex flex-col items-center justify-center transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,255,0.15)]"
+                className="glass rounded-2xl px-4 py-10 text-center flex flex-col items-center justify-center h-full min-h-[160px] transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,255,0.15)]"
                 style={{ border: "1px solid rgba(0,212,255,0.12)" }}
               >
                 <div className="text-5xl sm:text-6xl font-800 leading-none mb-4" style={{ color: "var(--blue-neon)", textShadow: "0 0 28px rgba(0,212,255,0.45)" }}>{s.value}</div>
@@ -63,18 +59,18 @@ export default function About() {
           ))}
         </div>
 
-        {/* Feature cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        {/* Feature cards — 4 equal cards */}
+        <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {about.features.map((f, i) => (
-            <AnimatedSection key={f.title} delay={0.14 + i * 0.08}>
+            <AnimatedSection key={f.title} delay={0.13 + i * 0.08} className="h-full">
               <div
-                className="glass rounded-2xl p-8 h-full group transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,212,255,0.12)] hover:-translate-y-1"
+                className="glass rounded-2xl p-8 flex flex-col h-full min-h-[220px] group transition-all duration-300 hover:shadow-[0_0_48px_rgba(0,212,255,0.12)] hover:-translate-y-1"
                 style={{ border: "1px solid rgba(0,212,255,0.1)" }}
               >
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-[var(--blue-neon)] transition-all duration-300 group-hover:shadow-[0_0_32px_rgba(0,212,255,0.3)]" style={{ background: "rgba(0,212,255,0.06)", border: "1px solid rgba(0,212,255,0.14)" }}>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-[var(--blue-neon)] shrink-0 transition-all duration-300 group-hover:shadow-[0_0_32px_rgba(0,212,255,0.3)]" style={{ background: "rgba(0,212,255,0.06)", border: "1px solid rgba(0,212,255,0.14)" }}>
                   {icons[i]}
                 </div>
-                <h3 className="text-sm font-700 text-white mb-4 leading-tight">{f.title}</h3>
+                <h3 className="text-sm font-700 text-white mb-3 leading-tight">{f.title}</h3>
                 <p className="text-xs text-[var(--text-muted)] leading-relaxed">{f.desc}</p>
               </div>
             </AnimatedSection>
@@ -82,7 +78,7 @@ export default function About() {
         </div>
 
         {/* CTA */}
-        <AnimatedSection delay={0.2} className="flex justify-center pt-6">
+        <AnimatedSection delay={0.2}>
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
