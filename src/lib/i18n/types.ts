@@ -102,8 +102,12 @@ export interface Dict {
     programSuccessMsg: string;
   };
   footer: {
+    tagline: string;
+    followLabel: string;
+    documentsLabel: string;
     privacy: string;
     terms: string;
+    payment: string;
     copyright: string;
   };
 }

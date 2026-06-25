@@ -145,8 +145,12 @@ export const uk: Dict = {
     programSuccessMsg: "Зараз відкриється Telegram-канал з доступом до програми. Ласкаво просимо до трансформації! 🔥",
   },
   footer: {
+    tagline: "Онлайн-тренування, харчування та програми трансформації тіла.",
+    followLabel: "Ми в соцмережах",
+    documentsLabel: "Документи",
     privacy: "Політика конфіденційності",
-    terms: "Умови оплати",
+    terms: "Умови використання",
+    payment: "Умови оплати",
     copyright: "Sculptor of Your Body",
   },
 };

@@ -32,8 +32,11 @@ export default function Services() {
           {services.items.map((s, i) => (
             <AnimatedSection key={s.title} delay={i * 0.1}>
               <div
-                className={`relative rounded-2xl p-6 sm:p-7 h-full flex flex-col group transition-all duration-500 ${s.featured ? "glow-border" : "glass hover:border-[rgba(0,212,255,0.25)]"}`}
-                style={s.featured ? { background: "linear-gradient(145deg, rgba(0,40,100,0.7), rgba(0,20,50,0.8))", backdropFilter: "blur(20px)", border: "1px solid rgba(0,212,255,0.5)" } : {}}
+                className={`relative rounded-2xl p-6 sm:p-7 h-full flex flex-col transition-all duration-500 ${s.featured ? "glow-border" : "glass"}`}
+                style={s.featured
+                  ? { background: "linear-gradient(148deg, rgba(0,50,120,0.72), rgba(0,18,50,0.85))", backdropFilter: "blur(24px)", border: "1px solid rgba(0,212,255,0.48)" }
+                  : {}
+                }
               >
                 {s.tag && (
                   <motion.div
