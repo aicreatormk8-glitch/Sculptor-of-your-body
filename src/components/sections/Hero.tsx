@@ -239,24 +239,6 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* ── Light beam from top ── */}
-      <motion.div
-        className="absolute inset-0 z-1 pointer-events-none"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "30%",
-          height: "70%",
-          background: "linear-gradient(to bottom, rgba(0,160,255,0.18) 0%, rgba(0,120,220,0.08) 40%, transparent 80%)",
-          clipPath: "polygon(30% 0%, 70% 0%, 90% 100%, 10% 100%)",
-        }} />
-      </motion.div>
-
       {/* ── Canvas smoke ── */}
       <canvas
         ref={canvasRef}
