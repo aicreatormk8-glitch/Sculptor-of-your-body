@@ -51,7 +51,7 @@ export default function Services() {
                   </motion.div>
                 )}
                 <div className="mb-6">
-                  <h3 className="text-lg font-700 text-white mb-1" style={s.featured ? { color: "var(--blue-neon)" } : {}}>{s.title}</h3>
+                  <h3 className="text-lg font-700 text-white mb-1 text-center" style={s.featured ? { color: "var(--blue-neon)" } : {}}>{s.title}</h3>
                   <p className="text-xs text-[var(--text-muted)] leading-relaxed">{s.description}</p>
                 </div>
                 <div className="mb-6">
