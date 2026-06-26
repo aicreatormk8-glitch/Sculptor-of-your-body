@@ -75,7 +75,7 @@ export interface Dict {
     }[];
     testimonialsTitle: string;
     testimonialsAccent: string;
-    testimonials: { name: string; meta: string; text: string }[];
+    testimonials: { name: string; meta: string; text: string; publishDate: string }[];
     startBtn: string;
   };
   cta: {
