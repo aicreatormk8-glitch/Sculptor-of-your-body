@@ -38,9 +38,11 @@ export const en: Dict = {
     eyebrow: "Services",
     title: "Choose Your Format",
     subtitle: "Each offer is created for a specific goal and work format",
+    saleTimerLabel: "Sale ends in:",
+    saleTimerUnits: ["d", "h", "m", "s"],
     items: [
       {
-        title: "Your Best Version", price: "$33", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-week training program focused on glutes, tone and body shape.",
         features: [
           "Load progression principles for achieving maximum results",
@@ -54,10 +56,10 @@ export const en: Dict = {
           "A proven training system that effectively develops glutes and creates harmonious body proportions",
           "Lifetime access to the program immediately after purchase",
         ],
-        cta: "Buy Program", ctaHref: "#program", featured: true, color: "#00d4ff",
+        cta: "Buy Program for $17", ctaHref: "#program", featured: true, color: "#00d4ff",
       },
       {
-        title: "Nutrition Plan", price: "$60", period: "", oldPrice: "$100", tag: null,
+        title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
         description: "A personalized nutrition plan — nutrition only, no workouts or ongoing coaching.",
         features: [
           "Individual macro calculation for your goal: weight loss, muscle gain, body recomposition or maintaining shape",
@@ -104,7 +106,7 @@ export const en: Dict = {
     badge: "SPECIAL PRICE",
     programTitle: "Your Best Version",
     programSubtitle: "8-week transformation program",
-    buyBtn: "Buy for $33",
+    buyBtn: "Buy for $17",
     accessNote: "After payment — instant access to the program",
     includes: [
       "Load progression principles for achieving maximum results",
@@ -181,8 +183,8 @@ export const en: Dict = {
     selectService: "Choose a service",
     services: [
       { value: "coaching", label: "Online Coaching", price: "$120/mo" },
-      { value: "nutrition", label: "Monthly Nutrition Plan", price: "$60" },
-      { value: "program", label: "\"Your Best Version\" Program", price: "$33" },
+      { value: "nutrition", label: "Monthly Nutrition Plan", price: "$50" },
+      { value: "program", label: "\"Your Best Version\" Program", price: "$17" },
     ],
     nameLabel: "Your Name *",
     namePlaceholder: "What's your name?",

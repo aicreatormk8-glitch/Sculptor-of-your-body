@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/AnimatedSection";
+import CountdownTimer from "../ui/CountdownTimer";
 import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Services() {
   const { services } = useDict();
+  const { saleTimerLabel, saleTimerUnits } = services;
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -76,7 +78,11 @@ export default function Services() {
                   </div>
                 </div>
 
-                <hr className="hr-glow mb-6" />
+                {s.featured && (
+                  <CountdownTimer label={saleTimerLabel} units={saleTimerUnits} />
+                )}
+
+                <hr className="hr-glow mb-6 mt-6" />
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {s.features.map((feat) => (
