@@ -38,56 +38,41 @@ export default function Results() {
           <p className="text-[var(--text-secondary)] leading-relaxed">{results.subtitle}</p>
         </AnimatedSection>
 
-        {/* ── Before / After transformation collages ── */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {results.transformations.map((t, i) => {
-            const hasCaption = t.name || t.period || t.result;
-            return (
-              <AnimatedSection key={i} delay={0.1 + i * 0.1} direction="up">
-                <button
-                  type="button"
-                  onClick={() => t.image && setLightboxIndex(i)}
-                  className={`glass rounded-2xl overflow-hidden group h-full w-full text-left block ${t.image ? "cursor-pointer" : ""}`}
-                  aria-label={`${t.name || "Трансформация"} — открыть фото`}
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-[var(--bg-primary)]">
-                    {t.image ? (
-                      <Image src={t.image} alt={t.name || "До и после"} fill style={{ objectFit: "cover" }} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="transition-transform duration-500 group-hover:scale-[1.04]" />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "linear-gradient(160deg, rgba(8,14,28,0.9), rgba(4,8,16,0.95))" }}>
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(74,96,128,0.5)" strokeWidth="1.5" aria-hidden="true">
-                          <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="M21 15l-5-5L5 21" />
-                        </svg>
-                      </div>
-                    )}
-                    {t.image && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/25 transition-colors duration-300 pointer-events-none">
-                        <span className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-700 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300" style={{ background: "rgba(0,212,255,0.9)", color: "#04111c" }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
-                          Смотреть
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  {hasCaption && (
-                    <div className="p-5">
-                      <div className="flex items-center justify-between gap-3 mb-2">
-                        {t.name && <span className="text-base font-700 text-white">{t.name}</span>}
-                        {t.period && <span className="text-xs text-[var(--text-muted)] whitespace-nowrap">{t.period}</span>}
-                      </div>
-                      {t.result && (
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-600" style={{ background: "rgba(0,212,255,0.1)", color: "var(--blue-neon)", border: "1px solid rgba(0,212,255,0.2)" }}>
-                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2 11l4-4 3 3 5-6" /></svg>
-                          {t.result}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </button>
-              </AnimatedSection>
-            );
-          })}
-        </div>
+        {/* ── Single gallery opener block ── */}
+        {images.length > 0 && (
+          <AnimatedSection direction="up" className="flex justify-center">
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(0)}
+              className="glass rounded-2xl px-8 py-8 sm:px-12 sm:py-10 w-full max-w-md group hover:border-[rgba(0,212,255,0.35)] transition-all duration-500 hover:shadow-[0_0_45px_rgba(0,212,255,0.12)] flex flex-col items-center text-center cursor-pointer"
+              aria-label="Открыть галерею до и после"
+            >
+              {/* stacked-photos icon */}
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 text-[var(--blue-neon)] group-hover:shadow-[0_0_24px_rgba(0,212,255,0.35)] transition-all duration-300"
+                style={{ background: "rgba(0,212,255,0.08)" }}
+              >
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                  <rect x="7" y="7" width="14" height="14" rx="2" />
+                  <path d="M3 17V5a2 2 0 0 1 2-2h12" />
+                  <circle cx="11.5" cy="11.5" r="1.5" />
+                  <path d="M21 16l-4-4-7 7" />
+                </svg>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-800 text-white mb-2">Галерея «До / После»</h3>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-5 max-w-xs">
+                Реальные трансформации подопечных — открой и листай результаты.
+              </p>
+              <span
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-700 transition-all duration-300 group-hover:gap-3"
+                style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", color: "#fff", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
+                Смотреть {images.length} фото
+              </span>
+            </button>
+          </AnimatedSection>
+        )}
 
         {/* ── Testimonials ── */}
         <AnimatedSection className="text-center mt-20 sm:mt-24 mb-12">
@@ -100,7 +85,7 @@ export default function Results() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.testimonials.map((rev, i) => (
             <AnimatedSection key={i} delay={0.05 + i * 0.07} direction="up">
-              <div className="glass rounded-2xl p-6 h-full flex flex-col">
+              <div className="glass rounded-2xl p-6 h-full flex flex-col items-center text-center">
                 <div className="flex gap-1 mb-4" aria-hidden="true">
                   {Array.from({ length: 5 }).map((_, s) => (
                     <svg key={s} width="16" height="16" viewBox="0 0 20 20" fill="var(--blue-neon)">
@@ -114,7 +99,7 @@ export default function Results() {
                 <p className="text-sm text-[var(--text-secondary)] leading-relaxed flex-1 italic">
                   {rev.text || "Скоро здесь появится отзыв клиента."}
                 </p>
-                <div className="mt-5 pt-4 border-t border-[rgba(255,255,255,0.06)]">
+                <div className="mt-5 pt-4 border-t border-[rgba(255,255,255,0.06)] w-full">
                   <p className="text-sm font-700 text-white">
                     {rev.name || <span className="text-[var(--text-muted)]">—</span>}
                   </p>
