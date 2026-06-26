@@ -124,6 +124,25 @@ body::before {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
+/* ─── Heartbeat (lub-dub) ────────────────── */
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  12%  { transform: scale(1.08); }
+  24%  { transform: scale(1); }
+  36%  { transform: scale(1.05); }
+  48%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 1.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat { animation: none; }
+}
+
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position: 200% 0; }
