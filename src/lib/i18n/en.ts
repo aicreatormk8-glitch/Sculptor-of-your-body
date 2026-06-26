@@ -40,6 +40,25 @@ export const en: Dict = {
     subtitle: "Each offer is created for a specific goal and work format",
     items: [
       {
+        title: "Your Best Version", price: "$33", period: "", oldPrice: "$117", tag: "SALE",
+        description: "8-week training program focused on glutes, tone and body shape.",
+        features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
+        cta: "Buy Program", ctaHref: "#program", featured: true, color: "#00d4ff",
+      },
+      {
+        title: "Nutrition Plan", price: "$60", period: "", oldPrice: "$100", tag: null,
+        description: "A personalized nutrition plan — nutrition only, no workouts or ongoing coaching.",
+        features: [
+          "Individual macro calculation for your goal: weight loss, muscle gain, body recomposition or maintaining shape",
+          "Tailored to your weight, height, age, activity level and lifestyle",
+          "Meal timing recommendations",
+          "Flexible approach without strict diets or restrictions",
+          "Weekly macro adjustments when needed",
+          "Answers to nutrition questions throughout the month",
+        ],
+        cta: "Get Plan", ctaHref: "#contact", featured: false, color: "#0090c0",
+      },
+      {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
         description: "Online coaching includes full support throughout the entire month.",
         features: [
@@ -56,26 +75,6 @@ export const en: Dict = {
           "Motivation and support until your first visible results",
         ],
         cta: "Book Now", ctaHref: "#contact", featured: false, color: "#0066cc",
-      },
-      {
-        title: "Monthly Nutrition Plan", price: "$60", period: "", oldPrice: "$100", tag: null,
-        description: "A personalized nutrition plan — nutrition only, no workouts or ongoing coaching.",
-        features: [
-          "Personalized nutrition plan",
-          "Individual calorie calculation",
-          "Precise BJU (protein, fat & carb) calculation",
-          "Daily water intake calculation",
-          "Personalized meal plan",
-          "Food substitutions",
-          "Meal timing recommendations",
-        ],
-        cta: "Get Plan", ctaHref: "#contact", featured: false, color: "#0090c0",
-      },
-      {
-        title: "Your Best Version", price: "$33", period: "", oldPrice: "$117", tag: "SALE",
-        description: "8-week training program focused on glutes, tone and body shape.",
-        features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
-        cta: "Buy Program", ctaHref: "#program", featured: true, color: "#00d4ff",
       },
     ],
   },
