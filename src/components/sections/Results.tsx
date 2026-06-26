@@ -42,7 +42,7 @@ export default function Results() {
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-800 text-white leading-tight mb-5">
             {results.title}{" "}
-            <span className="text-[var(--blue-neon)]">{results.titleAccent}</span>
+            <span>{results.titleAccent}</span>
           </h2>
           <p className="text-[var(--text-secondary)] leading-relaxed">{results.subtitle}</p>
         </AnimatedSection>
@@ -73,7 +73,7 @@ export default function Results() {
                 Реальные трансформации подопечных — открой и листай результаты.
               </p>
               <span
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-700 transition-all duration-300 group-hover:gap-3"
+                className="heartbeat inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px] font-600 tracking-wide transition-all duration-300 group-hover:gap-3"
                 style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", color: "#fff", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
@@ -87,7 +87,7 @@ export default function Results() {
         <AnimatedSection className="text-center mt-20 sm:mt-24 mb-12">
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-800 text-white leading-tight">
             {results.testimonialsTitle}{" "}
-            <span className="text-[var(--blue-neon)]">{results.testimonialsAccent}</span>
+            <span>{results.testimonialsAccent}</span>
           </h3>
         </AnimatedSection>
 
@@ -124,7 +124,7 @@ export default function Results() {
           <a
             href="#services"
             onClick={(e) => { e.preventDefault(); document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="inline-flex items-center gap-2 px-8 py-4 text-sm font-700 text-white rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]"
+            className="heartbeat inline-flex items-center gap-2 px-8 py-4 text-[13px] font-600 tracking-wide text-white rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]"
             style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
           >
             {results.startBtn}
