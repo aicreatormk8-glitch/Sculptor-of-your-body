@@ -12,6 +12,15 @@ export default function Results() {
 
   const images = results.transformations.map((t) => t.image).filter(Boolean);
 
+  // Reviews are revealed by date: each one shows up once its publishDate has
+  // arrived, so a new testimonial surfaces every month automatically — no
+  // redeploy needed. `now` stays null on the server and first client render
+  // (uses the stable baseline) to avoid a hydration mismatch, then updates.
+  const [now, setNow] = useState<number | null>(null);
+  useEffect(() => setNow(Date.now()), []);
+  const revealRef = now ?? Date.parse("2026-06-26");
+  const testimonials = results.testimonials.filter((t) => Date.parse(t.publishDate) <= revealRef);
+
   const close = useCallback(() => setLightboxIndex(null), []);
   const step = useCallback((dir: number) => {
     setLightboxIndex((i) => (i === null ? i : (i + dir + images.length) % images.length));
@@ -68,7 +77,7 @@ export default function Results() {
                 style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", color: "#fff", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
-                Смотреть {images.length} фото
+                Смотреть результаты
               </span>
             </button>
           </AnimatedSection>
@@ -83,7 +92,7 @@ export default function Results() {
         </AnimatedSection>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {results.testimonials.map((rev, i) => (
+          {testimonials.map((rev, i) => (
             <AnimatedSection key={i} delay={0.05 + i * 0.07} direction="up">
               <div className="glass rounded-2xl p-6 h-full flex flex-col items-center text-center">
                 <div className="flex gap-1 mb-4" aria-hidden="true">
