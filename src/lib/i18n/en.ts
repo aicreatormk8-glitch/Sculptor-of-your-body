@@ -22,9 +22,9 @@ export const en: Dict = {
     desc: "Just like a sculptor creates a work of art, I help women build a strong, beautiful and harmonious body, step by step.\n\nEvery program is built individually — based on your goals, lifestyle and possibilities.\n\nNo templates. No extremes. Only a system that truly works.",
     cta: "Start Your Transformation",
     stats: [
-      { value: "100+", label: "Transformations" },
+      { value: "50+", label: "Transformations" },
       { value: "98%", label: "Client Results" },
-      { value: "3+", label: "Years Experience" },
+      { value: "5+", label: "Years Experience" },
       { value: "24/7", label: "Support" },
     ],
     features: [
@@ -56,7 +56,7 @@ export const en: Dict = {
           "A proven training system that effectively develops glutes and creates harmonious body proportions",
           "Lifetime access to the program immediately after purchase",
         ],
-        cta: "Buy Program for $17", ctaHref: "#program", featured: true, color: "#00d4ff",
+        cta: "Purchase Program for $17", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=oiW7S&qty%5BoiW7S%5D=1", featured: true, color: "#00d4ff"
       },
       {
         title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
@@ -69,7 +69,7 @@ export const en: Dict = {
           "Weekly macro adjustments when needed",
           "Answers to nutrition questions throughout the month",
         ],
-        cta: "Get Plan", ctaHref: "#contact", featured: false, color: "#0090c0",
+        cta: "Get Plan", ctaHref: "https://payhip.com/b/mUIbO", featured: false, color: "#0090c0",
       },
       {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
@@ -87,7 +87,7 @@ export const en: Dict = {
           "Full feedback throughout the entire month",
           "Motivation and support until your first visible results",
         ],
-        cta: "Book Now", ctaHref: "#contact", featured: false, color: "#0066cc",
+        cta: "Book Now", ctaHref: "https://payhip.com/b/qNn12", featured: false, color: "#0066cc",
       },
     ],
   },
@@ -106,7 +106,7 @@ export const en: Dict = {
     badge: "SPECIAL PRICE",
     programTitle: "Your Best Version",
     programSubtitle: "8-week transformation program",
-    buyBtn: "Buy for $17",
+    buyBtn: "purchase for $17",
     accessNote: "After payment — instant access to the program",
     includes: [
       "Load progression principles for achieving maximum results",
