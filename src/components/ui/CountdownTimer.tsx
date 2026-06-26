@@ -2,20 +2,25 @@
 
 import { useState, useEffect } from "react";
 
-const SALE_DEADLINE = "2026-07-17T23:59:59";
+const DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+const STORAGE_KEY = "sale_start_ts";
 
-function useCountdown() {
-  const target = new Date(SALE_DEADLINE).getTime();
-  const [diff, setDiff] = useState(() => Math.max(0, target - Date.now()));
+function getDeadline(): number {
+  if (typeof window === "undefined") return Date.now() + DURATION_MS;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    const start = parseInt(stored, 10);
+    return start + DURATION_MS;
+  }
+  const now = Date.now();
+  localStorage.setItem(STORAGE_KEY, String(now));
+  return now + DURATION_MS;
+}
 
-  useEffect(() => {
-    const id = setInterval(() => setDiff(Math.max(0, target - Date.now())), 1000);
-    return () => clearInterval(id);
-  }, [target]);
-
+function calcTimeLeft(deadline: number) {
+  const diff = Math.max(0, deadline - Date.now());
   return {
-    days:    Math.floor(diff / 86_400_000),
-    hours:   Math.floor(diff / 3_600_000) % 24,
+    hours:   Math.floor(diff / 3_600_000),
     minutes: Math.floor(diff / 60_000) % 60,
     seconds: Math.floor(diff / 1_000) % 60,
   };
@@ -27,9 +32,19 @@ interface Props {
 }
 
 export default function CountdownTimer({ label, units }: Props) {
-  const { days, hours, minutes, seconds } = useCountdown();
-  const values = [days, hours, minutes, seconds];
+  const [timeLeft, setTimeLeft] = useState({ hours: 24, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const deadline = getDeadline();
+    setTimeLeft(calcTimeLeft(deadline));
+    const id = setInterval(() => setTimeLeft(calcTimeLeft(deadline)), 1000);
+    return () => clearInterval(id);
+  }, []);
+
   const pad = (n: number) => String(n).padStart(2, "0");
+  const values = [timeLeft.hours, timeLeft.minutes, timeLeft.seconds];
+  // units: [days, hours, minutes, seconds] — skip days for 24h timer, use hours/minutes/seconds
+  const displayUnits = [units[1], units[2], units[3]];
 
   return (
     <div className="mt-5">
@@ -54,10 +69,10 @@ export default function CountdownTimer({ label, units }: Props) {
                 {pad(val)}
               </span>
               <span className="text-[9px] font-600 mt-1 tracking-widest uppercase" style={{ color: "rgba(0,212,255,0.5)" }}>
-                {units[i]}
+                {displayUnits[i]}
               </span>
             </div>
-            {i < 3 && (
+            {i < 2 && (
               <span className="text-xl font-700 mb-3" style={{ color: "rgba(0,212,255,0.45)" }}>:</span>
             )}
           </div>
