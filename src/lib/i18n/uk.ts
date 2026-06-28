@@ -56,7 +56,7 @@ export const uk: Dict = {
           "Перевірена система тренувань, яка допомагає ефективно розвивати сідниці та створювати гармонійні пропорції тіла",
           "Пожиттєвий доступ до програми одразу після покупки",
         ],
-        cta: "Придбати програму за $17", ctaHref: "https://payhip.com/b/oiW7S", featured: true, color: "#00d4ff",
+        cta: "Придбати програму за $17", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=oiW7S&qty%5BoiW7S%5D=1", featured: true, color: "#00d4ff",
       },
       {
         title: "План харчування", price: "$50", period: "", oldPrice: "$100", tag: null,
@@ -69,7 +69,7 @@ export const uk: Dict = {
           "Щотижневе коригування БЖВ за потреби",
           "Відповіді на питання щодо плану харчування протягом місяця",
         ],
-        cta: "Отримати план", ctaHref: "https://payhip.com/b/mUIbO", featured: false, color: "#0090c0",
+        cta: "Отримати план", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=mUIbO&qty%5BmUIbO%5D=1", featured: false, color: "#0090c0",
       },
       {
         title: "Онлайн-ведення", price: "$120", period: "/ місяць", oldPrice: "$180", tag: "ФЛАГМАН",
@@ -87,7 +87,7 @@ export const uk: Dict = {
           "Повний зворотний зв'язок протягом усього місяця",
           "Мотивація та супровід до досягнення перших помітних результатів",
         ],
-        cta: "Оформити онлайн-ведення", ctaHref: "https://payhip.com/b/qNn12", featured: false, color: "#0066cc",
+        cta: "Оформити онлайн-ведення", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=qNn12&qty%5BqNn12%5D=1", featured: false, color: "#0066cc",
       },
     ],
   },

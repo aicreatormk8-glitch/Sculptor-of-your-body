@@ -56,7 +56,7 @@ export const en: Dict = {
           "A proven training system that effectively develops glutes and creates harmonious body proportions",
           "Lifetime access to the program immediately after purchase",
         ],
-        cta: "Purchase Program for $17", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=oiW7S&qty%5BoiW7S%5D=1", featured: true, color: "#00d4ff"
+        cta: "Purchase Program for $17", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=oiW7S&qty%5BoiW7S%5D=1", featured: true, color: "#00d4ff",
       },
       {
         title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
@@ -69,7 +69,7 @@ export const en: Dict = {
           "Weekly macro adjustments when needed",
           "Answers to nutrition questions throughout the month",
         ],
-        cta: "Get Plan", ctaHref: "https://payhip.com/b/mUIbO", featured: false, color: "#0090c0",
+        cta: "Get Plan", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=mUIbO&qty%5BmUIbO%5D=1", featured: false, color: "#0090c0",
       },
       {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
@@ -87,7 +87,7 @@ export const en: Dict = {
           "Full feedback throughout the entire month",
           "Motivation and support until your first visible results",
         ],
-        cta: "Book Now", ctaHref: "https://payhip.com/b/qNn12", featured: false, color: "#0066cc",
+        cta: "Book Now", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=qNn12&qty%5BqNn12%5D=1", featured: false, color: "#0066cc",
       },
     ],
   },

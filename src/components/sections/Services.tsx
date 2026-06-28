@@ -10,9 +10,13 @@ export default function Services() {
   const { saleTimerLabel, saleTimerUnits } = services;
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-  };
+  if (href.startsWith("http")) {
+    return;
+  }
+
+  e.preventDefault();
+  document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+};
 
   return (
     <section id="services" className="section-padding relative overflow-hidden">
