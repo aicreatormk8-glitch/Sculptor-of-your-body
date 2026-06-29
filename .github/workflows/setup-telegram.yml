@@ -1,0 +1,50 @@
+name: Setup Telegram Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      vercel_token:
+        description: 'Vercel API Token (from https://vercel.com/account/tokens)'
+        required: true
+        type: string
+      project_id:
+        description: 'Vercel Project ID (from dashboard settings)'
+        required: true
+        type: string
+      team_id:
+        description: 'Vercel Team ID (leave empty for personal account)'
+        required: false
+        type: string
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Telegram Bot in Vercel
+        run: |
+          curl -X POST \
+            "https://api.vercel.com/v9/projects/${{ inputs.project_id }}/env${{ inputs.team_id && format('?teamId={0}', inputs.team_id) || '' }}" \
+            -H "Authorization: Bearer ${{ inputs.vercel_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "key": "TELEGRAM_BOT_TOKEN",
+              "value": "8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U",
+              "target": ["production"]
+            }'
+
+      - name: Wait for deployment
+        run: sleep 60
+
+      - name: Register webhook
+        run: |
+          curl -X GET \
+            "https://sculptor-of-your-body.vercel.app/api/telegram/setup" \
+            -w "\n"
+
+      - name: Verify
+        run: |
+          curl -X GET \
+            "https://sculptor-of-your-body.vercel.app/api/telegram" \
+            -w "\n"
