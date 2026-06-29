@@ -71,7 +71,7 @@ export const uk: Dict = {
         cta: "Отримати план", ctaHref: "#contact", featured: false, color: "#0090c0",
       },
       {
-        title: "Твоя найкраща версія", price: "$33", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Твоя найкраща версія", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-тижнева програма тренувань з акцентом на сідниці, тонус та форму тіла.",
         features: ["Тренувальний план на 8 тижнів", "Акцент на сідниці", "Структура по тижнях", "Доступ назавжди", "Підходить для самостійного проходження"],
         cta: "Купити програму", ctaHref: "#program", featured: true, color: "#00d4ff",
@@ -160,7 +160,7 @@ export const uk: Dict = {
     services: [
       { value: "coaching", label: "Онлайн-ведення", price: "$120/міс" },
       { value: "nutrition", label: "План харчування", price: "$60" },
-      { value: "program", label: "Програма «Твоя найкраща версія»", price: "$33" },
+      { value: "program", label: "Програма «Твоя найкраща версія»", price: "$17" },
     ],
     nameLabel: "Твоє ім'я *",
     namePlaceholder: "Як тебе звуть?",

@@ -71,7 +71,7 @@ export const ru: Dict = {
         cta: "Получить план", ctaHref: "#contact", featured: false, color: "#0090c0",
       },
       {
-        title: "Твоя лучшая версия", price: "$33", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Твоя лучшая версия", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-недельная программа тренировок с акцентом на ягодицы, тонус и форму тела.",
         features: ["Тренировочный план на 8 недель", "Акцент на ягодицы", "Структура по неделям", "Доступ навсегда", "Подходит для самостоятельного прохождения"],
         cta: "Купить программу", ctaHref: "#program", featured: true, color: "#00d4ff",
@@ -160,7 +160,7 @@ export const ru: Dict = {
     services: [
       { value: "coaching", label: "Онлайн-ведение", price: "$120/мес" },
       { value: "nutrition", label: "План питания", price: "$60" },
-      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$33" },
+      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$17" },
     ],
     nameLabel: "Твоё имя *",
     namePlaceholder: "Как тебя зовут?",
