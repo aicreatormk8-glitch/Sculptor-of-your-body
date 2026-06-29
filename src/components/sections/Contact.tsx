@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import AnimatedSection from "../ui/AnimatedSection";
-import { useDict } from "@/lib/i18n/DictContext";
+import { useDict, useLang } from "@/lib/i18n/DictContext";
 
 const InstagramIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -55,20 +54,11 @@ const socials = [
 
 export default function Contact() {
   const { contact } = useDict();
-  const [selected, setSelected] = useState<string>("coaching");
-  const [form, setForm] = useState({ name: "", instagram: "", goal: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { locale } = useLang();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setSubmitted(true);
-    if (selected === "program") {
-      setTimeout(() => { window.open("https://t.me/+E2usDmxEgsg4OTVi", "_blank"); }, 1500);
-    }
+  const getBotLink = (product: string) => {
+    const encodedStart = `product=${product}&lang=${locale}`;
+    return `https://t.me/MK_sculptor_bot?start=${encodeURIComponent(encodedStart)}`;
   };
 
   return (
@@ -140,121 +130,55 @@ export default function Contact() {
           </div>
         </AnimatedSection>
 
-        {/* Form */}
-        <AnimatedSection delay={0.2} className="max-w-xl mx-auto">
-          <div
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              background: "rgba(6,12,30,0.65)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(0,212,255,0.1)",
-              boxShadow: "0 4px 60px rgba(0,0,0,0.3)",
-            }}
-          >
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div key="success" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-10">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
-                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-                    style={{ background: "rgba(0,212,255,0.12)", border: "1.5px solid rgba(0,212,255,0.4)" }}
-                  >
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-neon)" strokeWidth="2" strokeLinecap="round"><path d="M20 6L9 17l-5-5" /></svg>
-                  </motion.div>
-                  <h3 className="text-xl font-700 text-white mb-3">{contact.successTitle}</h3>
-                  <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-xs mx-auto">
-                    {selected === "program" ? contact.programSuccessMsg : contact.successMsg}
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
+        {/* CTA Buttons */}
+        <AnimatedSection delay={0.2} className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {contact.services.map((service, i) => (
+              <motion.a
+                key={service.value}
+                href={getBotLink(service.value)}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="block p-6 rounded-2xl transition-all duration-300"
+                style={{
+                  background: "rgba(6,12,30,0.65)",
+                  backdropFilter: "blur(24px)",
+                  border: "1px solid rgba(0,212,255,0.1)",
+                  boxShadow: "0 4px 60px rgba(0,0,0,0.3)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "rgba(0,212,255,0.3)";
+                  el.style.boxShadow = "0 8px 40px rgba(0,212,255,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "rgba(0,212,255,0.1)";
+                  el.style.boxShadow = "0 4px 60px rgba(0,0,0,0.3)";
+                }}
+              >
+                <div className="flex items-center justify-between">
                   <div>
-                    <label className="block text-[10px] font-700 tracking-[0.12em] text-[var(--text-muted)] uppercase mb-3">{contact.selectService}</label>
-                    <div className="space-y-2">
-                      {contact.services.map((s) => (
-                        <button
-                          key={s.value}
-                          type="button"
-                          onClick={() => setSelected(s.value)}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200"
-                          style={{
-                            background: selected === s.value ? "rgba(0,100,220,0.2)" : "rgba(255,255,255,0.02)",
-                            border: `1px solid ${selected === s.value ? "rgba(0,212,255,0.45)" : "rgba(255,255,255,0.06)"}`,
-                            boxShadow: selected === s.value ? "0 0 16px rgba(0,212,255,0.08)" : "none",
-                          }}
-                        >
-                          <span className="font-600 text-left" style={{ color: selected === s.value ? "var(--blue-neon)" : "var(--text-secondary)" }}>{s.label}</span>
-                          <span className="text-xs font-700 flex-shrink-0 ml-3" style={{ color: selected === s.value ? "var(--blue-neon)" : "var(--text-muted)" }}>{s.price}</span>
-                        </button>
-                      ))}
-                    </div>
+                    <h3 className="text-lg font-700 text-white mb-1">{service.label}</h3>
+                    <p className="text-sm text-[var(--text-secondary)]">{service.price}</p>
                   </div>
-
-                  {[
-                    { id: "name", label: contact.nameLabel, placeholder: contact.namePlaceholder, type: "text", key: "name" as const, required: true },
-                    { id: "instagram", label: contact.contactLabel, placeholder: contact.contactPlaceholder, type: "text", key: "instagram" as const, required: true },
-                  ].map((field) => (
-                    <div key={field.id}>
-                      <label htmlFor={field.id} className="block text-[10px] font-700 tracking-[0.12em] text-[var(--text-muted)] uppercase mb-2">{field.label}</label>
-                      <input
-                        id={field.id}
-                        type={field.type}
-                        required={field.required}
-                        value={form[field.key]}
-                        onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
-                        placeholder={field.placeholder}
-                        className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-[var(--text-muted)] outline-none transition-all duration-200"
-                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(0,212,255,0.4)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0,212,255,0.06)"; }}
-                        onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.boxShadow = "none"; }}
-                      />
-                    </div>
-                  ))}
-
-                  <div>
-                    <label htmlFor="goal" className="block text-[10px] font-700 tracking-[0.12em] text-[var(--text-muted)] uppercase mb-2">{contact.goalLabel}</label>
-                    <textarea
-                      id="goal"
-                      rows={3}
-                      value={form.goal}
-                      onChange={(e) => setForm({ ...form, goal: e.target.value })}
-                      placeholder={contact.goalPlaceholder}
-                      className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-[var(--text-muted)] outline-none transition-all duration-200 resize-none"
-                      style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(0,212,255,0.4)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0,212,255,0.06)"; }}
-                      onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.boxShadow = "none"; }}
-                    />
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={loading}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className="w-full py-4 text-sm font-700 tracking-[0.05em] text-white rounded-xl transition-all duration-300 disabled:opacity-60"
-                    style={{
-                      background: "linear-gradient(135deg, #0066cc, #00c8f0)",
-                      boxShadow: "0 0 24px rgba(0,212,255,0.22), inset 0 1px 0 rgba(255,255,255,0.12)",
-                    }}
-                  >
-                    {loading ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" /></svg>
-                        {contact.loadingBtn}
-                      </span>
-                    ) : contact.submitBtn}
-                  </motion.button>
-
-                  <p className="text-center text-[11px] text-[var(--text-muted)]">
-                    {contact.privacyText}{" "}
-                    <Link href="/privacy" className="underline underline-offset-2 hover:text-[var(--blue-neon)] transition-colors">{contact.privacyLink}</Link>
-                  </p>
-                </motion.form>
-              )}
-            </AnimatePresence>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-[var(--blue-neon)]">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </motion.a>
+            ))}
           </div>
+
+          <p className="text-center text-[11px] text-[var(--text-muted)] mt-8">
+            {contact.privacyText}{" "}
+            <Link href="/privacy" className="underline underline-offset-2 hover:text-[var(--blue-neon)] transition-colors">{contact.privacyLink}</Link>
+          </p>
         </AnimatedSection>
       </div>
     </section>
