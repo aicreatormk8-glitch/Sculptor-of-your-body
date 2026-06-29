@@ -12,7 +12,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const protocol = request.headers.get('x-forwarded-proto') || 'https';
-    const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
+    const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || 'sculptor-of-your-body.vercel.app';
 
     const webhookUrl = `${protocol}://${host}/api/telegram`;
 

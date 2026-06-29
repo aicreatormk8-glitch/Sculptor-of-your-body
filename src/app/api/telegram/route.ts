@@ -79,12 +79,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Handle /start command
     if (body.message?.text?.startsWith('/start')) {
       const chatId = body.message.chat.id;
-      const userId = body.message.from.id;
-      const firstName = body.message.from.first_name;
 
       const params = new URLSearchParams(body.message.text.replace('/start ', ''));
       const product = params.get('product');
-      const lang = params.get('lang') || 'ru';
 
       const exchangeRate = await getExchangeRate();
 
@@ -151,14 +148,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (body.callback_query) {
       const { id, from, data } = body.callback_query;
       const chatId = from.id;
-      const userId = from.id;
-      const firstName = from.first_name;
 
       if (data.startsWith('confirm_')) {
         const product = data.replace('confirm_', '');
 
         if (product === 'program') {
-          await addUserToChannel(userId, firstName);
+          await addUserToChannel(chatId, from.first_name);
           await sendTelegramMessage(
             chatId,
             `✅ Спасибо за покупку!\n\nДобавляю вас в приватный канал с программой...`,
