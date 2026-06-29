@@ -4,8 +4,8 @@ const axios = require('axios');
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
-const CHANNEL_ID = '-1002089507530';
 const OWNER_TELEGRAM = 'MK_sculptor1';
+const PROGRAM_CHANNEL = 'https://t.me/+E2usDmxEgsg4OTVi';
 
 const prices = {
   program: 17,
@@ -165,22 +165,19 @@ bot.onText(/\/start (.+)/, (msg, match) => {
   });
 });
 
-bot.on('callback_query', async (query) => {
+bot.on('callback_query', (query) => {
   const chatId = query.message.chat.id;
   const data = query.data;
 
   if (data.startsWith('confirm_payment_program_')) {
     const lang = data.replace('confirm_payment_program_', '');
     try {
-      await bot.forwardMessage(CHANNEL_ID, chatId, query.message.message_id);
-      bot.sendMessage(
-        chatId,
-        `${formatMessage(lang, 'programConfirm')}\n\nhttps://t.me/+E2usDmxEgsg4OTVi`
-      );
-      bot.answerCallbackQuery(query.id, { text: '✅ Confirmed', show_alert: false });
+      const message = `${formatMessage(lang, 'programConfirm')}\n\n${PROGRAM_CHANNEL}`;
+      bot.sendMessage(chatId, message);
+      bot.answerCallbackQuery(query.id, { text: '✅ Подтверждено', show_alert: false });
     } catch (error) {
       console.error('Error handling payment confirmation:', error);
-      bot.answerCallbackQuery(query.id, { text: '❌ Error', show_alert: true });
+      bot.answerCallbackQuery(query.id, { text: '❌ Ошибка', show_alert: true });
     }
   }
 });
