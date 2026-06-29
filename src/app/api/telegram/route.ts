@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHANNEL_ID = process.env.TELEGRAM_CHANNEL_ID || '-1002445879098';
-const OWNER_ID = process.env.TELEGRAM_OWNER_ID || '6823641436';
 
 interface TelegramMessage {
   update_id: number;
@@ -31,10 +30,15 @@ async function getExchangeRate(): Promise<number> {
   }
 }
 
+interface TelegramReplyMarkup {
+  inline_keyboard?: Array<Array<{ text: string; callback_data: string }>>;
+  remove_keyboard?: boolean;
+}
+
 async function sendTelegramMessage(
   chatId: number,
   text: string,
-  markup?: any
+  markup?: TelegramReplyMarkup
 ): Promise<void> {
   if (!BOT_TOKEN) return;
 
@@ -185,6 +189,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 }
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   return NextResponse.json({ status: 'Telegram bot is running' });
 }
