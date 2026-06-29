@@ -8,8 +8,10 @@ export default function Services() {
   const { services } = useDict();
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -80,6 +82,8 @@ export default function Services() {
                 <a
                   href={s.ctaHref}
                   onClick={(e) => handleScroll(e, s.ctaHref)}
+                  target={s.ctaHref.startsWith('http') ? '_blank' : undefined}
+                  rel={s.ctaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
                   style={s.featured
                     ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)" }
