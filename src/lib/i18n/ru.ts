@@ -56,7 +56,7 @@ export const ru: Dict = {
           "Проверенная система тренировок, которая помогает эффективно развивать ягодицы и создавать гармоничные пропорции тела",
           "Пожизненный доступ к программе сразу после покупки",
         ],
-        cta: "Приобрести программу за $1", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=oiW7S&qty%5BoiW7S%5D=1", featured: true, color: "#00d4ff",
+        cta: "Приобрести программу за $17", ctaHref: "https://t.me/MK_sculptor_bot?start=product%3Dprogram%26lang%3Dru", featured: true, color: "#00d4ff",
       },
       {
         title: "План питания", price: "$50", period: "", oldPrice: "$100", tag: null,
@@ -69,7 +69,7 @@ export const ru: Dict = {
           "Еженедельная корректировка БЖУ при необходимости",
           "Ответы на вопросы по плану питания в течение месяца",
         ],
-        cta: "Получить план", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=mUIbO&qty%5BmUIbO%5D=1", featured: false, color: "#0090c0",
+        cta: "Получить план", ctaHref: "https://t.me/MK_sculptor_bot?start=product%3Dnutrition%26lang%3Dru", featured: false, color: "#0090c0",
       },
       {
         title: "Онлайн-ведение", price: "$120", period: "/ месяц", oldPrice: "$180", tag: "ФЛАГМАН",
@@ -87,7 +87,7 @@ export const ru: Dict = {
           "Полная обратная связь в течение всего месяца",
           "Мотивация и сопровождение до достижения первых заметных результатов",
         ],
-        cta: "Оформить онлайн-ведение", ctaHref: "https://payhip.com/buy?s=1&cart_links%5B%5D=qNn12&qty%5BqNn12%5D=1", featured: false, color: "#0066cc",
+        cta: "Оформить онлайн-ведение", ctaHref: "https://t.me/MK_sculptor_bot?start=product%3Dcoaching%26lang%3Dru", featured: false, color: "#0066cc",
       },
     ],
   },
