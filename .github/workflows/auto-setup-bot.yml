@@ -1,0 +1,51 @@
+name: Auto Setup Telegram Bot
+
+on:
+  workflow_dispatch:
+
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  PROJECT_ID: prj_mudhRGNyOE82f7AOPtjiCHEDg06Y
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add TELEGRAM_BOT_TOKEN to Vercel
+        run: |
+          curl -X POST \
+            "https://api.vercel.com/v9/projects/${{ env.PROJECT_ID }}/env" \
+            -H "Authorization: Bearer ${{ env.VERCEL_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "key": "TELEGRAM_BOT_TOKEN",
+              "value": "8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U",
+              "target": ["production", "preview"]
+            }'
+          echo "✅ Environment variable added"
+
+      - name: Wait for deployment
+        run: |
+          echo "⏳ Waiting 45 seconds for Vercel to deploy..."
+          sleep 45
+          echo "✅ Deployment ready"
+
+      - name: Register Telegram webhook
+        run: |
+          RESPONSE=$(curl -s -X GET https://sculptor-of-your-body.vercel.app/api/telegram/setup)
+          echo "Webhook response: $RESPONSE"
+
+          if echo "$RESPONSE" | grep -q "success"; then
+            echo "✅ Webhook registered successfully!"
+          else
+            echo "⚠️ Webhook registration response:"
+            echo "$RESPONSE"
+          fi
+
+      - name: Verify bot is active
+        run: |
+          curl -s https://sculptor-of-your-body.vercel.app/api/telegram
+          echo ""
+          echo "🎉 Setup complete! Bot is active."
