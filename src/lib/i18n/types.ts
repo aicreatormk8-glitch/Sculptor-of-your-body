@@ -28,6 +28,8 @@ export interface Dict {
     eyebrow: string;
     title: string;
     subtitle: string;
+    saleTimerLabel: string;
+    saleTimerUnits: string[];
     items: {
       title: string;
       description: string;
