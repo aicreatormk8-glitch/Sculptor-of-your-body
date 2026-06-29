@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Telegram Bot Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status.loading {
+            background: #e3f2fd;
+            color: #1976d2;
+            display: block;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #388e3c;
+            display: block;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(25, 118, 210, 0.3);
+            border-top-color: #1976d2;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Telegram Bot Setup</h1>
+        <p class="subtitle">Automatic configuration in 30 seconds</p>
+
+        <form id="setupForm">
+            <div class="form-group">
+                <label for="token">Vercel API Token *</label>
+                <input
+                    type="password"
+                    id="token"
+                    placeholder="Enter your Vercel API token"
+                    required
+                >
+                <div class="help-text">Get it from: <a href="https://vercel.com/account/tokens" target="_blank">vercel.com/account/tokens</a></div>
+            </div>
+
+            <div class="form-group">
+                <label for="projectId">Project ID *</label>
+                <input
+                    type="text"
+                    id="projectId"
+                    placeholder="Enter your Vercel Project ID"
+                    required
+                >
+                <div class="help-text">Find it in: <a href="https://vercel.com/dashboard" target="_blank">Vercel Dashboard → Settings</a></div>
+            </div>
+
+            <div class="form-group">
+                <label for="teamId">Team ID (optional)</label>
+                <input
+                    type="text"
+                    id="teamId"
+                    placeholder="Leave empty for personal account"
+                >
+            </div>
+
+            <button type="submit" id="submitBtn">🚀 Setup Bot Automatically</button>
+        </form>
+
+        <div id="status" class="status"></div>
+
+        <div class="links">
+            Need help?
+            <a href="https://vercel.com/account/tokens" target="_blank">Get Token</a> •
+            <a href="https://vercel.com/dashboard" target="_blank">Find Project ID</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('setupForm');
+        const status = document.getElementById('status');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function showStatus(message, type) {
+            status.className = `status ${type}`;
+            if (type === 'loading') {
+                status.innerHTML = `<span class="spinner"></span>${message}`;
+            } else {
+                status.textContent = message;
+            }
+        }
+
+        async function setupBot(token, projectId, teamId) {
+            try {
+                // Step 1: Add environment variable
+                showStatus('⏳ Adding environment variable to Vercel...', 'loading');
+
+                const envUrl = `https://api.vercel.com/v9/projects/${projectId}/env${teamId ? `?teamId=${teamId}` : ''}`;
+
+                const envResponse = await fetch(envUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        key: 'TELEGRAM_BOT_TOKEN',
+                        value: '8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U',
+                        target: ['production', 'preview'],
+                    }),
+                });
+
+                if (!envResponse.ok) {
+                    const error = await envResponse.json();
+                    throw new Error(error.error?.message || 'Failed to add environment variable');
+                }
+
+                showStatus('✅ Environment variable added! Waiting for deployment (30 seconds)...', 'loading');
+
+                // Step 2: Wait for deployment
+                await new Promise(resolve => setTimeout(resolve, 30000));
+
+                // Step 3: Register webhook
+                showStatus('⏳ Registering Telegram webhook...', 'loading');
+
+                const webhookResponse = await fetch('https://sculptor-of-your-body.vercel.app/api/telegram/setup');
+                const webhookData = await webhookResponse.json();
+
+                if (!webhookData.success) {
+                    throw new Error('Webhook registration failed');
+                }
+
+                showStatus(
+                    '✅ SUCCESS! Bot is now active with correct prices ($17/$50/$120).\n\n' +
+                    'Test it: https://t.me/MK_sculptor_bot?start=product=program&lang=ru',
+                    'success'
+                );
+
+                submitBtn.disabled = true;
+
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+                submitBtn.disabled = false;
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const token = document.getElementById('token').value.trim();
+            const projectId = document.getElementById('projectId').value.trim();
+            const teamId = document.getElementById('teamId').value.trim();
+
+            if (!token || !projectId) {
+                showStatus('❌ Token and Project ID are required', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            await setupBot(token, projectId, teamId);
+        });
+    </script>
+</body>
+</html>
