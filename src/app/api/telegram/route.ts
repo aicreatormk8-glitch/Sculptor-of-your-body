@@ -68,12 +68,12 @@ const MESSAGES: Record<Language, Messages> = {
       short: '🎯 Твоя лучшая версия',
     },
     nutrition: {
-      greeting: '🥗 Добро пожаловать в персональный план питания',
+      greeting: '🥗 План питания',
       description: 'Здесь ты получишь индивидуальный план питания на месяц с расчётом калорий, БЖУ, нормы воды, заменами продуктов и рекомендациями под твою цель.',
       short: '🥗 План питания',
     },
     coaching: {
-      greeting: '👨‍🏫 Добро пожаловать в онлайн-ведение',
+      greeting: '👨‍🏫 Онлайн-ведение',
       description: 'Это персональное сопровождение на месяц: тренировки, питание, расчёт калорий и БЖУ, контроль прогресса, корректировки и поддержка на пути к результату.',
       short: '👨‍🏫 Онлайн-ведение',
     },
@@ -105,12 +105,12 @@ const MESSAGES: Record<Language, Messages> = {
       short: '🎯 Your Best Version',
     },
     nutrition: {
-      greeting: '🥗 Welcome to your personal nutrition plan',
+      greeting: '🥗 Nutrition Plan',
       description: 'Here you will get an individual nutrition plan for a month with calorie and macro calculations, water intake, food swaps, and recommendations for your goal.',
       short: '🥗 Nutrition Plan',
     },
     coaching: {
-      greeting: '👨‍🏫 Welcome to online coaching',
+      greeting: '👨‍🏫 Online Coaching',
       description: 'This is personal guidance for a month: training, nutrition, calorie and macro calculation, progress tracking, adjustments, and support on your way to results.',
       short: '👨‍🏫 Online Coaching',
     },
@@ -142,12 +142,12 @@ const MESSAGES: Record<Language, Messages> = {
       short: '🎯 Твоя найкраща версія',
     },
     nutrition: {
-      greeting: '🥗 Ласкаво просимо до персонального плану харчування',
+      greeting: '🥗 План харчування',
       description: 'Тут ти отримаєш індивідуальний план харчування на місяць з розрахунком калорій, БЖВ, норми води, замінами продуктів і рекомендаціями під твою ціль.',
       short: '🥗 План харчування',
     },
     coaching: {
-      greeting: '👨‍🏫 Ласкаво просимо до онлайн-ведення',
+      greeting: '👨‍🏫 Онлайн-ведення',
       description: 'Це персональний супровід на місяць: тренування, харчування, розрахунок калорій і БЖВ, контроль прогресу, коригування та підтримка на шляху до результату.',
       short: '👨‍🏫 Онлайн-ведення',
     },
@@ -303,11 +303,14 @@ function buildPaymentMessage(
   const paypalSection = `${c.paypalLabel}\n<code>${paypalRevealed ? PAYPAL_EMAIL : PAYPAL_MASKED}</code>`;
   const accessSection = product === 'program' ? `\n\n${c.programAccess}` : '';
 
+  // Payment methods are placed last, right above the inline keyboard, so the
+  // "show card / show PayPal" buttons sit directly under the masked details
+  // (Telegram inline keyboards can only attach at the bottom of a message).
   const text =
     `<b>${productInfo.greeting}</b>\n\n${productInfo.description}\n\n` +
     `━━━━━━━━━━━━━━━━━━━━\n\n${c.costLabel}\n\n${priceSection}\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n\n${c.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n${c.warning}\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}${accessSection}`;
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}${accessSection}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n${c.warning}`;
 
   const cardFlag = cardRevealed ? '1' : '0';
   const paypalFlag = paypalRevealed ? '1' : '0';
