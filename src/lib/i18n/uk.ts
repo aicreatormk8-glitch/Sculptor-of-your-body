@@ -184,7 +184,7 @@ export const uk: Dict = {
   contact: {
     eyebrow: "Контакти",
     title: "Зроби перший крок до",
-    titleAccent: "своєї версії",
+    titleAccent: "своєї найкращої версії",
     subtitle: "Обери послугу і я зв'яжуся з тобою протягом 24 годин для обговорення деталей та старту.",
     selectService: "Обери послугу",
     services: [

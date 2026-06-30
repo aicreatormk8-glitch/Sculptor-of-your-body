@@ -184,7 +184,7 @@ export const en: Dict = {
   contact: {
     eyebrow: "Contact",
     title: "Take the First Step Toward",
-    titleAccent: "Your Version",
+    titleAccent: "Your Best Version",
     subtitle: "Choose a service and I'll contact you within 24 hours to discuss the details and get started.",
     selectService: "Choose a service",
     services: [
