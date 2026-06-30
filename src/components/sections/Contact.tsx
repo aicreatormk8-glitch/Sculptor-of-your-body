@@ -57,8 +57,7 @@ export default function Contact() {
   const { locale } = useLang();
 
   const getBotLink = (product: string) => {
-    const encodedStart = `product=${product}&lang=${locale}`;
-    return `https://t.me/MK_sculptor_bot?start=${encodeURIComponent(encodedStart)}`;
+    return `https://t.me/MK_sculptor_bot?start=${product}_${locale}`;
   };
 
   return (

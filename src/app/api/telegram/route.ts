@@ -199,6 +199,34 @@ async function sendTelegramMessage(
 
 type Product = keyof typeof PRODUCTS;
 
+const LANGUAGES: Language[] = ['ru', 'en', 'uk'];
+
+/**
+ * Parses the Telegram deep-link /start payload. Supports the current compact
+ * format "<product>_<lang>" (e.g. "nutrition_ru") which only uses characters
+ * allowed by Telegram, and stays backward-compatible with the legacy
+ * "product=...&lang=..." query format.
+ */
+function parseStartPayload(payload: string): { product: Product | null; lang: Language } {
+  let rawProduct: string | null = null;
+  let rawLang: string | null = null;
+
+  if (payload.includes('=')) {
+    const params = new URLSearchParams(payload);
+    rawProduct = params.get('product');
+    rawLang = params.get('lang');
+  } else if (payload) {
+    const [p, l] = payload.split('_');
+    rawProduct = p || null;
+    rawLang = l || null;
+  }
+
+  const product = rawProduct && rawProduct in PRODUCTS ? (rawProduct as Product) : null;
+  const lang = rawLang && LANGUAGES.includes(rawLang as Language) ? (rawLang as Language) : 'ru';
+
+  return { product, lang };
+}
+
 function getPriceSection(product: Product, lang: Language, exchangeRate: number): string {
   const priceUAH = Math.round(PRODUCTS[product].priceUSD * exchangeRate);
   const oldPriceUAH = Math.round(PRODUCTS[product].oldPriceUSD * exchangeRate);
@@ -309,9 +337,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const chatId = body.message.chat.id;
       const text = body.message.text;
 
-      const params = new URLSearchParams(text.replace('/start ', ''));
-      const product = params.get('product') as keyof typeof PRODUCTS | null;
-      const lang = (params.get('lang') || 'ru') as Language;
+      const payload = text.replace('/start', '').trim();
+      const { product, lang } = parseStartPayload(payload);
 
       if (!product || !PRODUCTS[product]) {
         await sendTelegramMessage(chatId, MESSAGES[lang].common.unknownProduct);

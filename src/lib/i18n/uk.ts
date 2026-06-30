@@ -58,7 +58,7 @@ export const uk: Dict = {
           "Перевірена система тренування, яка ефективно розвиває сідниці та створює гармонійні пропорції тіла",
           "Пожиттєвий доступ до програми одразу після покупки"
         ],
-        cta: "Придбати програму", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=uk", featured: true, color: "#00d4ff",
+        cta: "Придбати програму", ctaHref: "https://t.me/MK_sculptor_bot?start=program_uk", featured: true, color: "#00d4ff",
       },
       {
         title: "План харчування", price: "$50", period: "/ місяць", oldPrice: "$100", tag: null,
@@ -71,7 +71,7 @@ export const uk: Dict = {
           "Щотижневе коригування БЖВ за потреби",
           "Відповіді на питання про план харчування протягом місяця",
         ],
-        cta: "Отримати план", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=uk", featured: false, color: "#0090c0",
+        cta: "Отримати план", ctaHref: "https://t.me/MK_sculptor_bot?start=nutrition_uk", featured: false, color: "#0090c0",
       },
       {
         title: "Онлайн-ведення", price: "$120", period: "/ місяць", oldPrice: "$180", tag: "ФЛАГМАН",
@@ -89,7 +89,7 @@ export const uk: Dict = {
           "Повний зворотний зв'язок протягом усього місяця",
           "Мотивація та супровід до досягнення перших помітних результатів",
         ],
-        cta: "Оформити онлайн-ведення", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=uk", featured: false, color: "#0066cc",
+        cta: "Оформити онлайн-ведення", ctaHref: "https://t.me/MK_sculptor_bot?start=coaching_uk", featured: false, color: "#0066cc",
       },
     ],
   },
