@@ -56,7 +56,7 @@ export const en: Dict = {
           "Proven training system that effectively develops glutes and creates harmonious body proportions",
           "Lifetime access to the program immediately after purchase"
         ],
-        cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",
+        cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=en", featured: true, color: "#00d4ff",
       },
       {
         title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
@@ -69,7 +69,7 @@ export const en: Dict = {
           "Weekly macro adjustment when needed",
           "Answers to questions about your nutrition plan throughout the month",
         ],
-        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
+        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=en", featured: false, color: "#0090c0",
       },
       {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
