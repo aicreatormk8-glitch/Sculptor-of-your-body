@@ -9,6 +9,8 @@ export interface Dict {
   hero: {
     eyebrow: string;
     badge: string;
+    subtitle1: string;
+    subtitle2: string;
     desc1: string;
     desc2: string;
     btn1: string;

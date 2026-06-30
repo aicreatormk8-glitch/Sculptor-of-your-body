@@ -4,8 +4,8 @@ const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8639462645:AAGDSXmsFVSnnPI9
 const OWNER_TELEGRAM = 'MK_sculptor1';
 const CARD_FULL = '4400 0055 4407 7511';
 const CARD_MASKED = '4400 •••• •••• 7511';
-const PAYPAL_EMAIL = 'mm4446008@gmail.com';
-const PAYPAL_MASKED = 'm....gmail';
+const PAYPAL_EMAIL = process.env.PAYPAL_EMAIL || 'mm4446008@gmail.com';
+const PAYPAL_MASKED = 'm••••••••@gmail.com';
 
 type Language = 'ru' | 'en' | 'uk';
 
@@ -36,16 +36,18 @@ interface Messages {
     costLabel: string;
     methodsLabel: string;
     cardLabel: string;
+    paypalLabel: string;
+    warning: string;
     instructionLabel: string;
     instruction1: string;
     instruction2: string;
     instruction3: string;
     buttonText: string;
     showCardButton: string;
+    hideCardButton: string;
     showPaypalButton: string;
+    hidePaypalButton: string;
     helpText: string;
-    cardReveal: string;
-    paypalReveal: string;
     unknownProduct: string;
     helpResponse: string;
   };
@@ -59,17 +61,19 @@ const MESSAGES: Record<Language, Messages> = {
     common: {
       costLabel: '<b>💰 СТОИМОСТЬ:</b>',
       methodsLabel: '<b>💳 СПОСОБЫ ОПЛАТЫ:</b>',
-      cardLabel: '<b>🇺🇦 Украинская карта</b>',
+      cardLabel: '<b>🇺🇦 Украинская карта:</b>',
+      paypalLabel: '<b>🌍 PayPal:</b>',
+      warning: '⚠️ <i>Не передавайте платёжные данные третьим лицам.</i>',
       instructionLabel: '<b>✅ ПОСЛЕ ОПЛАТЫ:</b>',
       instruction1: '1️⃣ Сделайте скриншот квитанции об оплате',
       instruction2: '2️⃣ Отправьте скриншот мне в личные сообщения',
       instruction3: '3️⃣ Я проверю платеж.',
       buttonText: '💬 Написать с квитанцией',
       showCardButton: '👁️ Показать карту',
+      hideCardButton: '🙈 Скрыть карту',
       showPaypalButton: '👁️ Показать PayPal',
+      hidePaypalButton: '🙈 Скрыть PayPal',
       helpText: '❓ Помощь',
-      cardReveal: '<b>Полный номер карты:</b>\n<code>{card}</code>\n\n⚠️ Не делитесь этим номером с кем-либо!',
-      paypalReveal: '<b>PayPal:</b>\n<code>{paypal}</code>',
       unknownProduct: '❌ Неизвестный товар. Пожалуйста, выберите товар на сайте.',
       helpResponse: 'Если у вас есть вопросы, напишите владельцу',
     },
@@ -81,17 +85,19 @@ const MESSAGES: Record<Language, Messages> = {
     common: {
       costLabel: '<b>💰 COST:</b>',
       methodsLabel: '<b>💳 PAYMENT METHODS:</b>',
-      cardLabel: '<b>🇺🇦 Ukrainian Card</b>',
+      cardLabel: '<b>🇺🇦 Ukrainian Card:</b>',
+      paypalLabel: '<b>🌍 PayPal:</b>',
+      warning: '⚠️ <i>Do not share payment details with third parties.</i>',
       instructionLabel: '<b>✅ AFTER PAYMENT:</b>',
       instruction1: '1️⃣ Take a screenshot of your payment receipt',
       instruction2: '2️⃣ Send the screenshot to my personal messages',
       instruction3: '3️⃣ I will check payment.',
       buttonText: '💬 Send Receipt',
       showCardButton: '👁️ Show Card',
+      hideCardButton: '🙈 Hide Card',
       showPaypalButton: '👁️ Show PayPal',
+      hidePaypalButton: '🙈 Hide PayPal',
       helpText: '❓ Help',
-      cardReveal: '<b>Full card number:</b>\n<code>{card}</code>\n\n⚠️ Do not share this number with anyone!',
-      paypalReveal: '<b>PayPal:</b>\n<code>{paypal}</code>',
       unknownProduct: '❌ Unknown product. Please select a product on the website.',
       helpResponse: 'If you have questions, write to the owner',
     },
@@ -103,17 +109,19 @@ const MESSAGES: Record<Language, Messages> = {
     common: {
       costLabel: '<b>💰 ВАРТІСТЬ:</b>',
       methodsLabel: '<b>💳 СПОСОБИ ОПЛАТИ:</b>',
-      cardLabel: '<b>🇺🇦 Українська карта</b>',
+      cardLabel: '<b>🇺🇦 Українська карта:</b>',
+      paypalLabel: '<b>🌍 PayPal:</b>',
+      warning: '⚠️ <i>Не передавайте платіжні дані третім особам.</i>',
       instructionLabel: '<b>✅ ПІСЛЯ ОПЛАТИ:</b>',
       instruction1: '1️⃣ Зробіть скріншот квитанції про оплату',
       instruction2: '2️⃣ Відправте скріншот мені в особисті повідомлення',
       instruction3: '3️⃣ Я перевірю платіж.',
       buttonText: '💬 Написати з квитанцією',
       showCardButton: '👁️ Показати карту',
+      hideCardButton: '🙈 Сховати карту',
       showPaypalButton: '👁️ Показати PayPal',
+      hidePaypalButton: '🙈 Сховати PayPal',
       helpText: '❓ Допомога',
-      cardReveal: '<b>Повний номер карти:</b>\n<code>{card}</code>\n\n⚠️ Не ділитеся цим номером з ніким!',
-      paypalReveal: '<b>PayPal:</b>\n<code>{paypal}</code>',
       unknownProduct: '❌ Невідомий товар. Будь ласка, виберіть товар на сайті.',
       helpResponse: 'Якщо у вас є питання, напишіть власнику',
     },
@@ -189,98 +197,60 @@ async function sendTelegramMessage(
   });
 }
 
-function buildPaymentMessageWithRevealedCard(
-  productInfo: any,
-  priceSection: string,
-  lang: Language
-): { text: string; markup: TelegramReplyMarkup } {
-  const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_FULL}</code>\n\n⚠️ <i>${
-    lang === 'ru' ? 'Скопируйте номер для оплаты. Не делитесь этим номером с кем-либо!'
-    : lang === 'en' ? 'Copy the number for payment. Do not share this number with anyone!'
-    : 'Скопіюйте номер для оплати. Не ділитеся цим номером з ніким!'
-  }</i>`;
+type Product = keyof typeof PRODUCTS;
 
-  const paypalSection = lang === 'ru'
-    ? `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`
-    : lang === 'en'
-      ? `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`
-      : `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+function getPriceSection(product: Product, lang: Language, exchangeRate: number): string {
+  const priceUAH = Math.round(PRODUCTS[product].priceUSD * exchangeRate);
+  const oldPriceUAH = Math.round(PRODUCTS[product].oldPriceUSD * exchangeRate);
+  const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
 
-  const text = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
-
-  const markup: TelegramReplyMarkup = {
-    inline_keyboard: [
-      [
-        {
-          text: '👁️ Скрыть номер',
-          callback_data: `hide_card:${lang}`,
-        },
-        {
-          text: '👁️ Показать PayPal',
-          callback_data: `reveal_paypal:${lang}`,
-        },
-      ],
-      [
-        {
-          text: MESSAGES[lang].common.buttonText,
-          url: `https://t.me/${OWNER_TELEGRAM}`,
-        },
-      ],
-      [
-        {
-          text: MESSAGES[lang].common.helpText,
-          callback_data: `help:${lang}`,
-        },
-      ],
-    ],
-  };
-
-  return { text, markup };
+  return lang === 'en'
+    ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${oldPriceUAH} UAH</s> → 🇺🇦 <b>≈ ${priceUAH} UAH</b>`
+    : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${oldPriceUAH} ₴</s> → 🇺🇦 <b>≈ ${priceUAH} ₴ UAH</b>`;
 }
 
-function buildPaymentMessageWithRevealedPaypal(
-  productInfo: any,
-  priceSection: string,
-  lang: Language
+/**
+ * Builds the single payment message. The card/PayPal reveal state is encoded
+ * into the inline-button callback_data, so every interaction edits this one
+ * message in place instead of sending a new one.
+ */
+function buildPaymentMessage(
+  product: Product,
+  lang: Language,
+  cardRevealed: boolean,
+  paypalRevealed: boolean,
+  exchangeRate: number
 ): { text: string; markup: TelegramReplyMarkup } {
-  const cardSection = lang === 'ru'
-    ? `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`
-    : lang === 'en'
-      ? `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`
-      : `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
+  const c = MESSAGES[lang].common;
+  const productInfo = MESSAGES[lang][product];
+  const priceSection = getPriceSection(product, lang, exchangeRate);
 
-  const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>\n\n💡 <i>${
-    lang === 'ru' ? 'Используйте этот адрес электронной почты для оплаты через PayPal'
-    : lang === 'en' ? 'Use this email address to pay via PayPal'
-    : 'Використовуйте цю адресу електронної пошти для оплати через PayPal'
-  }</i>`;
+  const cardSection = `${c.cardLabel}\n<code>${cardRevealed ? CARD_FULL : CARD_MASKED}</code>`;
+  const paypalSection = `${c.paypalLabel}\n<code>${paypalRevealed ? PAYPAL_EMAIL : PAYPAL_MASKED}</code>`;
 
-  const text = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+  const text =
+    `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.costLabel}\n\n${priceSection}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n${c.warning}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}`;
+
+  const cardFlag = cardRevealed ? '1' : '0';
+  const paypalFlag = paypalRevealed ? '1' : '0';
+
+  const cardButton: InlineButton = {
+    text: cardRevealed ? c.hideCardButton : c.showCardButton,
+    callback_data: `pay:${lang}:${product}:${cardRevealed ? '0' : '1'}:${paypalFlag}`,
+  };
+  const paypalButton: InlineButton = {
+    text: paypalRevealed ? c.hidePaypalButton : c.showPaypalButton,
+    callback_data: `pay:${lang}:${product}:${cardFlag}:${paypalRevealed ? '0' : '1'}`,
+  };
 
   const markup: TelegramReplyMarkup = {
     inline_keyboard: [
-      [
-        {
-          text: '👁️ Показать номер',
-          callback_data: `reveal_card:${lang}`,
-        },
-        {
-          text: '👁️ Скрыть PayPal',
-          callback_data: `hide_paypal:${lang}`,
-        },
-      ],
-      [
-        {
-          text: MESSAGES[lang].common.buttonText,
-          url: `https://t.me/${OWNER_TELEGRAM}`,
-        },
-      ],
-      [
-        {
-          text: MESSAGES[lang].common.helpText,
-          callback_data: `help:${lang}`,
-        },
-      ],
+      [cardButton, paypalButton],
+      [{ text: c.buttonText, url: `https://t.me/${OWNER_TELEGRAM}` }],
+      [{ text: c.helpText, callback_data: `help:${lang}` }],
     ],
   };
 
@@ -348,59 +318,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         return NextResponse.json({ ok: true });
       }
 
-      const productInfo = MESSAGES[lang][product];
       const exchangeRate = await getExchangeRate();
-      const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
-      const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
-      const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
+      const { text: paymentMessage, markup } = buildPaymentMessage(
+        product,
+        lang,
+        false,
+        false,
+        exchangeRate
+      );
 
-      const priceSection =
-        lang === 'ru'
-          ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
-          : lang === 'en'
-            ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
-            : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
-
-      const cardSection = lang === 'ru'
-        ? `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`
-        : lang === 'en'
-          ? `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`
-          : `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
-
-      const paypalSection = lang === 'ru'
-        ? `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`
-        : lang === 'en'
-          ? `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`
-          : `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
-
-      const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
-
-      await sendTelegramMessage(chatId, paymentMessage, {
-        inline_keyboard: [
-          [
-            {
-              text: '👁️ Показать полный номер',
-              callback_data: `reveal_card:${lang}:${product}`,
-            },
-            {
-              text: '👁️ Показать PayPal',
-              callback_data: `reveal_paypal:${lang}:${product}`,
-            },
-          ],
-          [
-            {
-              text: MESSAGES[lang].common.buttonText,
-              url: `https://t.me/${OWNER_TELEGRAM}`,
-            },
-          ],
-          [
-            {
-              text: MESSAGES[lang].common.helpText,
-              callback_data: `help:${lang}`,
-            },
-          ],
-        ],
-      });
+      await sendTelegramMessage(chatId, paymentMessage, markup);
 
       return NextResponse.json({ ok: true });
     }
@@ -410,53 +337,24 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const chatId = message?.chat.id || body.callback_query.from.id;
       const messageId = message?.message_id;
 
-      if (data.startsWith('reveal_card:')) {
-        const parts = data.split(':');
-        const lang = parts[1] as Language;
-        const product = parts[2] as keyof typeof PRODUCTS;
+      if (data.startsWith('pay:')) {
+        const [, lang, product, cardFlag, paypalFlag] = data.split(':') as [
+          string,
+          Language,
+          Product,
+          string,
+          string
+        ];
 
         if (messageId && PRODUCTS[product]) {
-          const productInfo = MESSAGES[lang][product];
           const exchangeRate = await getExchangeRate();
-          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
-          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
-          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
-
-          const priceSection =
-            lang === 'ru'
-              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
-              : lang === 'en'
-                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
-                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
-
-          const { text: newText, markup: newMarkup } = buildPaymentMessageWithRevealedCard(productInfo, priceSection, lang);
-          await editTelegramMessage(chatId, messageId, newText, newMarkup);
-        }
-
-        await answerCallbackQuery(id, '✅', false);
-        return NextResponse.json({ ok: true });
-      }
-
-      if (data.startsWith('reveal_paypal:')) {
-        const parts = data.split(':');
-        const lang = parts[1] as Language;
-        const product = parts[2] as keyof typeof PRODUCTS;
-
-        if (messageId && PRODUCTS[product]) {
-          const productInfo = MESSAGES[lang][product];
-          const exchangeRate = await getExchangeRate();
-          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
-          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
-          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
-
-          const priceSection =
-            lang === 'ru'
-              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
-              : lang === 'en'
-                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
-                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
-
-          const { text: newText, markup: newMarkup } = buildPaymentMessageWithRevealedPaypal(productInfo, priceSection, lang);
+          const { text: newText, markup: newMarkup } = buildPaymentMessage(
+            product,
+            lang,
+            cardFlag === '1',
+            paypalFlag === '1',
+            exchangeRate
+          );
           await editTelegramMessage(chatId, messageId, newText, newMarkup);
         }
 
