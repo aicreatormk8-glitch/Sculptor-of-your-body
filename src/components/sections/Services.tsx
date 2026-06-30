@@ -58,7 +58,7 @@ export default function Services() {
                         const oldNum = parseFloat(s.oldPrice.replace('$', ''));
                         const newNum = parseFloat(s.price.replace('$', ''));
                         const discount = Math.round(((oldNum - newNum) / oldNum) * 100);
-                        return <span style={{ color: "#00d4ff", fontWeight: 700, fontSize: "0.875rem" }}>-{discount}%</span>;
+                        return <span style={{ color: "#00d4ff", fontWeight: 800, fontSize: "1.75rem", lineHeight: 1, textShadow: "0 0 18px rgba(0,212,255,0.45)" }}>-{discount}%</span>;
                       })()}
                     </div>
                   )}
