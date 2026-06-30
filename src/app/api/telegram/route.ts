@@ -1,227 +1,267 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+const OWNER_TELEGRAM = 'MK_sculptor1';
+const CARD_FULL = '4400 0055 4407 7511';
+const CARD_MASKED = '4400 **** **** 7511';
+const PAYPAL_EMAIL = 'mm4446008@gmail.com';
 
-interface TelegramUpdate {
+type Language = 'ru' | 'en' | 'uk';
+
+const PRODUCTS = {
+  program: {
+    priceUSD: 17,
+    oldPriceUSD: 117,
+  },
+  nutrition: {
+    priceUSD: 50,
+    oldPriceUSD: 100,
+  },
+  coaching: {
+    priceUSD: 120,
+    oldPriceUSD: 180,
+  },
+};
+
+function calculateDiscount(oldPrice: number, newPrice: number): number {
+  return Math.round(((oldPrice - newPrice) / oldPrice) * 100);
+}
+
+const MESSAGES: Record<Language, Record<string, any>> = {
+  ru: {
+    program: { name: '🎯 Программа "Твоя лучшая версия"', description: '8-недельная программа трансформации' },
+    nutrition: { name: '🥗 План питания', description: 'Персональный план питания на месяц' },
+    coaching: { name: '👨‍🏫 Онлайн-ведение', description: 'Полное сопровождение на месяц' },
+    common: {
+      costLabel: '<b>💰 СТОИМОСТЬ:</b>',
+      methodsLabel: '<b>💳 СПОСОБЫ ОПЛАТЫ:</b>',
+      cardLabel: '<b>🇺🇦 Украинская карта</b>',
+      paypalLabel: '<b>🌍 PayPal</b>',
+      instructionLabel: '<b>✅ ПОСЛЕ ОПЛАТЫ:</b>',
+      instruction1: '1️⃣ Сделайте скриншот квитанции об оплате',
+      instruction2: '2️⃣ Отправьте скриншот мне в личные сообщения',
+      instruction3: '3️⃣ Я проверю платеж.',
+      buttonText: '💬 Написать с квитанцией',
+      showCardButton: '👁️ Показать полный номер карты',
+      helpText: '❓ Помощь',
+      cardReveal: '<b>Полный номер карты:</b>\n<code>{card}</code>\n\n⚠️ Не делитесь этим номером с кем-либо!',
+      unknownProduct: '❌ Неизвестный товар. Пожалуйста, выберите товар на сайте.',
+      helpResponse: 'Если у вас есть вопросы, напишите владельцу',
+    },
+  },
+  en: {
+    program: { name: '🎯 Program "Your Best Version"', description: '8-week transformation program' },
+    nutrition: { name: '🥗 Nutrition Plan', description: 'Personalized nutrition plan for a month' },
+    coaching: { name: '👨‍🏫 Online Coaching', description: 'Full support for a month' },
+    common: {
+      costLabel: '<b>💰 COST:</b>',
+      methodsLabel: '<b>💳 PAYMENT METHODS:</b>',
+      cardLabel: '<b>🇺🇦 Ukrainian Card</b>',
+      paypalLabel: '<b>🌍 PayPal</b>',
+      instructionLabel: '<b>✅ AFTER PAYMENT:</b>',
+      instruction1: '1️⃣ Take a screenshot of your payment receipt',
+      instruction2: '2️⃣ Send the screenshot to my personal messages',
+      instruction3: '3️⃣ I will check payment.',
+      buttonText: '💬 Send Receipt',
+      showCardButton: '👁️ Show Full Card Number',
+      helpText: '❓ Help',
+      cardReveal: '<b>Full card number:</b>\n<code>{card}</code>\n\n⚠️ Do not share this number with anyone!',
+      unknownProduct: '❌ Unknown product. Please select a product on the website.',
+      helpResponse: 'If you have questions, write to the owner',
+    },
+  },
+  uk: {
+    program: { name: '🎯 Програма "Твоя найкраща версія"', description: '8-тижнева програма трансформації' },
+    nutrition: { name: '🥗 План харчування', description: 'Персональний план харчування на місяць' },
+    coaching: { name: '👨‍🏫 Онлайн-ведення', description: 'Повний супровід на місяць' },
+    common: {
+      costLabel: '<b>💰 ВАРТІСТЬ:</b>',
+      methodsLabel: '<b>💳 СПОСОБИ ОПЛАТИ:</b>',
+      cardLabel: '<b>🇺🇦 Українська карта</b>',
+      paypalLabel: '<b>🌍 PayPal</b>',
+      instructionLabel: '<b>✅ ПІСЛЯ ОПЛАТИ:</b>',
+      instruction1: '1️⃣ Зробіть скріншот квитанції про оплату',
+      instruction2: '2️⃣ Відправте скріншот мені в особисті повідомлення',
+      instruction3: '3️⃣ Я перевірю платіж.',
+      buttonText: '💬 Написати з квитанцією',
+      showCardButton: '👁️ Показати повний номер карти',
+      helpText: '❓ Допомога',
+      cardReveal: '<b>Повний номер карти:</b>\n<code>{card}</code>\n\n⚠️ Не ділитеся цим номером з ніким!',
+      unknownProduct: '❌ Невідомий товар. Будь ласка, виберіть товар на сайті.',
+      helpResponse: 'Якщо у вас є питання, напишіть власнику',
+    },
+  },
+};
+
+interface TelegramUser {
+  id: number;
+  first_name: string;
+  username?: string;
+}
+
+interface TelegramMessage {
   update_id: number;
   message?: {
+    message_id: number;
+    from: TelegramUser;
     chat: { id: number };
     text: string;
   };
   callback_query?: {
     id: string;
-    from: { id: number };
-    message?: { chat: { id: number }; message_id: number };
+    from: TelegramUser;
     data: string;
   };
 }
 
-const prices = {
-  program: 17,
-  nutrition: 50,
-  coaching: 120,
-};
+interface InlineButton {
+  text: string;
+  callback_data?: string;
+  url?: string;
+}
 
-const translations = {
-  ru: {
-    greeting: 'Привет! 🏋️‍♀️',
-    payment: 'Способ оплаты:',
-    cardInfo: 'Карта (Украина): 4400 7511 XXXX XXXX',
-    cardName: 'Имя: Mariya',
-    amountUSD: 'Сумма: {amount} USD',
-    amountUAH: '({amountUAH} ₴)',
-    contactInfo: 'После платежа отправь мне скриншот чека в личные сообщения',
-    programConfirm: 'После платежа добавлю тебя в приватный канал с программой',
-    redirectMessage: 'Переходи в личные сообщения →',
-    contactMe: 'Написать @MK_sculptor1',
-    exchangeRate: 'Курс: 1 USD = {rate} ₴',
-  },
-  en: {
-    greeting: 'Hello! 🏋️‍♀️',
-    payment: 'Payment method:',
-    cardInfo: 'Card (Ukraine): 4400 7511 XXXX XXXX',
-    cardName: 'Name: Mariya',
-    amountUSD: 'Amount: {amount} USD',
-    amountUAH: '({amountUAH} ₴)',
-    contactInfo: 'After payment, send me a screenshot of the receipt in a private message',
-    programConfirm: 'After payment I will add you to the private channel with the program',
-    redirectMessage: 'Go to private messages →',
-    contactMe: 'Message @MK_sculptor1',
-    exchangeRate: 'Rate: 1 USD = {rate} ₴',
-  },
-  uk: {
-    greeting: 'Привіт! 🏋️‍♀️',
-    payment: 'Спосіб оплати:',
-    cardInfo: 'Карта (Україна): 4400 7511 XXXX XXXX',
-    cardName: 'Ім\'я: Mariya',
-    amountUSD: 'Сума: {amount} USD',
-    amountUAH: '({amountUAH} ₴)',
-    contactInfo: 'Після платежу надішли мені скриншот чека в особисті повідомлення',
-    programConfirm: 'Після платежу додам тебе до приватного каналу з програмою',
-    redirectMessage: 'Переходи в особисті повідомлення →',
-    contactMe: 'Написати @MK_sculptor1',
-    exchangeRate: 'Курс: 1 USD = {rate} ₴',
-  },
-};
+interface TelegramReplyMarkup {
+  inline_keyboard?: Array<Array<InlineButton>>;
+  remove_keyboard?: boolean;
+}
 
-let exchangeRate = 42;
-
-async function getExchangeRate() {
+async function getExchangeRate(): Promise<number> {
   try {
-    const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const response = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=UAH', {
+      headers: { 'Cache-Control': 'no-cache' },
+    });
     const data = await response.json();
-    exchangeRate = Math.round(data.rates.UAH * 100) / 100;
-  } catch (error) {
-    console.error('Exchange rate fetch error:', error);
+    return Math.round(data.rates?.UAH || 42);
+  } catch {
+    return 42;
   }
 }
 
-function formatMessage(lang: string, key: string, data: Record<string, any> = {}) {
-  let message = translations[lang as keyof typeof translations]?.[key as any] || '';
-  Object.keys(data).forEach(k => {
-    message = message.replace(`{${k}}`, data[k]);
+async function sendTelegramMessage(
+  chatId: number,
+  text: string,
+  markup?: TelegramReplyMarkup
+): Promise<void> {
+  if (!BOT_TOKEN) return;
+
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+      parse_mode: 'HTML',
+      reply_markup: markup,
+      disable_web_page_preview: true,
+    }),
   });
-  return message;
 }
 
-function buildPaymentMessage(product: string, lang: string) {
-  const priceUSD = prices[product as keyof typeof prices];
-  if (!priceUSD) return null;
+async function answerCallbackQuery(
+  queryId: string,
+  text: string,
+  alert: boolean = false
+): Promise<void> {
+  if (!BOT_TOKEN) return;
 
-  const amountUAH = Math.round(priceUSD * exchangeRate);
-  const isProgram = product === 'program';
-
-  let message = `${formatMessage(lang, 'greeting')}\n\n`;
-  message += `${formatMessage(lang, 'payment')}\n`;
-  message += `💳 ${formatMessage(lang, 'cardInfo')}\n`;
-  message += `${formatMessage(lang, 'cardName')}\n\n`;
-  message += `${formatMessage(lang, 'amountUSD', { amount: priceUSD })} ${formatMessage(lang, 'amountUAH', { amountUAH })}\n`;
-  message += `${formatMessage(lang, 'exchangeRate', { rate: exchangeRate })}\n\n`;
-  message += isProgram
-    ? `✅ ${formatMessage(lang, 'programConfirm')}\n`
-    : `✅ ${formatMessage(lang, 'contactInfo')}\n`;
-
-  return { message, isProgram };
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      callback_query_id: queryId,
+      text,
+      show_alert: alert,
+    }),
+  });
 }
 
-async function sendMessage(chatId: number, text: string, keyboard?: any) {
-  const params = new URLSearchParams();
-  params.append('chat_id', chatId.toString());
-  params.append('text', text);
-  params.append('parse_mode', 'HTML');
-
-  if (keyboard) {
-    params.append('reply_markup', JSON.stringify(keyboard));
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  if (!BOT_TOKEN) {
+    return NextResponse.json({ error: 'Bot token not configured' }, { status: 500 });
   }
 
   try {
-    await fetch(`${API_URL}/sendMessage`, {
-      method: 'POST',
-      body: params,
-    });
-  } catch (error) {
-    console.error('Error sending message:', error);
-  }
-}
+    const body: TelegramMessage = await request.json();
 
-async function answerCallbackQuery(queryId: string, text: string) {
-  const params = new URLSearchParams();
-  params.append('callback_query_id', queryId);
-  params.append('text', text);
+    if (body.message?.text?.startsWith('/start')) {
+      const chatId = body.message.chat.id;
+      const text = body.message.text;
 
-  try {
-    await fetch(`${API_URL}/answerCallbackQuery`, {
-      method: 'POST',
-      body: params,
-    });
-  } catch (error) {
-    console.error('Error answering callback:', error);
-  }
-}
+      const params = new URLSearchParams(text.replace('/start ', ''));
+      const product = params.get('product') as keyof typeof PRODUCTS | null;
+      const lang = (params.get('lang') || 'ru') as Language;
 
-async function handleMessage(message: any) {
-  const chatId = message.chat.id;
-  const text = message.text || '';
+      if (!product || !PRODUCTS[product]) {
+        await sendTelegramMessage(chatId, MESSAGES[lang].common.unknownProduct);
+        return NextResponse.json({ ok: true });
+      }
 
-  if (text.startsWith('/start')) {
-    const params = new URLSearchParams(text.replace('/start ', ''));
-    const product = params.get('product');
-    const lang = params.get('lang') || 'ru';
+      const productInfo = MESSAGES[lang][product];
+      const exchangeRate = await getExchangeRate();
+      const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
+      const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+      const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
 
-    if (!product || !['program', 'nutrition', 'coaching'].includes(product)) {
-      const defaultMsg = `Привет! 👋\n\nЭто бот для обработки платежей.\n\nИспользуй ссылки с сайта для покупки услуг.`;
-      await sendMessage(chatId, defaultMsg);
-      return;
-    }
+      const priceSection =
+        lang === 'ru'
+          ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+          : lang === 'en'
+            ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+            : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
 
-    const paymentData = buildPaymentMessage(product, lang);
-    if (!paymentData) {
-      await sendMessage(chatId, 'Услуга не найдена');
-      return;
-    }
+      const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${MESSAGES[lang].common.cardLabel}\n<code>${CARD_MASKED}</code>\n\n${MESSAGES[lang].common.paypalLabel}\n<code>${PAYPAL_EMAIL}</code>\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
 
-    const keyboard = paymentData.isProgram
-      ? {
-          inline_keyboard: [[{
-            text: '✅ Платёж выполнен',
-            callback_data: `confirm_payment_program_${lang}`,
-          }]],
-        }
-      : {
-          inline_keyboard: [[{
-            text: 'Написать @MK_sculptor1',
-            url: 'https://t.me/MK_sculptor1',
-          }]],
-        };
+      await sendTelegramMessage(chatId, paymentMessage, {
+        inline_keyboard: [
+          [
+            {
+              text: MESSAGES[lang].common.showCardButton,
+              callback_data: `show_card:${lang}`,
+            },
+          ],
+          [
+            {
+              text: MESSAGES[lang].common.buttonText,
+              url: `https://t.me/${OWNER_TELEGRAM}`,
+            },
+          ],
+          [
+            {
+              text: MESSAGES[lang].common.helpText,
+              callback_data: `help:${lang}`,
+            },
+          ],
+        ],
+      });
 
-    await sendMessage(chatId, paymentData.message, keyboard);
-  }
-}
-
-async function handleUpdate(update: TelegramUpdate) {
-  if (update.message) {
-    await handleMessage(update.message);
-  }
-
-  if (update.callback_query) {
-    const query = update.callback_query;
-    const data = query.data;
-
-    if (data.startsWith('confirm_payment_program_')) {
-      const lang = data.replace('confirm_payment_program_', '');
-      const channelLink = 'https://t.me/+E2usDmxEgsg4OTVi';
-      const message = `${formatMessage(lang, 'programConfirm')}\n\n${channelLink}`;
-
-      await sendMessage(query.from.id, message);
-      await answerCallbackQuery(query.id, '✅ Confirmed');
-    }
-  }
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json() as TelegramUpdate;
-
-    if (!body.update_id) {
       return NextResponse.json({ ok: true });
     }
 
-    // Обновить курс при каждом запросе
-    await getExchangeRate();
+    if (body.callback_query) {
+      const { id, data } = body.callback_query;
 
-    await handleUpdate(body);
+      if (data.startsWith('show_card:')) {
+        const lang = data.split(':')[1] as Language;
+        const cardMessage = MESSAGES[lang].common.cardReveal.replace('{card}', CARD_FULL);
+        await sendTelegramMessage(body.callback_query.from.id, cardMessage);
+        await answerCallbackQuery(id, '✅', false);
+        return NextResponse.json({ ok: true });
+      }
+
+      if (data.startsWith('help:')) {
+        const lang = data.split(':')[1] as Language;
+        await answerCallbackQuery(id, MESSAGES[lang].common.helpResponse, false);
+        return NextResponse.json({ ok: true });
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error('Webhook error:', error);
-    return NextResponse.json({ ok: false, error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-export async function GET() {
-  return NextResponse.json({
-    message: 'Telegram bot webhook is running',
-    status: 'active',
-  });
+export async function GET(): Promise<NextResponse> {
+  return NextResponse.json({ status: 'Telegram bot is running' });
 }

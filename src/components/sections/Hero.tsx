@@ -3,10 +3,8 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
-import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Hero() {
-  const dict = useDict();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -18,10 +16,6 @@ export default function Hero() {
   // Parallax transforms
   const imgX = useTransform(smoothX, [-1, 1], [-18, 18]);
   const imgY = useTransform(smoothY, [-1, 1], [-10, 10]);
-  const glowX = useTransform(smoothX, [-1, 1], [-30, 30]);
-  const glowY = useTransform(smoothY, [-1, 1], [-20, 20]);
-  const textX = useTransform(smoothX, [-1, 1], [8, -8]);
-  const textY = useTransform(smoothY, [-1, 1], [5, -5]);
 
   // Mouse tracking
   useEffect(() => {

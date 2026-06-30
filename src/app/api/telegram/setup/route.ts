@@ -2,17 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!BOT_TOKEN) {
-    return NextResponse.json({ error: 'BOT_TOKEN not set' }, { status: 400 });
+    return NextResponse.json(
+      { success: false, message: 'Bot token not configured' },
+      { status: 500 }
+    );
   }
 
-  // Получаем URL сайта из переменной окружения или из реквеста
-  const host = request.headers.get('host');
-  const protocol = request.headers.get('x-forwarded-proto') || 'https';
-  const webhookUrl = `${protocol}://${host}/api/telegram`;
-
   try {
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || 'sculptor-of-your-body.vercel.app';
+
+    const webhookUrl = `${protocol}://${host}/api/telegram`;
+
     const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -22,24 +25,28 @@ export async function GET(request: NextRequest) {
       }),
     });
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (data.ok) {
+    if (result.ok) {
       return NextResponse.json({
         success: true,
         message: `Webhook set to ${webhookUrl}`,
-        botInfo: data.result,
+        webhook_url: webhookUrl,
       });
     } else {
-      return NextResponse.json({
-        success: false,
-        error: data.description,
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          message: result.description || 'Failed to set webhook',
+        },
+        { status: 400 }
+      );
     }
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }, { status: 500 });
+    console.error('Setup error:', error);
+    return NextResponse.json(
+      { success: false, message: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
