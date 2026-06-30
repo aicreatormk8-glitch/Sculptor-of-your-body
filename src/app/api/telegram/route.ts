@@ -127,13 +127,13 @@ interface TelegramReplyMarkup {
 
 async function getExchangeRate(): Promise<number> {
   try {
-    const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD', {
+    const response = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=UAH', {
       headers: { 'Cache-Control': 'no-cache' },
     });
     const data = await response.json();
-    return Math.round(data.rates?.UAH || 40);
+    return Math.round(data.rates?.UAH || 42);
   } catch {
-    return 40;
+    return 42;
   }
 }
 
