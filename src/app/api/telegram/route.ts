@@ -32,6 +32,7 @@ interface ProductMessage {
   greeting: string;
   description: string;
   short: string;
+  nextStep: string;
 }
 
 interface Messages {
@@ -47,7 +48,6 @@ interface Messages {
     instructionLabel: string;
     instruction1: string;
     instruction2: string;
-    instruction3: string;
     programAccess: string;
     menuPrompt: string;
     buttonText: string;
@@ -66,16 +66,19 @@ const MESSAGES: Record<Language, Messages> = {
       greeting: '🎯 Добро пожаловать в программу «Твоя лучшая версия»',
       description: '8-недельная программа тренировок с акцентом на ягодицы, тонус и форму тела.',
       short: '🎯 Твоя лучшая версия',
+      nextStep: '3️⃣ После проверки я открою вам доступ к программе.',
     },
     nutrition: {
       greeting: '🥗 План питания',
       description: 'Персональный план питания на месяц — только питание, без тренировок и сопровождения.',
       short: '🥗 План питания',
+      nextStep: '3️⃣ После проверки начнём составление вашего плана питания.',
     },
     coaching: {
       greeting: '👨‍🏫 Онлайн-ведение',
       description: 'В стоимость онлайн-ведения входит полное сопровождение на протяжении месяца.',
       short: '👨‍🏫 Онлайн-ведение',
+      nextStep: '3️⃣ После проверки начнём работу над созданием ТВОЕЙ ЛУЧШЕЙ ВЕРСИИ.',
     },
     common: {
       costLabel: '<b>💰 СТОИМОСТЬ:</b>',
@@ -86,7 +89,6 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ ПОСЛЕ ОПЛАТЫ:</b>',
       instruction1: '1️⃣ Сделайте скриншот квитанции об оплате',
       instruction2: '2️⃣ Отправьте скриншот мне в личные сообщения',
-      instruction3: '3️⃣ После проверки я открою вам доступ.',
       programAccess: '🔒 <i>Доступ к закрытому каналу с программой откроется после подтверждения оплаты.</i>',
       menuPrompt: '<b>👋 Выберите услугу:</b>\n\nНажмите на нужный вариант, чтобы увидеть детали и способы оплаты.',
       buttonText: '💬 Написать с квитанцией',
@@ -103,16 +105,19 @@ const MESSAGES: Record<Language, Messages> = {
       greeting: '🎯 Welcome to the "Your Best Version" program',
       description: '8-week training program focused on glutes, tone and body shape.',
       short: '🎯 Your Best Version',
+      nextStep: '3️⃣ Once confirmed, I will grant you access to the program.',
     },
     nutrition: {
       greeting: '🥗 Nutrition Plan',
       description: 'A personalized nutrition plan for a month — nutrition only, no training and support.',
       short: '🥗 Nutrition Plan',
+      nextStep: '3️⃣ Once confirmed, we will start building your nutrition plan.',
     },
     coaching: {
       greeting: '👨‍🏫 Online Coaching',
       description: 'Online coaching includes full support throughout the entire month.',
       short: '👨‍🏫 Online Coaching',
+      nextStep: '3️⃣ Once confirmed, we will start creating YOUR BEST VERSION.',
     },
     common: {
       costLabel: '<b>💰 COST:</b>',
@@ -123,7 +128,6 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ AFTER PAYMENT:</b>',
       instruction1: '1️⃣ Take a screenshot of your payment receipt',
       instruction2: '2️⃣ Send the screenshot to my personal messages',
-      instruction3: '3️⃣ Once confirmed, I will grant you access.',
       programAccess: '🔒 <i>Access to the private channel with the program opens after your payment is confirmed.</i>',
       menuPrompt: '<b>👋 Choose a service:</b>\n\nTap an option to see the details and payment methods.',
       buttonText: '💬 Send Receipt',
@@ -140,16 +144,19 @@ const MESSAGES: Record<Language, Messages> = {
       greeting: '🎯 Ласкаво просимо до програми «Твоя найкраща версія»',
       description: '8-тижнева програма тренувань з акцентом на сідниці, тонус та форму тіла.',
       short: '🎯 Твоя найкраща версія',
+      nextStep: '3️⃣ Після перевірки я відкрию вам доступ до програми.',
     },
     nutrition: {
       greeting: '🥗 План харчування',
       description: 'Персональний план харчування на місяць — тільки харчування, без тренувань і супроводу.',
       short: '🥗 План харчування',
+      nextStep: '3️⃣ Після перевірки почнемо складання вашого плану харчування.',
     },
     coaching: {
       greeting: '👨‍🏫 Онлайн-ведення',
       description: 'У вартість онлайн-ведення входить повний супровід протягом місяця.',
       short: '👨‍🏫 Онлайн-ведення',
+      nextStep: '3️⃣ Після перевірки почнемо роботу над створенням ТВОЄЇ НАЙКРАЩОЇ ВЕРСІЇ.',
     },
     common: {
       costLabel: '<b>💰 ВАРТІСТЬ:</b>',
@@ -160,7 +167,6 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ ПІСЛЯ ОПЛАТИ:</b>',
       instruction1: '1️⃣ Зробіть скріншот квитанції про оплату',
       instruction2: '2️⃣ Відправте скріншот мені в особисті повідомлення',
-      instruction3: '3️⃣ Після перевірки я відкрию вам доступ.',
       programAccess: '🔒 <i>Доступ до закритого каналу з програмою відкриється після підтвердження оплати.</i>',
       menuPrompt: '<b>👋 Оберіть послугу:</b>\n\nНатисніть потрібний варіант, щоб побачити деталі та способи оплати.',
       buttonText: '💬 Написати з квитанцією',
@@ -309,7 +315,7 @@ function buildPaymentMessage(
   const text =
     `<b>${productInfo.greeting}</b>\n\n${productInfo.description}\n\n` +
     `━━━━━━━━━━━━━━━━━━━━\n\n${c.costLabel}\n\n${priceSection}\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}${accessSection}\n\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${productInfo.nextStep}${accessSection}\n\n` +
     `━━━━━━━━━━━━━━━━━━━━\n\n${c.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n${c.warning}`;
 
   const cardFlag = cardRevealed ? '1' : '0';
