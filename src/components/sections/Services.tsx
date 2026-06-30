@@ -54,8 +54,14 @@ export default function Services() {
                 </div>
                 <div className="mb-6">
                   {s.oldPrice && (
-                    <div className="mb-1.5">
+                    <div className="mb-1.5 flex items-center gap-2">
                       <span className="text-base sm:text-lg font-500" style={{ color: "rgba(139,163,199,0.55)", textDecoration: "line-through" }}>{s.oldPrice}</span>
+                      {(() => {
+                        const oldNum = parseFloat(s.oldPrice.replace('$', ''));
+                        const newNum = parseFloat(s.price.replace('$', ''));
+                        const discount = Math.round(((oldNum - newNum) / oldNum) * 100);
+                        return <span style={{ color: "#00d4ff", fontWeight: 700, fontSize: "0.875rem" }}>-{discount}%</span>;
+                      })()}
                     </div>
                   )}
                   <div className="flex items-baseline gap-2">
