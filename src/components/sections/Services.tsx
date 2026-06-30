@@ -75,11 +75,12 @@ export default function Services() {
                 </ul>
                 <motion.a
                   animate={{
+                    scale: [1, 1.02, 1],
                     boxShadow: s.featured
-                      ? ["0 0 20px rgba(0,212,255,0.3)", "0 0 40px rgba(0,212,255,0.6)", "0 0 20px rgba(0,212,255,0.3)"]
-                      : ["0 0 15px rgba(0,212,255,0.2)", "0 0 30px rgba(0,212,255,0.4)", "0 0 15px rgba(0,212,255,0.2)"]
+                      ? ["0 0 20px rgba(0,212,255,0.3)", "0 0 50px rgba(0,212,255,0.8)", "0 0 20px rgba(0,212,255,0.3)"]
+                      : ["0 0 15px rgba(0,212,255,0.2)", "0 0 40px rgba(0,212,255,0.6)", "0 0 15px rgba(0,212,255,0.2)"]
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
