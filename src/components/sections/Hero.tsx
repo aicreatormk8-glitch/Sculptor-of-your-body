@@ -339,6 +339,7 @@ export default function Hero() {
           }}
           whileHover={{
             scale: 1.1,
+            color: "#0ABAB5",
             backgroundColor: "rgba(0,12,28,0.75)",
             boxShadow: "0 0 42px rgba(0,212,255,0.65), inset 0 0 24px rgba(0,212,255,0.18)",
             borderColor: "rgba(0,229,255,0.9)",

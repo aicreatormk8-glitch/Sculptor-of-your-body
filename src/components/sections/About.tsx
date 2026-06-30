@@ -92,12 +92,12 @@ export default function About() {
               WebkitBackdropFilter: "blur(18px)",
             }}
             animate={{
-              scale: [1, 1.07, 1, 1.04, 1],
+              scale: [1, 1.09, 1, 1.05, 1],
               boxShadow: [
                 "0 0 32px rgba(0,212,255,0.18), inset 0 0 24px rgba(0,212,255,0.06)",
-                "0 0 60px rgba(0,229,255,0.55), inset 0 0 28px rgba(0,212,255,0.18)",
+                "0 0 75px rgba(0,229,255,0.7), inset 0 0 30px rgba(0,212,255,0.22)",
                 "0 0 32px rgba(0,212,255,0.18), inset 0 0 24px rgba(0,212,255,0.06)",
-                "0 0 50px rgba(0,229,255,0.42), inset 0 0 22px rgba(0,212,255,0.14)",
+                "0 0 58px rgba(0,229,255,0.5), inset 0 0 24px rgba(0,212,255,0.16)",
                 "0 0 32px rgba(0,212,255,0.18), inset 0 0 24px rgba(0,212,255,0.06)",
               ],
               borderColor: [
