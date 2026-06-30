@@ -305,7 +305,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const lang = parts[1] as Language;
         const product = parts[2] as keyof typeof PRODUCTS;
 
-        if (PRODUCTS[product] && messageId) {
+        if (PRODUCTS[product]) {
           const productInfo = MESSAGES[lang][product];
           const exchangeRate = await getExchangeRate();
           const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
@@ -356,7 +356,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          if (messageId) {
+            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          } else {
+            console.log('No messageId, sending new message');
+            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          }
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -368,7 +373,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const lang = parts[1] as Language;
         const product = parts[2] as keyof typeof PRODUCTS;
 
-        if (PRODUCTS[product] && messageId) {
+        if (PRODUCTS[product]) {
           const productInfo = MESSAGES[lang][product];
           const exchangeRate = await getExchangeRate();
           const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
@@ -419,7 +424,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          if (messageId) {
+            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          } else {
+            console.log('No messageId, sending new message');
+            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          }
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -431,7 +441,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const lang = parts[1] as Language;
         const product = parts[2] as keyof typeof PRODUCTS;
 
-        if (PRODUCTS[product] && messageId) {
+        if (PRODUCTS[product]) {
           const productInfo = MESSAGES[lang][product];
           const exchangeRate = await getExchangeRate();
           const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
@@ -477,7 +487,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          if (messageId) {
+            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          } else {
+            console.log('No messageId, sending new message');
+            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          }
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -489,7 +504,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const lang = parts[1] as Language;
         const product = parts[2] as keyof typeof PRODUCTS;
 
-        if (PRODUCTS[product] && messageId) {
+        if (PRODUCTS[product]) {
           const productInfo = MESSAGES[lang][product];
           const exchangeRate = await getExchangeRate();
           const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
@@ -535,7 +550,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          if (messageId) {
+            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+          } else {
+            console.log('No messageId, sending new message');
+            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          }
         }
 
         await answerCallbackQuery(id, '✅', false);
