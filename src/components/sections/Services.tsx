@@ -75,21 +75,21 @@ export default function Services() {
                 </ul>
                 <motion.a
                   animate={{
-                    boxShadow: s.featured
-                      ? [
-                          "0 0 20px rgba(0,212,255,0.28)",
-                          "0 0 50px rgba(0,212,255,0.75)",
-                          "0 0 20px rgba(0,212,255,0.28)",
-                          "0 0 50px rgba(0,212,255,0.62)",
-                          "0 0 20px rgba(0,212,255,0.28)",
-                        ]
-                      : [
-                          "0 0 15px rgba(0,212,255,0.28)",
-                          "0 0 35px rgba(0,212,255,0.75)",
-                          "0 0 15px rgba(0,212,255,0.28)",
-                          "0 0 35px rgba(0,212,255,0.62)",
-                          "0 0 15px rgba(0,212,255,0.28)",
-                        ]
+                    scale: [1, 1.07, 1, 1.04, 1],
+                    boxShadow: [
+                      "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
+                      "0 0 32px rgba(0,229,255,0.55), inset 0 0 18px rgba(0,212,255,0.16)",
+                      "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
+                      "0 0 26px rgba(0,229,255,0.42), inset 0 0 14px rgba(0,212,255,0.12)",
+                      "0 0 10px rgba(0,212,255,0.15), inset 0 0 8px rgba(0,212,255,0.05)",
+                    ],
+                    borderColor: [
+                      "rgba(0,210,255,0.28)",
+                      "rgba(0,229,255,0.75)",
+                      "rgba(0,210,255,0.28)",
+                      "rgba(0,229,255,0.62)",
+                      "rgba(0,210,255,0.28)",
+                    ],
                   }}
                   transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut", times: [0, 0.15, 0.4, 0.55, 1] }}
                   href={s.ctaHref}
@@ -97,7 +97,7 @@ export default function Services() {
                   rel="noopener noreferrer"
                   className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
                   style={s.featured
-                    ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)" }
+                    ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)", border: "1px solid rgba(0,210,255,0.28)" }
                     : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
                 >
                   {s.cta}
