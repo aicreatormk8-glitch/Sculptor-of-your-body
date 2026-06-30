@@ -97,7 +97,18 @@ export const en: Dict = {
     programSubtitle: "8-week transformation program",
     buyBtn: "Buy for $17",
     accessNote: "After payment — instant access to the program",
-    includes: ["8-week training plan", "Glutes & shape focus", "Weekly structure with progression", "Detailed exercise descriptions", "Lifetime access after purchase", "Suitable for self-paced training"],
+    includes: [
+      "Principles of load progression to achieve maximum results",
+      "Recommendations for choosing working weights and properly increasing load",
+      "Principles of effective glute muscle development",
+      "Practical recommendations for completing the program to achieve best results",
+      "General nutrition recommendations without strict diets and restrictions",
+      "Complete 8-week training program (4 workouts per week) with a logical load progression system",
+      "Detailed description of each workout: exercises, number of sets, reps and recommended rest time between sets",
+      "Illustrations and detailed explanation of exercise technique for every movement",
+      "Proven training system that effectively develops glutes and creates harmonious body proportions",
+      "Lifetime access to the program immediately after purchase"
+    ],
   },
   whyMe: {
     eyebrow: "Why Me",
