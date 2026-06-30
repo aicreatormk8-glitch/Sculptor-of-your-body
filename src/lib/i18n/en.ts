@@ -69,7 +69,7 @@ export const en: Dict = {
           "Weekly macro adjustment when needed",
           "Answers to questions about your nutrition plan throughout the month",
         ],
-        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
+        cta: "Get Plan", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
       },
       {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
@@ -87,7 +87,7 @@ export const en: Dict = {
           "Full feedback throughout the entire month",
           "Motivation and support until your first visible results",
         ],
-        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
+        cta: "Join Now", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
       },
     ],
   },

@@ -69,7 +69,7 @@ export const ru: Dict = {
           "Еженедельная корректировка БЖУ при необходимости",
           "Ответы на вопросы по плану питания в течение месяца",
         ],
-        cta: "Приобрести", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=ru", featured: false, color: "#0090c0",
+        cta: "Получить план", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=ru", featured: false, color: "#0090c0",
       },
       {
         title: "Онлайн-ведение", price: "$120", period: "/ месяц", oldPrice: "$180", tag: "ФЛАГМАН",
@@ -87,7 +87,7 @@ export const ru: Dict = {
           "Полная обратная связь в течение всего месяца",
           "Мотивация и сопровождение до достижения первых заметных результатов",
         ],
-        cta: "Приобрести", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=ru", featured: false, color: "#0066cc",
+        cta: "Записаться", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=ru", featured: false, color: "#0066cc",
       },
     ],
   },

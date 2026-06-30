@@ -69,7 +69,7 @@ export const uk: Dict = {
           "Щотижневе коригування БЖВ за потреби",
           "Відповіді на питання про план харчування протягом місяця",
         ],
-        cta: "Придбати", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=uk", featured: false, color: "#0090c0",
+        cta: "Отримати план", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=uk", featured: false, color: "#0090c0",
       },
       {
         title: "Онлайн-ведення", price: "$120", period: "/ місяць", oldPrice: "$180", tag: "ФЛАГМАН",
@@ -87,7 +87,7 @@ export const uk: Dict = {
           "Повний зворотний зв'язок протягом усього місяця",
           "Мотивація та супровід до досягнення перших помітних результатів",
         ],
-        cta: "Придбати", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=uk", featured: false, color: "#0066cc",
+        cta: "Записатись", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=uk", featured: false, color: "#0066cc",
       },
     ],
   },
