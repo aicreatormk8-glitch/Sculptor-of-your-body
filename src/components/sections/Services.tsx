@@ -75,19 +75,30 @@ export default function Services() {
                 </ul>
                 <motion.a
                   animate={{
-                    scale: [1, 1.02, 1],
                     boxShadow: s.featured
-                      ? ["0 0 20px rgba(0,212,255,0.3)", "0 0 50px rgba(0,212,255,0.8)", "0 0 20px rgba(0,212,255,0.3)"]
-                      : ["0 0 15px rgba(0,212,255,0.2)", "0 0 40px rgba(0,212,255,0.6)", "0 0 15px rgba(0,212,255,0.2)"]
+                      ? [
+                          "0 0 20px rgba(0,212,255,0.28)",
+                          "0 0 50px rgba(0,212,255,0.75)",
+                          "0 0 20px rgba(0,212,255,0.28)",
+                          "0 0 50px rgba(0,212,255,0.62)",
+                          "0 0 20px rgba(0,212,255,0.28)",
+                        ]
+                      : [
+                          "0 0 15px rgba(0,212,255,0.28)",
+                          "0 0 35px rgba(0,212,255,0.75)",
+                          "0 0 15px rgba(0,212,255,0.28)",
+                          "0 0 35px rgba(0,212,255,0.62)",
+                          "0 0 15px rgba(0,212,255,0.28)",
+                        ]
                   }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut", times: [0, 0.15, 0.4, 0.55, 1] }}
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
                   style={s.featured
                     ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)" }
-                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)", boxShadow: "0 0 15px rgba(0,212,255,0.2)" }}
+                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
                 >
                   {s.cta}
                 </motion.a>
