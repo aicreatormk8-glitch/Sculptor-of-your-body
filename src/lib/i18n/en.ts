@@ -93,7 +93,7 @@ export const en: Dict = {
     badge: "SPECIAL PRICE",
     programTitle: "Your Best Version",
     programSubtitle: "8-week transformation program",
-    buyBtn: "Buy for $33",
+    buyBtn: "Buy for $17",
     accessNote: "After payment — instant access to the program",
     includes: ["8-week training plan", "Glutes & shape focus", "Weekly structure with progression", "Detailed exercise descriptions", "Lifetime access after purchase", "Suitable for self-paced training"],
   },
