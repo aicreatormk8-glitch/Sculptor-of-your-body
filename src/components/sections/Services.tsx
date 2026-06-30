@@ -74,6 +74,13 @@ export default function Services() {
                   ))}
                 </ul>
                 <motion.a
+                  href={s.ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm sm:text-base md:text-lg font-700 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer rounded-full px-8 py-3.5"
+                  style={s.featured
+                    ? { color: "white", background: "linear-gradient(135deg, #0066cc, #00d4ff)", border: "1px solid rgba(0, 210, 255, 0.28)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }
+                    : { color: "#EAF4FF", background: "rgba(0, 8, 18, 0.62)", border: "1px solid rgba(0, 210, 255, 0.28)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
                   animate={{
                     scale: [1, 1.07, 1, 1.04, 1],
                     boxShadow: [
@@ -91,14 +98,18 @@ export default function Services() {
                       "rgba(0,210,255,0.28)",
                     ],
                   }}
-                  transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut", times: [0, 0.15, 0.4, 0.55, 1] }}
-                  href={s.ctaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
-                  style={s.featured
-                    ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)", border: "1px solid rgba(0,212,255,0.3)" }
-                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
+                  transition={{
+                    duration: 1.3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    times: [0, 0.15, 0.4, 0.55, 1],
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    backgroundColor: "rgba(0,12,28,0.75)",
+                    boxShadow: "0 0 42px rgba(0,212,255,0.65), inset 0 0 24px rgba(0,212,255,0.18)",
+                    borderColor: "rgba(0,229,255,0.9)",
+                  }}
                 >
                   {s.cta}
                 </motion.a>
