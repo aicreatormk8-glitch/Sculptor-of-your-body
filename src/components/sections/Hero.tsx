@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
+import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Hero() {
+  const { hero } = useDict();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -264,10 +266,15 @@ export default function Hero() {
         </h1>
 
         <p className="mt-6 text-sm sm:text-base font-700 leading-relaxed" style={{ color: "#EAF4FF" }}>
-          Онлайн-ведение • Персональные тренировки • Питание
+          {hero.subtitle1}
         </p>
         <p className="mt-3 text-sm sm:text-base font-700 leading-relaxed" style={{ color: "rgba(234,244,255,0.85)" }}>
-          Без жёстких диет. Без случайных тренировок.<br />Только индивидуальная система, созданная под тебя.
+          {hero.subtitle2.split('\n').map((line, i) => (
+            <span key={i}>
+              {line}
+              {i === 0 && <br />}
+            </span>
+          ))}
         </p>
       </motion.div>
 
@@ -337,7 +344,7 @@ export default function Hero() {
             borderColor: "rgba(0,229,255,0.9)",
           }}
         >
-          НАЧАТЬ ТРАНСФОРМАЦИЮ
+          {hero.btn1.toUpperCase()}
         </motion.a>
         <motion.div
           animate={{ y: [0, 8, 0] }}

@@ -13,6 +13,8 @@ export const en: Dict = {
     desc2: "Build your best version with a professional approach to training, nutrition and discipline.",
     btn1: "Start Transformation",
     btn2: "View Services",
+    subtitle1: "Online Coaching • Personal Training • Nutrition",
+    subtitle2: "No strict diets. No random workouts.\nOnly an individual system created for you.",
     badges: ["Online Coaching", "Nutrition Plan", "8-Week Program", "Individual Approach"],
   },
   about: {
