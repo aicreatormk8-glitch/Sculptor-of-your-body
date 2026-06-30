@@ -44,7 +44,18 @@ export const en: Dict = {
       {
         title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-week training program focused on glutes, tone and body shape.",
-        features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
+        features: [
+          "Principles of load progression to achieve maximum results",
+          "Recommendations for choosing working weights and properly increasing load",
+          "Principles of effective glute muscle development",
+          "Practical recommendations for completing the program to achieve best results",
+          "General nutrition recommendations without strict diets and restrictions",
+          "Complete 8-week training program (4 workouts per week) with a logical load progression system",
+          "Detailed description of each workout: exercises, number of sets, reps and recommended rest time between sets",
+          "Illustrations and detailed explanation of exercise technique for every movement",
+          "Proven training system that effectively develops glutes and creates harmonious body proportions",
+          "Lifetime access to the program immediately after purchase"
+        ],
         cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",
       },
       {
