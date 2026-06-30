@@ -73,7 +73,9 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
-                <a
+                <motion.a
+                  animate={s.featured ? { boxShadow: ["0 0 20px rgba(0,212,255,0.3)", "0 0 40px rgba(0,212,255,0.6)", "0 0 20px rgba(0,212,255,0.3)"] } : {}}
+                  transition={s.featured ? { duration: 2, repeat: Infinity } : {}}
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -83,7 +85,7 @@ export default function Services() {
                     : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
                 >
                   {s.cta}
-                </a>
+                </motion.a>
               </div>
             </AnimatedSection>
           ))}
