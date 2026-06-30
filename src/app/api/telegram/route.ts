@@ -7,6 +7,9 @@ const CARD_MASKED = '4400 **** **** 7511';
 const PAYPAL_EMAIL = 'mm4446008@gmail.com';
 const PAYPAL_MASKED = 'm....gmail';
 
+// Cache for storing last message_id per chat
+const lastMessageIds: Map<number, number> = new Map();
+
 type Language = 'ru' | 'en' | 'uk';
 
 const PRODUCTS = {
@@ -189,7 +192,11 @@ async function sendTelegramMessage(
   });
 
   const data = await response.json();
-  return data?.result?.message_id || null;
+  const messageId = data?.result?.message_id || null;
+  if (messageId) {
+    lastMessageIds.set(chatId, messageId);
+  }
+  return messageId;
 }
 
 async function editTelegramMessage(
@@ -301,7 +308,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (body.callback_query) {
       const { id, data, message } = body.callback_query;
       const chatId = message?.chat.id || body.callback_query.from.id;
-      const messageId = message?.message_id;
+      // Try to get messageId from message, fallback to cached value
+      let messageId = message?.message_id;
+      if (!messageId) {
+        messageId = lastMessageIds.get(chatId) || undefined;
+      }
 
       console.log('=== CALLBACK DEBUG ===');
       console.log('Data:', data);
