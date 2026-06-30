@@ -95,10 +95,14 @@ export default function Services() {
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
-                  style={s.featured
-                    ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)", border: "1px solid rgba(0,210,255,0.28)" }
-                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
+                  className="text-sm font-700 tracking-[0.16em] uppercase cursor-pointer rounded-full px-8 py-3.5 transition-all duration-300"
+                  style={{
+                    color: s.featured ? "white" : "#EAF4FF",
+                    background: s.featured ? "linear-gradient(135deg, #0066cc, #00d4ff)" : "rgba(0, 8, 18, 0.62)",
+                    border: "1px solid rgba(0, 210, 255, 0.28)",
+                    backdropFilter: "blur(14px)",
+                    WebkitBackdropFilter: "blur(14px)",
+                  }}
                 >
                   {s.cta}
                 </motion.a>
