@@ -24,9 +24,9 @@ export const en: Dict = {
     desc: "Just like a sculptor creates a work of art, I help women build a strong, beautiful and harmonious body, step by step.\n\nEvery program is built individually — based on your goals, lifestyle and possibilities.\n\nNo templates. No extremes. Only a system that truly works.",
     cta: "Start Your Transformation",
     stats: [
-      { value: "100+", label: "Transformations" },
+      { value: "40+", label: "Transformations" },
       { value: "98%", label: "Client Results" },
-      { value: "3+", label: "Years Experience" },
+      { value: "5+", label: "Years Experience" },
       { value: "24/7", label: "Support" },
     ],
     features: [
