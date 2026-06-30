@@ -137,6 +137,11 @@ interface TelegramMessage {
     id: string;
     from: TelegramUser;
     data: string;
+    message?: {
+      message_id: number;
+      chat: { id: number };
+      text: string;
+    };
   };
 }
 
@@ -175,6 +180,28 @@ async function sendTelegramMessage(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       chat_id: chatId,
+      text,
+      parse_mode: 'HTML',
+      reply_markup: markup,
+      disable_web_page_preview: true,
+    }),
+  });
+}
+
+async function editTelegramMessage(
+  chatId: number,
+  messageId: number,
+  text: string,
+  markup?: TelegramReplyMarkup
+): Promise<void> {
+  if (!BOT_TOKEN) return;
+
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      message_id: messageId,
       text,
       parse_mode: 'HTML',
       reply_markup: markup,
@@ -242,11 +269,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           [
             {
               text: MESSAGES[lang].common.showCardButton,
-              callback_data: `show_card:${lang}`,
+              callback_data: `show_card:${lang}:${product}`,
             },
             {
               text: MESSAGES[lang].common.showPaypalButton,
-              callback_data: `show_paypal:${lang}`,
+              callback_data: `show_paypal:${lang}:${product}`,
             },
           ],
           [
@@ -268,20 +295,248 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     if (body.callback_query) {
-      const { id, data } = body.callback_query;
+      const { id, data, message } = body.callback_query;
+      const chatId = message?.chat.id || body.callback_query.from.id;
+      const messageId = message?.message_id;
 
       if (data.startsWith('show_card:')) {
-        const lang = data.split(':')[1] as Language;
-        const cardMessage = MESSAGES[lang].common.cardReveal.replace('{card}', CARD_FULL);
-        await sendTelegramMessage(body.callback_query.from.id, cardMessage);
+        const parts = data.split(':');
+        const lang = parts[1] as Language;
+        const product = parts[2] as keyof typeof PRODUCTS;
+
+        if (PRODUCTS[product] && messageId) {
+          const productInfo = MESSAGES[lang][product];
+          const exchangeRate = await getExchangeRate();
+          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
+          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
+
+          const priceSection =
+            lang === 'ru'
+              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+              : lang === 'en'
+                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
+
+          const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_FULL}</code>\n\n⚠️ <i>${
+            lang === 'ru' ? 'Не делитесь этим номером с кем-либо!'
+            : lang === 'en' ? 'Do not share this number with anyone!'
+            : 'Не ділитеся цим номером з ніким!'
+          }</i>`;
+
+          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+
+          const updatedText = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+
+          const updatedMarkup: TelegramReplyMarkup = {
+            inline_keyboard: [
+              [
+                {
+                  text: '👁️ Скрыть карту',
+                  callback_data: `hide_card:${lang}:${product}`,
+                },
+                {
+                  text: MESSAGES[lang].common.showPaypalButton,
+                  callback_data: `show_paypal:${lang}:${product}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.buttonText,
+                  url: `https://t.me/${OWNER_TELEGRAM}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.helpText,
+                  callback_data: `help:${lang}`,
+                },
+              ],
+            ],
+          };
+
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+        }
+
         await answerCallbackQuery(id, '✅', false);
         return NextResponse.json({ ok: true });
       }
 
       if (data.startsWith('show_paypal:')) {
-        const lang = data.split(':')[1] as Language;
-        const paypalMessage = MESSAGES[lang].common.paypalReveal.replace('{paypal}', PAYPAL_EMAIL);
-        await sendTelegramMessage(body.callback_query.from.id, paypalMessage);
+        const parts = data.split(':');
+        const lang = parts[1] as Language;
+        const product = parts[2] as keyof typeof PRODUCTS;
+
+        if (PRODUCTS[product] && messageId) {
+          const productInfo = MESSAGES[lang][product];
+          const exchangeRate = await getExchangeRate();
+          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
+          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
+
+          const priceSection =
+            lang === 'ru'
+              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+              : lang === 'en'
+                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
+
+          const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
+
+          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>\n\n💡 <i>${
+            lang === 'ru' ? 'Используйте этот адрес для оплаты через PayPal'
+            : lang === 'en' ? 'Use this email to pay via PayPal'
+            : 'Використовуйте цю адресу для оплати через PayPal'
+          }</i>`;
+
+          const updatedText = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+
+          const updatedMarkup: TelegramReplyMarkup = {
+            inline_keyboard: [
+              [
+                {
+                  text: MESSAGES[lang].common.showCardButton,
+                  callback_data: `show_card:${lang}:${product}`,
+                },
+                {
+                  text: '👁️ Скрыть PayPal',
+                  callback_data: `hide_paypal:${lang}:${product}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.buttonText,
+                  url: `https://t.me/${OWNER_TELEGRAM}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.helpText,
+                  callback_data: `help:${lang}`,
+                },
+              ],
+            ],
+          };
+
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+        }
+
+        await answerCallbackQuery(id, '✅', false);
+        return NextResponse.json({ ok: true });
+      }
+
+      if (data.startsWith('hide_card:')) {
+        const parts = data.split(':');
+        const lang = parts[1] as Language;
+        const product = parts[2] as keyof typeof PRODUCTS;
+
+        if (PRODUCTS[product] && messageId) {
+          const productInfo = MESSAGES[lang][product];
+          const exchangeRate = await getExchangeRate();
+          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
+          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
+
+          const priceSection =
+            lang === 'ru'
+              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+              : lang === 'en'
+                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
+
+          const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
+          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+
+          const updatedText = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+
+          const updatedMarkup: TelegramReplyMarkup = {
+            inline_keyboard: [
+              [
+                {
+                  text: MESSAGES[lang].common.showCardButton,
+                  callback_data: `show_card:${lang}:${product}`,
+                },
+                {
+                  text: MESSAGES[lang].common.showPaypalButton,
+                  callback_data: `show_paypal:${lang}:${product}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.buttonText,
+                  url: `https://t.me/${OWNER_TELEGRAM}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.helpText,
+                  callback_data: `help:${lang}`,
+                },
+              ],
+            ],
+          };
+
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+        }
+
+        await answerCallbackQuery(id, '✅', false);
+        return NextResponse.json({ ok: true });
+      }
+
+      if (data.startsWith('hide_paypal:')) {
+        const parts = data.split(':');
+        const lang = parts[1] as Language;
+        const product = parts[2] as keyof typeof PRODUCTS;
+
+        if (PRODUCTS[product] && messageId) {
+          const productInfo = MESSAGES[lang][product];
+          const exchangeRate = await getExchangeRate();
+          const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
+          const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+          const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
+
+          const priceSection =
+            lang === 'ru'
+              ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+              : lang === 'en'
+                ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+                : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
+
+          const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
+          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+
+          const updatedText = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+
+          const updatedMarkup: TelegramReplyMarkup = {
+            inline_keyboard: [
+              [
+                {
+                  text: MESSAGES[lang].common.showCardButton,
+                  callback_data: `show_card:${lang}:${product}`,
+                },
+                {
+                  text: MESSAGES[lang].common.showPaypalButton,
+                  callback_data: `show_paypal:${lang}:${product}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.buttonText,
+                  url: `https://t.me/${OWNER_TELEGRAM}`,
+                },
+              ],
+              [
+                {
+                  text: MESSAGES[lang].common.helpText,
+                  callback_data: `help:${lang}`,
+                },
+              ],
+            ],
+          };
+
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+        }
+
         await answerCallbackQuery(id, '✅', false);
         return NextResponse.json({ ok: true });
       }
