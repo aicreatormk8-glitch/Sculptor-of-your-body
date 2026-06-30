@@ -185,7 +185,7 @@ export const en: Dict = {
     eyebrow: "Contact",
     title: "Take the First Step Toward",
     titleAccent: "Your Version",
-    subtitle: "Choose a service, fill in the form — and I'll contact you within 24 hours to discuss the details and get started.",
+    subtitle: "Choose a service and I'll contact you within 24 hours to discuss the details and get started.",
     selectService: "Choose a service",
     services: [
       { value: "coaching", label: "Online Coaching", price: "$120/mo" },
