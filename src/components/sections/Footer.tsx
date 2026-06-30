@@ -23,7 +23,7 @@ const TelegramIcon = () => (
 );
 
 export default function Footer() {
-  const { footer } = useDict();
+  const { footer, hero } = useDict();
   const year = new Date().getFullYear();
 
   return (
@@ -44,10 +44,12 @@ export default function Footer() {
               <span className="block">OF YOUR <span style={{ color: "#00d4ff" }}>BODY</span></span>
             </h2>
             <p className="text-sm font-500 leading-relaxed mb-4" style={{ color: "#A8B3C7" }}>
-              Онлайн-ведение • Персональные тренировки • Питание
+              {hero.subtitle1}
             </p>
             <p className="text-sm leading-relaxed max-w-[320px]" style={{ color: "#A8B3C7" }}>
-              Без жёстких диет. Без случайных тренировок.<br />Только индивидуальная система, созданная под тебя.
+              {hero.subtitle2.split("\n").map((line, i) => (
+                <span key={i}>{i > 0 && <br />}{line}</span>
+              ))}
             </p>
           </div>
 
