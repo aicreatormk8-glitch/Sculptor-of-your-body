@@ -23,31 +23,24 @@ const PRODUCTS = {
   },
 };
 
-const MESSAGES: Record<Language, Record<string, Record<string, string>>> = {
+function calculateDiscount(oldPrice: number, newPrice: number): number {
+  return Math.round(((oldPrice - newPrice) / oldPrice) * 100);
+}
+
+const MESSAGES: Record<Language, Record<string, any>> = {
   ru: {
-    program: {
-      name: '🎯 Программа "Твоя лучшая версия"',
-      description: '8-недельная программа трансформации',
-    },
-    nutrition: {
-      name: '🥗 План питания',
-      description: 'Персональный план питания на месяц',
-    },
-    coaching: {
-      name: '👨‍🏫 Онлайн-ведение',
-      description: 'Полное сопровождение на месяц',
-    },
+    program: { name: '🎯 Программа "Твоя лучшая версия"', description: '8-недельная программа трансформации' },
+    nutrition: { name: '🥗 План питания', description: 'Персональный план питания на месяц' },
+    coaching: { name: '👨‍🏫 Онлайн-ведение', description: 'Полное сопровождение на месяц' },
     common: {
       costLabel: '<b>💰 СТОИМОСТЬ:</b>',
-      usd: '🇺🇸 <b>{price}$ USD</b>',
-      uah: '🇺🇦 <b>≈ {price} ₴ UAH</b>',
       methodsLabel: '<b>💳 СПОСОБЫ ОПЛАТЫ:</b>',
       cardLabel: '<b>🇺🇦 Украинская карта</b>',
       paypalLabel: '<b>🌍 PayPal</b>',
       instructionLabel: '<b>✅ ПОСЛЕ ОПЛАТЫ:</b>',
       instruction1: '1️⃣ Сделайте скриншот квитанции об оплате',
       instruction2: '2️⃣ Отправьте скриншот мне в личные сообщения',
-      instruction3: '3️⃣ Я проверю платеж и выдам доступ',
+      instruction3: '3️⃣ Я проверю платеж и все',
       buttonText: '💬 Написать с квитанцией',
       showCardButton: '👁️ Показать полный номер карты',
       helpText: '❓ Помощь',
@@ -57,29 +50,18 @@ const MESSAGES: Record<Language, Record<string, Record<string, string>>> = {
     },
   },
   en: {
-    program: {
-      name: '🎯 Program "Your Best Version"',
-      description: '8-week transformation program',
-    },
-    nutrition: {
-      name: '🥗 Nutrition Plan',
-      description: 'Personalized nutrition plan for a month',
-    },
-    coaching: {
-      name: '👨‍🏫 Online Coaching',
-      description: 'Full support for a month',
-    },
+    program: { name: '🎯 Program "Your Best Version"', description: '8-week transformation program' },
+    nutrition: { name: '🥗 Nutrition Plan', description: 'Personalized nutrition plan for a month' },
+    coaching: { name: '👨‍🏫 Online Coaching', description: 'Full support for a month' },
     common: {
       costLabel: '<b>💰 COST:</b>',
-      usd: '🇺🇸 <b>{price}$ USD</b>',
-      uah: '🇺🇦 <b>≈ {price} ₴ UAH</b>',
       methodsLabel: '<b>💳 PAYMENT METHODS:</b>',
       cardLabel: '<b>🇺🇦 Ukrainian Card</b>',
       paypalLabel: '<b>🌍 PayPal</b>',
       instructionLabel: '<b>✅ AFTER PAYMENT:</b>',
       instruction1: '1️⃣ Take a screenshot of your payment receipt',
       instruction2: '2️⃣ Send the screenshot to my personal messages',
-      instruction3: '3️⃣ I will verify payment and grant access',
+      instruction3: '3️⃣ I will check payment and that\'s it',
       buttonText: '💬 Send Receipt',
       showCardButton: '👁️ Show Full Card Number',
       helpText: '❓ Help',
@@ -89,29 +71,18 @@ const MESSAGES: Record<Language, Record<string, Record<string, string>>> = {
     },
   },
   uk: {
-    program: {
-      name: '🎯 Програма "Твоя найкраща версія"',
-      description: '8-тижнева програма трансформації',
-    },
-    nutrition: {
-      name: '🥗 План харчування',
-      description: 'Персональний план харчування на місяць',
-    },
-    coaching: {
-      name: '👨‍🏫 Онлайн-ведення',
-      description: 'Повний супровід на місяць',
-    },
+    program: { name: '🎯 Програма "Твоя найкраща версія"', description: '8-тижнева програма трансформації' },
+    nutrition: { name: '🥗 План харчування', description: 'Персональний план харчування на місяць' },
+    coaching: { name: '👨‍🏫 Онлайн-ведення', description: 'Повний супровід на місяць' },
     common: {
       costLabel: '<b>💰 ВАРТІСТЬ:</b>',
-      usd: '🇺🇸 <b>{price}$ USD</b>',
-      uah: '🇺🇦 <b>≈ {price} ₴ UAH</b>',
       methodsLabel: '<b>💳 СПОСОБИ ОПЛАТИ:</b>',
       cardLabel: '<b>🇺🇦 Українська карта</b>',
       paypalLabel: '<b>🌍 PayPal</b>',
       instructionLabel: '<b>✅ ПІСЛЯ ОПЛАТИ:</b>',
       instruction1: '1️⃣ Зробіть скріншот квитанції про оплату',
       instruction2: '2️⃣ Відправте скріншот мені в особисті повідомлення',
-      instruction3: '3️⃣ Я перевірю платіж і видам доступ',
+      instruction3: '3️⃣ Я перевірю платіж і все',
       buttonText: '💬 Написати з квитанцією',
       showCardButton: '👁️ Показати повний номер карти',
       helpText: '❓ Допомога',
@@ -156,7 +127,9 @@ interface TelegramReplyMarkup {
 
 async function getExchangeRate(): Promise<number> {
   try {
-    const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD', {
+      headers: { 'Cache-Control': 'no-cache' },
+    });
     const data = await response.json();
     return Math.round(data.rates?.UAH || 40);
   } catch {
@@ -184,7 +157,11 @@ async function sendTelegramMessage(
   });
 }
 
-async function answerCallbackQuery(queryId: string, text: string, alert: boolean = false): Promise<void> {
+async function answerCallbackQuery(
+  queryId: string,
+  text: string,
+  alert: boolean = false
+): Promise<void> {
   if (!BOT_TOKEN) return;
 
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
@@ -206,7 +183,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body: TelegramMessage = await request.json();
 
-    // Handle /start command with product parameter
     if (body.message?.text?.startsWith('/start')) {
       const chatId = body.message.chat.id;
       const text = body.message.text;
@@ -224,8 +200,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const exchangeRate = await getExchangeRate();
       const priceUAH = PRODUCTS[product].priceUSD * exchangeRate;
       const oldPriceUAH = PRODUCTS[product].oldPriceUSD * exchangeRate;
+      const discount = calculateDiscount(PRODUCTS[product].oldPriceUSD, PRODUCTS[product].priceUSD);
 
-      const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${MESSAGES[lang].common.cardLabel}\n<code>${CARD_MASKED}</code>\n\n${MESSAGES[lang].common.paypalLabel}\n<code>${PAYPAL_EMAIL}</code>\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
+      const priceSection =
+        lang === 'ru'
+          ? `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`
+          : lang === 'en'
+            ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
+            : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
+
+      const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${MESSAGES[lang].common.cardLabel}\n<code>${CARD_MASKED}</code>\n\n${MESSAGES[lang].common.paypalLabel}\n<code>${PAYPAL_EMAIL}</code>\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
 
       await sendTelegramMessage(chatId, paymentMessage, {
         inline_keyboard: [
@@ -253,7 +237,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ ok: true });
     }
 
-    // Handle callback queries
     if (body.callback_query) {
       const { id, data } = body.callback_query;
 
@@ -261,7 +244,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const lang = data.split(':')[1] as Language;
         const cardMessage = MESSAGES[lang].common.cardReveal.replace('{card}', CARD_FULL);
         await sendTelegramMessage(body.callback_query.from.id, cardMessage);
-        await answerCallbackQuery(id, '✅ Номер карты отправлен', false);
+        await answerCallbackQuery(id, '✅', false);
         return NextResponse.json({ ok: true });
       }
 
