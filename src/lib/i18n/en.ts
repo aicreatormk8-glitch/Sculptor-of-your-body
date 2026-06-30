@@ -55,7 +55,7 @@ export const en: Dict = {
           "Full feedback throughout the entire month",
           "Motivation and support until your first visible results",
         ],
-        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching", featured: false, color: "#0066cc",
+        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
       },
       {
         title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
