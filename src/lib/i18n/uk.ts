@@ -87,7 +87,7 @@ export const uk: Dict = {
           "Повний зворотний зв'язок протягом усього місяця",
           "Мотивація та супровід до досягнення перших помітних результатів",
         ],
-        cta: "Записатись", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=uk", featured: false, color: "#0066cc",
+        cta: "Оформити онлайн-ведення", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=uk", featured: false, color: "#0066cc",
       },
     ],
   },

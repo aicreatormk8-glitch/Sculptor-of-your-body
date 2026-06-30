@@ -87,7 +87,7 @@ export const ru: Dict = {
           "Полная обратная связь в течение всего месяца",
           "Мотивация и сопровождение до достижения первых заметных результатов",
         ],
-        cta: "Записаться", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=ru", featured: false, color: "#0066cc",
+        cta: "Оформить онлайн-ведение", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=ru", featured: false, color: "#0066cc",
       },
     ],
   },

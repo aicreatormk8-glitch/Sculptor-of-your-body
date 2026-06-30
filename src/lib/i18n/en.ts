@@ -87,7 +87,7 @@ export const en: Dict = {
           "Full feedback throughout the entire month",
           "Motivation and support until your first visible results",
         ],
-        cta: "Join Now", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
+        cta: "Get Online Coaching", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
       },
     ],
   },
