@@ -173,10 +173,10 @@ async function sendTelegramMessage(
   chatId: number,
   text: string,
   markup?: TelegramReplyMarkup
-): Promise<void> {
-  if (!BOT_TOKEN) return;
+): Promise<number | null> {
+  if (!BOT_TOKEN) return null;
 
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+  const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -187,6 +187,9 @@ async function sendTelegramMessage(
       disable_web_page_preview: true,
     }),
   });
+
+  const data = await response.json();
+  return data?.result?.message_id || null;
 }
 
 async function editTelegramMessage(
@@ -299,6 +302,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const { id, data, message } = body.callback_query;
       const chatId = message?.chat.id || body.callback_query.from.id;
       const messageId = message?.message_id;
+
+      console.log('=== CALLBACK DEBUG ===');
+      console.log('Data:', data);
+      console.log('Message:', message);
+      console.log('MessageId:', messageId);
+      console.log('ChatId:', chatId);
 
       if (data.startsWith('show_card:')) {
         const parts = data.split(':');
