@@ -28,10 +28,16 @@ function calculateDiscount(oldPrice: number, newPrice: number): number {
   return Math.round(((oldPrice - newPrice) / oldPrice) * 100);
 }
 
+interface ProductMessage {
+  greeting: string;
+  description: string;
+  short: string;
+}
+
 interface Messages {
-  program: { name: string; description: string };
-  nutrition: { name: string; description: string };
-  coaching: { name: string; description: string };
+  program: ProductMessage;
+  nutrition: ProductMessage;
+  coaching: ProductMessage;
   common: {
     costLabel: string;
     methodsLabel: string;
@@ -42,22 +48,35 @@ interface Messages {
     instruction1: string;
     instruction2: string;
     instruction3: string;
+    programAccess: string;
+    menuPrompt: string;
     buttonText: string;
     showCardButton: string;
     hideCardButton: string;
     showPaypalButton: string;
     hidePaypalButton: string;
     helpText: string;
-    unknownProduct: string;
     helpResponse: string;
   };
 }
 
 const MESSAGES: Record<Language, Messages> = {
   ru: {
-    program: { name: '🎯 Программа "Твоя лучшая версия"', description: '8-недельная программа трансформации' },
-    nutrition: { name: '🥗 План питания', description: 'Персональный план питания на месяц' },
-    coaching: { name: '👨‍🏫 Онлайн-ведение', description: 'Полное сопровождение на месяц' },
+    program: {
+      greeting: '🎯 Добро пожаловать в программу «Твоя лучшая версия»',
+      description: 'Это 8-недельная программа тренировок с акцентом на ягодицы, тонус и красивую форму тела. После оплаты ты получишь доступ к закрытому Telegram-каналу с программой.',
+      short: '🎯 Твоя лучшая версия',
+    },
+    nutrition: {
+      greeting: '🥗 Добро пожаловать в персональный план питания',
+      description: 'Здесь ты получишь индивидуальный план питания на месяц с расчётом калорий, БЖУ, нормы воды, заменами продуктов и рекомендациями под твою цель.',
+      short: '🥗 План питания',
+    },
+    coaching: {
+      greeting: '👨‍🏫 Добро пожаловать в онлайн-ведение',
+      description: 'Это персональное сопровождение на месяц: тренировки, питание, расчёт калорий и БЖУ, контроль прогресса, корректировки и поддержка на пути к результату.',
+      short: '👨‍🏫 Онлайн-ведение',
+    },
     common: {
       costLabel: '<b>💰 СТОИМОСТЬ:</b>',
       methodsLabel: '<b>💳 СПОСОБЫ ОПЛАТЫ:</b>',
@@ -67,21 +86,34 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ ПОСЛЕ ОПЛАТЫ:</b>',
       instruction1: '1️⃣ Сделайте скриншот квитанции об оплате',
       instruction2: '2️⃣ Отправьте скриншот мне в личные сообщения',
-      instruction3: '3️⃣ Я проверю платеж.',
+      instruction3: '3️⃣ После проверки я открою вам доступ.',
+      programAccess: '🔒 <i>Доступ к закрытому каналу с программой откроется после подтверждения оплаты.</i>',
+      menuPrompt: '<b>👋 Выберите услугу:</b>\n\nНажмите на нужный вариант, чтобы увидеть детали и способы оплаты.',
       buttonText: '💬 Написать с квитанцией',
       showCardButton: '👁️ Показать карту',
       hideCardButton: '🙈 Скрыть карту',
       showPaypalButton: '👁️ Показать PayPal',
       hidePaypalButton: '🙈 Скрыть PayPal',
       helpText: '❓ Помощь',
-      unknownProduct: '❌ Неизвестный товар. Пожалуйста, выберите товар на сайте.',
       helpResponse: 'Если у вас есть вопросы, напишите владельцу',
     },
   },
   en: {
-    program: { name: '🎯 Program "Your Best Version"', description: '8-week transformation program' },
-    nutrition: { name: '🥗 Nutrition Plan', description: 'Personalized nutrition plan for a month' },
-    coaching: { name: '👨‍🏫 Online Coaching', description: 'Full support for a month' },
+    program: {
+      greeting: '🎯 Welcome to the "Your Best Version" program',
+      description: 'This is an 8-week training program focused on glutes, tone, and a beautiful body shape. After payment you will get access to a private Telegram channel with the program.',
+      short: '🎯 Your Best Version',
+    },
+    nutrition: {
+      greeting: '🥗 Welcome to your personal nutrition plan',
+      description: 'Here you will get an individual nutrition plan for a month with calorie and macro calculations, water intake, food swaps, and recommendations for your goal.',
+      short: '🥗 Nutrition Plan',
+    },
+    coaching: {
+      greeting: '👨‍🏫 Welcome to online coaching',
+      description: 'This is personal guidance for a month: training, nutrition, calorie and macro calculation, progress tracking, adjustments, and support on your way to results.',
+      short: '👨‍🏫 Online Coaching',
+    },
     common: {
       costLabel: '<b>💰 COST:</b>',
       methodsLabel: '<b>💳 PAYMENT METHODS:</b>',
@@ -91,21 +123,34 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ AFTER PAYMENT:</b>',
       instruction1: '1️⃣ Take a screenshot of your payment receipt',
       instruction2: '2️⃣ Send the screenshot to my personal messages',
-      instruction3: '3️⃣ I will check payment.',
+      instruction3: '3️⃣ Once confirmed, I will grant you access.',
+      programAccess: '🔒 <i>Access to the private channel with the program opens after your payment is confirmed.</i>',
+      menuPrompt: '<b>👋 Choose a service:</b>\n\nTap an option to see the details and payment methods.',
       buttonText: '💬 Send Receipt',
       showCardButton: '👁️ Show Card',
       hideCardButton: '🙈 Hide Card',
       showPaypalButton: '👁️ Show PayPal',
       hidePaypalButton: '🙈 Hide PayPal',
       helpText: '❓ Help',
-      unknownProduct: '❌ Unknown product. Please select a product on the website.',
       helpResponse: 'If you have questions, write to the owner',
     },
   },
   uk: {
-    program: { name: '🎯 Програма "Твоя найкраща версія"', description: '8-тижнева програма трансформації' },
-    nutrition: { name: '🥗 План харчування', description: 'Персональний план харчування на місяць' },
-    coaching: { name: '👨‍🏫 Онлайн-ведення', description: 'Повний супровід на місяць' },
+    program: {
+      greeting: '🎯 Ласкаво просимо до програми «Твоя найкраща версія»',
+      description: 'Це 8-тижнева програма тренувань з акцентом на сідниці, тонус і красиву форму тіла. Після оплати ти отримаєш доступ до закритого Telegram-каналу з програмою.',
+      short: '🎯 Твоя найкраща версія',
+    },
+    nutrition: {
+      greeting: '🥗 Ласкаво просимо до персонального плану харчування',
+      description: 'Тут ти отримаєш індивідуальний план харчування на місяць з розрахунком калорій, БЖВ, норми води, замінами продуктів і рекомендаціями під твою ціль.',
+      short: '🥗 План харчування',
+    },
+    coaching: {
+      greeting: '👨‍🏫 Ласкаво просимо до онлайн-ведення',
+      description: 'Це персональний супровід на місяць: тренування, харчування, розрахунок калорій і БЖВ, контроль прогресу, коригування та підтримка на шляху до результату.',
+      short: '👨‍🏫 Онлайн-ведення',
+    },
     common: {
       costLabel: '<b>💰 ВАРТІСТЬ:</b>',
       methodsLabel: '<b>💳 СПОСОБИ ОПЛАТИ:</b>',
@@ -115,14 +160,15 @@ const MESSAGES: Record<Language, Messages> = {
       instructionLabel: '<b>✅ ПІСЛЯ ОПЛАТИ:</b>',
       instruction1: '1️⃣ Зробіть скріншот квитанції про оплату',
       instruction2: '2️⃣ Відправте скріншот мені в особисті повідомлення',
-      instruction3: '3️⃣ Я перевірю платіж.',
+      instruction3: '3️⃣ Після перевірки я відкрию вам доступ.',
+      programAccess: '🔒 <i>Доступ до закритого каналу з програмою відкриється після підтвердження оплати.</i>',
+      menuPrompt: '<b>👋 Оберіть послугу:</b>\n\nНатисніть потрібний варіант, щоб побачити деталі та способи оплати.',
       buttonText: '💬 Написати з квитанцією',
       showCardButton: '👁️ Показати карту',
       hideCardButton: '🙈 Сховати карту',
       showPaypalButton: '👁️ Показати PayPal',
       hidePaypalButton: '🙈 Сховати PayPal',
       helpText: '❓ Допомога',
-      unknownProduct: '❌ Невідомий товар. Будь ласка, виберіть товар на сайті.',
       helpResponse: 'Якщо у вас є питання, напишіть власнику',
     },
   },
@@ -255,12 +301,13 @@ function buildPaymentMessage(
 
   const cardSection = `${c.cardLabel}\n<code>${cardRevealed ? CARD_FULL : CARD_MASKED}</code>`;
   const paypalSection = `${c.paypalLabel}\n<code>${paypalRevealed ? PAYPAL_EMAIL : PAYPAL_MASKED}</code>`;
+  const accessSection = product === 'program' ? `\n\n${c.programAccess}` : '';
 
   const text =
-    `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n` +
+    `<b>${productInfo.greeting}</b>\n\n${productInfo.description}\n\n` +
     `━━━━━━━━━━━━━━━━━━━━\n\n${c.costLabel}\n\n${priceSection}\n\n` +
     `━━━━━━━━━━━━━━━━━━━━\n\n${c.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n${c.warning}\n\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}`;
+    `━━━━━━━━━━━━━━━━━━━━\n\n${c.instructionLabel}\n\n${c.instruction1}\n${c.instruction2}\n${c.instruction3}${accessSection}`;
 
   const cardFlag = cardRevealed ? '1' : '0';
   const paypalFlag = paypalRevealed ? '1' : '0';
@@ -283,6 +330,25 @@ function buildPaymentMessage(
   };
 
   return { text, markup };
+}
+
+/**
+ * Service-selection menu shown when /start arrives without a product, so the
+ * user can pick a service and jump straight to its individual payment message.
+ */
+function buildMenu(lang: Language): { text: string; markup: TelegramReplyMarkup } {
+  const m = MESSAGES[lang];
+
+  return {
+    text: m.common.menuPrompt,
+    markup: {
+      inline_keyboard: [
+        [{ text: m.program.short, callback_data: `open:program:${lang}` }],
+        [{ text: m.nutrition.short, callback_data: `open:nutrition:${lang}` }],
+        [{ text: m.coaching.short, callback_data: `open:coaching:${lang}` }],
+      ],
+    },
+  };
 }
 
 async function editTelegramMessage(
@@ -341,7 +407,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const { product, lang } = parseStartPayload(payload);
 
       if (!product || !PRODUCTS[product]) {
-        await sendTelegramMessage(chatId, MESSAGES[lang].common.unknownProduct);
+        const { text: menuText, markup: menuMarkup } = buildMenu(lang);
+        await sendTelegramMessage(chatId, menuText, menuMarkup);
         return NextResponse.json({ ok: true });
       }
 
@@ -380,6 +447,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             lang,
             cardFlag === '1',
             paypalFlag === '1',
+            exchangeRate
+          );
+          await editTelegramMessage(chatId, messageId, newText, newMarkup);
+        }
+
+        await answerCallbackQuery(id, '✅', false);
+        return NextResponse.json({ ok: true });
+      }
+
+      if (data.startsWith('open:')) {
+        const [, product, lang] = data.split(':') as [string, Product, Language];
+
+        if (messageId && PRODUCTS[product]) {
+          const exchangeRate = await getExchangeRate();
+          const { text: newText, markup: newMarkup } = buildPaymentMessage(
+            product,
+            lang,
+            false,
+            false,
             exchangeRate
           );
           await editTelegramMessage(chatId, messageId, newText, newMarkup);
