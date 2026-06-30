@@ -101,7 +101,7 @@ export interface Dict {
     titleAccent: string;
     subtitle: string;
     selectService: string;
-    services: { value: string; label: string; price: string }[];
+    services: { value: string; label: string; price: string; oldPrice: string }[];
     nameLabel: string;
     namePlaceholder: string;
     contactLabel: string;

@@ -188,9 +188,9 @@ export const ru: Dict = {
     subtitle: "Выбери услугу и я свяжусь с тобой в течение 24 часов для обсуждения деталей и старта.",
     selectService: "Выбери услугу",
     services: [
-      { value: "coaching", label: "Онлайн-ведение", price: "$120/мес" },
-      { value: "nutrition", label: "План питания", price: "$50" },
-      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$17" },
+      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$17", oldPrice: "$117" },
+      { value: "nutrition", label: "План питания", price: "$50", oldPrice: "$100" },
+      { value: "coaching", label: "Онлайн-ведение", price: "$120", oldPrice: "$180" },
     ],
     nameLabel: "Твоё имя *",
     namePlaceholder: "Как тебя зовут?",

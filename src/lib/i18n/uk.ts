@@ -188,9 +188,9 @@ export const uk: Dict = {
     subtitle: "Обери послугу і я зв'яжуся з тобою протягом 24 годин для обговорення деталей та старту.",
     selectService: "Обери послугу",
     services: [
-      { value: "coaching", label: "Онлайн-ведення", price: "$120/міс" },
-      { value: "nutrition", label: "План харчування", price: "$50" },
-      { value: "program", label: "Програма «Твоя найкраща версія»", price: "$17" },
+      { value: "program", label: "Програма «Твоя найкраща версія»", price: "$17", oldPrice: "$117" },
+      { value: "nutrition", label: "План харчування", price: "$50", oldPrice: "$100" },
+      { value: "coaching", label: "Онлайн-ведення", price: "$120", oldPrice: "$180" },
     ],
     nameLabel: "Твоє ім'я *",
     namePlaceholder: "Як тебе звуть?",

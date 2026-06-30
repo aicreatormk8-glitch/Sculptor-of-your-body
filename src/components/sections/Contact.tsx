@@ -164,7 +164,22 @@ export default function Contact() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-700 text-white mb-1">{service.label}</h3>
-                    <p className="text-sm text-[var(--text-secondary)]">{service.price}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-base font-800 text-white">{service.price}</span>
+                      {service.oldPrice && (() => {
+                        const oldNum = parseFloat(service.oldPrice.replace(/[^0-9.]/g, ""));
+                        const newNum = parseFloat(service.price.replace(/[^0-9.]/g, ""));
+                        const discount = oldNum > 0 ? Math.round(((oldNum - newNum) / oldNum) * 100) : 0;
+                        return (
+                          <>
+                            <span className="text-sm font-500 line-through" style={{ color: "rgba(139,163,199,0.55)" }}>{service.oldPrice}</span>
+                            {discount > 0 && (
+                              <span className="font-800" style={{ color: "#00d4ff", fontSize: "0.95rem", textShadow: "0 0 14px rgba(0,212,255,0.45)" }}>-{discount}%</span>
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
                   </div>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-[var(--blue-neon)]">
                     <path d="M5 12h14M12 5l7 7-7 7" />
