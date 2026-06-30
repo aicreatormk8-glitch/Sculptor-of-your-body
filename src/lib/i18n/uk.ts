@@ -139,6 +139,10 @@ export const uk: Dict = {
     title: "Результати моїх",
     titleAccent: "підопічних",
     subtitle: "Реальні трансформації дівчат, які довірилися системі. До і після — без фотошопу.",
+    galleryTitle: "Галерея «До / Після»",
+    gallerySubtitle: "Реальні трансформації підопічних — відкрий і гортай результати.",
+    galleryBtn: "Дивитися результати",
+    galleryAria: "Відкрити галерею до і після",
     transformations: [
       { name: "", period: "", result: "", image: "/assets/results/result-1.jpg" },
       { name: "", period: "", result: "", image: "/assets/results/result-2.jpg" },

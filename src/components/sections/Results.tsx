@@ -54,7 +54,7 @@ export default function Results() {
               type="button"
               onClick={() => setLightboxIndex(0)}
               className="glass rounded-2xl px-8 py-8 sm:px-12 sm:py-10 w-full max-w-md group hover:border-[rgba(0,212,255,0.35)] transition-all duration-500 hover:shadow-[0_0_45px_rgba(0,212,255,0.12)] flex flex-col items-center text-center cursor-pointer"
-              aria-label="Открыть галерею до и после"
+              aria-label={results.galleryAria}
             >
               {/* stacked-photos icon */}
               <div
@@ -68,16 +68,16 @@ export default function Results() {
                   <path d="M21 16l-4-4-7 7" />
                 </svg>
               </div>
-              <h3 className="text-xl sm:text-2xl font-800 text-white mb-2">Галерея «До / После»</h3>
+              <h3 className="text-xl sm:text-2xl font-800 text-white mb-2">{results.galleryTitle}</h3>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-5 max-w-xs">
-                Реальные трансформации подопечных — открой и листай результаты.
+                {results.gallerySubtitle}
               </p>
               <span
                 className="heartbeat inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px] font-600 tracking-wide transition-all duration-300 group-hover:gap-3"
                 style={{ background: "linear-gradient(135deg, #0066cc, #00b4d8)", color: "#fff", boxShadow: "0 0 20px rgba(0,180,216,0.3)" }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" /></svg>
-                Смотреть результаты
+                {results.galleryBtn}
               </span>
             </button>
           </AnimatedSection>

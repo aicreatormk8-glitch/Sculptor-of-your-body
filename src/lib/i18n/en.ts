@@ -139,6 +139,10 @@ export const en: Dict = {
     title: "Results of my",
     titleAccent: "clients",
     subtitle: "Real transformations of women who trusted the system. Before and after — no photoshop.",
+    galleryTitle: "Before / After Gallery",
+    gallerySubtitle: "Real client transformations — open and swipe through the results.",
+    galleryBtn: "View Results",
+    galleryAria: "Open before and after gallery",
     transformations: [
       { name: "", period: "", result: "", image: "/assets/results/result-1.jpg" },
       { name: "", period: "", result: "", image: "/assets/results/result-2.jpg" },

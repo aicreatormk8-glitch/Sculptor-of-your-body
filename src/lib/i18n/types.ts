@@ -71,6 +71,10 @@ export interface Dict {
     title: string;
     titleAccent: string;
     subtitle: string;
+    galleryTitle: string;
+    gallerySubtitle: string;
+    galleryBtn: string;
+    galleryAria: string;
     transformations: {
       name: string;
       period: string;
