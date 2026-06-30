@@ -5,6 +5,7 @@ const OWNER_TELEGRAM = 'MK_sculptor1';
 const CARD_FULL = '4400 0055 4407 7511';
 const CARD_MASKED = '4400 **** **** 7511';
 const PAYPAL_EMAIL = 'mm4446008@gmail.com';
+const PAYPAL_MASKED = 'm....gmail';
 
 type Language = 'ru' | 'en' | 'uk';
 
