@@ -2,6 +2,31 @@ import Link from "next/link";
 import { legal, type LegalDocKey } from "@/lib/i18n/legal";
 import type { Locale } from "@/lib/i18n";
 
+const TG_HANDLE = "@MK_sculptor1";
+const TG_URL = "https://t.me/MK_sculptor1";
+
+// Renders paragraph text, turning the Telegram handle into a clickable link
+// that opens the owner's direct chat.
+function renderParagraph(text: string): React.ReactNode {
+  if (!text.includes(TG_HANDLE)) return text;
+  const parts = text.split(TG_HANDLE);
+  return parts.map((part, i) => (
+    <span key={i}>
+      {i > 0 && (
+        <a
+          href={TG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-600 text-[var(--blue-neon)] underline underline-offset-2 hover:opacity-80 transition-opacity"
+        >
+          {TG_HANDLE}
+        </a>
+      )}
+      {part}
+    </span>
+  ));
+}
+
 export default function LegalPage({
   locale,
   docKey,
@@ -73,7 +98,7 @@ export default function LegalPage({
               <div className="space-y-3 pl-8">
                 {s.body.map((p, j) => (
                   <p key={j} className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {p}
+                    {renderParagraph(p)}
                   </p>
                 ))}
               </div>
