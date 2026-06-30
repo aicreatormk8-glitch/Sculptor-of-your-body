@@ -42,7 +42,7 @@ export const en: Dict = {
     saleTimerUnits: ["d", "h", "m", "s"],
     items: [
       {
-        title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Your Best Version", price: "$17", period: "/ 8 weeks", oldPrice: "$117", tag: "SALE",
         description: "8-week training program focused on glutes, tone and body shape.",
         features: [
           "Principles of load progression to achieve maximum results",
@@ -59,7 +59,7 @@ export const en: Dict = {
         cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",
       },
       {
-        title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
+        title: "Nutrition Plan", price: "$50", period: "/ month", oldPrice: "$100", tag: null,
         description: "A personalized nutrition plan for a month — nutrition only, no training and support.",
         features: [
           "Individual macros (BJU) calculation for your specific goal: weight loss, muscle gain, body recomposition, or maintenance",

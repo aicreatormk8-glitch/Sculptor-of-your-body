@@ -42,7 +42,7 @@ export const ru: Dict = {
     saleTimerUnits: ["дн", "ч", "мин", "сек"],
     items: [
       {
-        title: "Твоя лучшая версия", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Твоя лучшая версия", price: "$17", period: "/ 8 недель", oldPrice: "$117", tag: "SALE",
         description: "8-недельная программа тренировок с акцентом на ягодицы, тонус и форму тела.",
         features: [
           "Принципы прогрессии нагрузки для достижения максимального результата",
@@ -59,7 +59,7 @@ export const ru: Dict = {
         cta: "Приобрести программу", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=ru", featured: true, color: "#00d4ff",
       },
       {
-        title: "План питания", price: "$50", period: "", oldPrice: "$100", tag: null,
+        title: "План питания", price: "$50", period: "/ месяц", oldPrice: "$100", tag: null,
         description: "Персональный план питания на месяц — только питание, без тренировок и сопровождения.",
         features: [
           "Индивидуальный расчёт БЖУ под конкретную цель: похудение, набор мышечной массы, рекомпозицию тела или поддержание формы",

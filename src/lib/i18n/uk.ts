@@ -42,7 +42,7 @@ export const uk: Dict = {
     saleTimerUnits: ["дн", "год", "хв", "сек"],
     items: [
       {
-        title: "Твоя найкраща версія", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
+        title: "Твоя найкраща версія", price: "$17", period: "/ 8 тижнів", oldPrice: "$117", tag: "SALE",
         description: "8-тижнева програма тренувань з акцентом на сідниці, тонус та форму тіла.",
         features: [
           "Принципи прогресії навантаження для досягнення максимального результату",
@@ -59,7 +59,7 @@ export const uk: Dict = {
         cta: "Придбати програму", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=uk", featured: true, color: "#00d4ff",
       },
       {
-        title: "План харчування", price: "$50", period: "", oldPrice: "$100", tag: null,
+        title: "План харчування", price: "$50", period: "/ місяць", oldPrice: "$100", tag: null,
         description: "Персональний план харчування на місяць — тільки харчування, без тренувань і супроводу.",
         features: [
           "Індивідуальний розрахунок БЖВ під конкретну ціль: схуднення, набір м'язової маси, рекомпозицію тіла або підтримання форми",
