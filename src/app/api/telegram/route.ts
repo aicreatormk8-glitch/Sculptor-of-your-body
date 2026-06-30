@@ -204,21 +204,30 @@ async function editTelegramMessage(
   messageId: number,
   text: string,
   markup?: TelegramReplyMarkup
-): Promise<void> {
-  if (!BOT_TOKEN) return;
+): Promise<boolean> {
+  if (!BOT_TOKEN) return false;
 
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      message_id: messageId,
-      text,
-      parse_mode: 'HTML',
-      reply_markup: markup,
-      disable_web_page_preview: true,
-    }),
-  });
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        message_id: messageId,
+        text,
+        parse_mode: 'HTML',
+        reply_markup: markup,
+        disable_web_page_preview: true,
+      }),
+    });
+
+    const data = await response.json();
+    console.log('editMessageText response:', { ok: data.ok, error: data.error_code, description: data.description });
+    return data.ok === true;
+  } catch (error) {
+    console.error('editTelegramMessage error:', error);
+    return false;
+  }
 }
 
 async function answerCallbackQuery(
@@ -377,7 +386,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           };
 
           if (messageId) {
-            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            if (!editSuccess) {
+              console.log('Edit failed, sending new message instead');
+              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+            }
           } else {
             console.log('No messageId, sending new message');
             await sendTelegramMessage(chatId, updatedText, updatedMarkup);
@@ -445,7 +458,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           };
 
           if (messageId) {
-            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            if (!editSuccess) {
+              console.log('Edit failed, sending new message instead');
+              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+            }
           } else {
             console.log('No messageId, sending new message');
             await sendTelegramMessage(chatId, updatedText, updatedMarkup);
@@ -508,7 +525,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           };
 
           if (messageId) {
-            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            if (!editSuccess) {
+              console.log('Edit failed, sending new message instead');
+              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+            }
           } else {
             console.log('No messageId, sending new message');
             await sendTelegramMessage(chatId, updatedText, updatedMarkup);
@@ -571,7 +592,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           };
 
           if (messageId) {
-            await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
+            if (!editSuccess) {
+              console.log('Edit failed, sending new message instead');
+              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+            }
           } else {
             console.log('No messageId, sending new message');
             await sendTelegramMessage(chatId, updatedText, updatedMarkup);
