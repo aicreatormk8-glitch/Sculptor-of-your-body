@@ -74,15 +74,19 @@ export default function Services() {
                   ))}
                 </ul>
                 <motion.a
-                  animate={s.featured ? { boxShadow: ["0 0 20px rgba(0,212,255,0.3)", "0 0 40px rgba(0,212,255,0.6)", "0 0 20px rgba(0,212,255,0.3)"] } : {}}
-                  transition={s.featured ? { duration: 2, repeat: Infinity } : {}}
+                  animate={{
+                    boxShadow: s.featured
+                      ? ["0 0 20px rgba(0,212,255,0.3)", "0 0 40px rgba(0,212,255,0.6)", "0 0 20px rgba(0,212,255,0.3)"]
+                      : ["0 0 15px rgba(0,212,255,0.2)", "0 0 30px rgba(0,212,255,0.4)", "0 0 15px rgba(0,212,255,0.2)"]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-center py-3.5 text-sm font-700 tracking-wide rounded-xl transition-all duration-300"
                   style={s.featured
                     ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", color: "white", boxShadow: "0 0 30px rgba(0,212,255,0.35)" }
-                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)" }}
+                    : { border: "1px solid rgba(0,212,255,0.3)", color: "var(--blue-neon)", background: "rgba(0,212,255,0.05)", boxShadow: "0 0 15px rgba(0,212,255,0.2)" }}
                 >
                   {s.cta}
                 </motion.a>
