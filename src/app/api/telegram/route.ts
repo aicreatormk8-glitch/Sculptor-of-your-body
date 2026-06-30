@@ -282,8 +282,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
             : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
 
-      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>\n\n⚠️ <i>${lang === 'ru' ? 'Не делитесь этим номером с кем-либо!' : lang === 'en' ? 'Do not share this number with anyone!' : 'Не ділитеся цим номером з ніким!'}</i>`;
-      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>\n\n<i>${lang === 'ru' ? 'Нажмите кнопку "Показать карту" для просмотра полного номера' : lang === 'en' ? 'Click "Show Card" to view full number' : 'Натисніть "Показати карту" для перегляду повного номера'}</i>\n\n⚠️ <i>${lang === 'ru' ? 'Не делитесь этим номером с кем-либо!' : lang === 'en' ? 'Do not share this number with anyone!' : 'Не ділитеся цим номером з ніким!'}</i>`;
+      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>\n\n<i>${lang === 'ru' ? 'Нажмите кнопку "Показать PayPal" для просмотра полного адреса' : lang === 'en' ? 'Click "Show PayPal" to view full address' : 'Натисніть "Показати PayPal" для перегляду повної адреси'}</i>`;
 
       const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
 
