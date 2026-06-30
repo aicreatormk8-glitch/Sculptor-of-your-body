@@ -64,17 +64,17 @@ const MESSAGES: Record<Language, Messages> = {
   ru: {
     program: {
       greeting: '🎯 Добро пожаловать в программу «Твоя лучшая версия»',
-      description: 'Это 8-недельная программа тренировок с акцентом на ягодицы, тонус и красивую форму тела. После оплаты ты получишь доступ к закрытому Telegram-каналу с программой.',
+      description: '8-недельная программа тренировок с акцентом на ягодицы, тонус и форму тела.',
       short: '🎯 Твоя лучшая версия',
     },
     nutrition: {
       greeting: '🥗 План питания',
-      description: 'Здесь ты получишь индивидуальный план питания на месяц с расчётом калорий, БЖУ, нормы воды, заменами продуктов и рекомендациями под твою цель.',
+      description: 'Персональный план питания на месяц — только питание, без тренировок и сопровождения.',
       short: '🥗 План питания',
     },
     coaching: {
       greeting: '👨‍🏫 Онлайн-ведение',
-      description: 'Это персональное сопровождение на месяц: тренировки, питание, расчёт калорий и БЖУ, контроль прогресса, корректировки и поддержка на пути к результату.',
+      description: 'В стоимость онлайн-ведения входит полное сопровождение на протяжении месяца.',
       short: '👨‍🏫 Онлайн-ведение',
     },
     common: {
@@ -101,17 +101,17 @@ const MESSAGES: Record<Language, Messages> = {
   en: {
     program: {
       greeting: '🎯 Welcome to the "Your Best Version" program',
-      description: 'This is an 8-week training program focused on glutes, tone, and a beautiful body shape. After payment you will get access to a private Telegram channel with the program.',
+      description: '8-week training program focused on glutes, tone and body shape.',
       short: '🎯 Your Best Version',
     },
     nutrition: {
       greeting: '🥗 Nutrition Plan',
-      description: 'Here you will get an individual nutrition plan for a month with calorie and macro calculations, water intake, food swaps, and recommendations for your goal.',
+      description: 'A personalized nutrition plan for a month — nutrition only, no training and support.',
       short: '🥗 Nutrition Plan',
     },
     coaching: {
       greeting: '👨‍🏫 Online Coaching',
-      description: 'This is personal guidance for a month: training, nutrition, calorie and macro calculation, progress tracking, adjustments, and support on your way to results.',
+      description: 'Online coaching includes full support throughout the entire month.',
       short: '👨‍🏫 Online Coaching',
     },
     common: {
@@ -138,17 +138,17 @@ const MESSAGES: Record<Language, Messages> = {
   uk: {
     program: {
       greeting: '🎯 Ласкаво просимо до програми «Твоя найкраща версія»',
-      description: 'Це 8-тижнева програма тренувань з акцентом на сідниці, тонус і красиву форму тіла. Після оплати ти отримаєш доступ до закритого Telegram-каналу з програмою.',
+      description: '8-тижнева програма тренувань з акцентом на сідниці, тонус та форму тіла.',
       short: '🎯 Твоя найкраща версія',
     },
     nutrition: {
       greeting: '🥗 План харчування',
-      description: 'Тут ти отримаєш індивідуальний план харчування на місяць з розрахунком калорій, БЖВ, норми води, замінами продуктів і рекомендаціями під твою ціль.',
+      description: 'Персональний план харчування на місяць — тільки харчування, без тренувань і супроводу.',
       short: '🥗 План харчування',
     },
     coaching: {
       greeting: '👨‍🏫 Онлайн-ведення',
-      description: 'Це персональний супровід на місяць: тренування, харчування, розрахунок калорій і БЖВ, контроль прогресу, коригування та підтримка на шляху до результату.',
+      description: 'У вартість онлайн-ведення входить повний супровід протягом місяця.',
       short: '👨‍🏫 Онлайн-ведення',
     },
     common: {
