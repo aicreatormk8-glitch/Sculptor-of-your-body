@@ -35,11 +35,13 @@ export default function Services() {
               >
                 {s.tag && (
                   <motion.div
-                    animate={s.tag === "SALE" ? { scale: [1, 1.05, 1] } : {}}
+                    animate={["SALE", "ФЛАГМАН"].includes(s.tag) ? { scale: [1, 1.05, 1] } : {}}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="absolute -top-3.5 left-6 px-4 py-1 text-xs font-800 tracking-widest rounded-full"
                     style={s.tag === "SALE"
                       ? { background: "linear-gradient(135deg, #0066cc, #00d4ff)", boxShadow: "0 0 20px rgba(0,212,255,0.5)", color: "white" }
+                      : s.tag === "ФЛАГМАН"
+                      ? { background: "linear-gradient(135deg, #00d4ff, #0066cc)", boxShadow: "0 0 20px rgba(0,212,255,0.5)", color: "white" }
                       : { background: "rgba(0,8,20,0.85)", border: "1px solid rgba(0,210,255,0.5)", color: "#00d4ff", boxShadow: "0 0 14px rgba(0,212,255,0.3)" }
                     }
                   >
