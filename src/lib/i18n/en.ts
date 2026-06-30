@@ -38,6 +38,8 @@ export const en: Dict = {
     eyebrow: "Services",
     title: "Choose Your Format",
     subtitle: "Each offer is created for a specific goal and work format",
+    saleTimerLabel: "Sale ends in:",
+    saleTimerUnits: ["d", "h", "m", "s"],
     items: [
       {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",

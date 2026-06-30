@@ -38,6 +38,8 @@ export const uk: Dict = {
     eyebrow: "Послуги",
     title: "Обери свій формат",
     subtitle: "Кожна пропозиція створена під конкретну мету та формат роботи",
+    saleTimerLabel: "Акція закінчиться через:",
+    saleTimerUnits: ["дн", "год", "хв", "сек"],
     items: [
       {
         title: "Онлайн-ведення", price: "$120", period: "/ місяць", oldPrice: "$180", tag: "ФЛАГМАН",

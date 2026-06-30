@@ -38,6 +38,8 @@ export const ru: Dict = {
     eyebrow: "Услуги",
     title: "Выбери свой формат",
     subtitle: "Каждое предложение создано под конкретную цель и формат работы",
+    saleTimerLabel: "Акция закончится через:",
+    saleTimerUnits: ["дн", "ч", "мин", "сек"],
     items: [
       {
         title: "Онлайн-ведение", price: "$120", period: "/ месяц", oldPrice: "$180", tag: "ФЛАГМАН",

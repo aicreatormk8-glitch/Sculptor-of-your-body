@@ -27,7 +27,29 @@ function calculateDiscount(oldPrice: number, newPrice: number): number {
   return Math.round(((oldPrice - newPrice) / oldPrice) * 100);
 }
 
-const MESSAGES: Record<Language, Record<string, any>> = {
+interface Messages {
+  program: { name: string; description: string };
+  nutrition: { name: string; description: string };
+  coaching: { name: string; description: string };
+  common: {
+    costLabel: string;
+    methodsLabel: string;
+    cardLabel: string;
+    paypalLabel: string;
+    instructionLabel: string;
+    instruction1: string;
+    instruction2: string;
+    instruction3: string;
+    buttonText: string;
+    showCardButton: string;
+    helpText: string;
+    cardReveal: string;
+    unknownProduct: string;
+    helpResponse: string;
+  };
+}
+
+const MESSAGES: Record<Language, Messages> = {
   ru: {
     program: { name: '🎯 Программа "Твоя лучшая версия"', description: '8-недельная программа трансформации' },
     nutrition: { name: '🥗 План питания', description: 'Персональный план питания на месяц' },
