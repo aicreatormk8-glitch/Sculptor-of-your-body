@@ -326,6 +326,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         messageId = lastMessageIds.get(chatId) || undefined;
       }
 
+      // INSTANT TEST - send message to confirm webhook received
+      await sendTelegramMessage(chatId, `✅ WEBHOOK OK\n${data}\nMsgID: ${messageId}`);
+
       console.log('=== CALLBACK DEBUG ===');
       console.log('Data:', data);
       console.log('Message:', message);
