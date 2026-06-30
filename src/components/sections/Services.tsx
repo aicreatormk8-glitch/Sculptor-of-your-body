@@ -74,6 +74,10 @@ export default function Services() {
                   ))}
                 </ul>
                 <motion.a
+                  href={s.ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-sm font-700 tracking-[0.16em] uppercase cursor-pointer rounded-full px-8 py-3.5"
                   animate={{
                     scale: [1, 1.07, 1, 1.04, 1],
                     boxShadow: [
@@ -92,16 +96,13 @@ export default function Services() {
                     ],
                   }}
                   transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut", times: [0, 0.15, 0.4, 0.55, 1] }}
-                  href={s.ctaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-700 tracking-[0.16em] uppercase cursor-pointer rounded-full px-8 py-3.5 transition-all duration-300"
                   style={{
                     color: s.featured ? "white" : "#EAF4FF",
                     background: s.featured ? "linear-gradient(135deg, #0066cc, #00d4ff)" : "rgba(0, 8, 18, 0.62)",
                     border: "1px solid rgba(0, 210, 255, 0.28)",
                     backdropFilter: "blur(14px)",
                     WebkitBackdropFilter: "blur(14px)",
+                    display: "inline-block",
                   }}
                 >
                   {s.cta}
