@@ -42,8 +42,27 @@ export const en: Dict = {
     saleTimerUnits: ["d", "h", "m", "s"],
     items: [
       {
+        title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
+        description: "8-week training program focused on glutes, tone and body shape.",
+        features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
+        cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",
+      },
+      {
+        title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
+        description: "Personal nutrition plan tailored to your goals, lifestyle and preferences.",
+        features: [
+          "Individual macros (BJU) calculation for your specific goal: weight loss, muscle gain, body recomposition, or maintenance",
+          "Consideration of weight, height, age, activity level and lifestyle",
+          "Meal timing recommendations",
+          "Flexible approach without strict diets and restrictions",
+          "Weekly macro adjustment when needed",
+          "Answers to questions about your nutrition plan throughout the month",
+        ],
+        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
+      },
+      {
         title: "Online Coaching", price: "$120", period: "/ month", oldPrice: "$180", tag: "FLAGSHIP",
-        description: "Online coaching includes full support throughout the entire month.",
+        description: "Full support, control, adjustments and motivation on your path to results.",
         features: [
           "Individual workout plan",
           "Personalized nutrition plan with calorie and macro calculations for your goal",
@@ -58,25 +77,6 @@ export const en: Dict = {
           "Motivation and support until your first visible results",
         ],
         cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=coaching&lang=en", featured: false, color: "#0066cc",
-      },
-      {
-        title: "Nutrition Plan", price: "$50", period: "", oldPrice: "$100", tag: null,
-        description: "A personalized nutrition plan for a month — nutrition only, no training and support.",
-        features: [
-          "Individual macros (BJU) calculation for your specific goal: weight loss, muscle gain, body recomposition, or maintenance",
-          "Consideration of weight, height, age, activity level and lifestyle",
-          "Meal timing recommendations",
-          "Flexible approach without strict diets and restrictions",
-          "Weekly macro adjustment when needed",
-          "Answers to questions about your nutrition plan throughout the month",
-        ],
-        cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
-      },
-      {
-        title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
-        description: "8-week training program focused on glutes, tone and body shape.",
-        features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
-        cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",
       },
     ],
   },
