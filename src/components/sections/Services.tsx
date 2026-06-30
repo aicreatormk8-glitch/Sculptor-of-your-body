@@ -77,7 +77,7 @@ export default function Services() {
                   href={s.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm sm:text-base md:text-lg font-700 tracking-[0.16em] uppercase whitespace-nowrap cursor-pointer rounded-full px-8 py-3.5"
+                  className="text-sm font-700 tracking-wide uppercase whitespace-nowrap cursor-pointer rounded-full px-8 py-3.5"
                   style={s.featured
                     ? { color: "white", background: "linear-gradient(135deg, #0066cc, #00d4ff)", border: "1px solid rgba(0, 210, 255, 0.28)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }
                     : { color: "#EAF4FF", background: "rgba(0, 8, 18, 0.62)", border: "1px solid rgba(0, 210, 255, 0.28)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
