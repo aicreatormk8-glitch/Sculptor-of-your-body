@@ -28,32 +28,6 @@ function makeRequest(url, options = {}) {
   });
 }
 
-async function setBotDescription(token) {
-  const description =
-    'Sculptor of Your Body 💪\n\n' +
-    'Персональные программы тренировок, план питания и онлайн-ведение.\n' +
-    'Нажмите «Старт», чтобы открыть выбранную услугу и способы оплаты.';
-  const shortDescription =
-    'Программы тренировок, план питания и онлайн-ведение. Оплата через бота.';
-
-  try {
-    await makeRequest(`https://api.telegram.org/bot${token}/setMyDescription`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: { description },
-    });
-    await makeRequest(`https://api.telegram.org/bot${token}/setMyShortDescription`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: { short_description: shortDescription },
-    });
-    console.log('✅ Bot description updated!');
-  } catch (error) {
-    // Non-fatal: webhook is already set, description is cosmetic.
-    console.warn('⚠️  Could not update bot description:', error.message);
-  }
-}
-
 async function setupWebhook() {
   const token = process.env.TELEGRAM_BOT_TOKEN || '8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U';
 
@@ -82,12 +56,6 @@ async function setupWebhook() {
     if (response.data.ok) {
       console.log('✅ Webhook setup successful!');
       console.log(`✅ Webhook URL: ${webhookUrl}`);
-
-      // Bot description shown on the pre-Start screen ("What can this bot do?").
-      // Telegram allows only ONE global description for everyone, so it is kept
-      // neutral and covers all services instead of a single product.
-      await setBotDescription(token);
-
       process.exit(0);
     } else {
       console.error('❌ Webhook setup failed:');

@@ -27,26 +27,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const result = await response.json();
 
-    // Neutral global bot description (the pre-Start "What can this bot do?"
-    // text). Telegram allows only one description for everyone, so it covers
-    // all services instead of a single product.
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setMyDescription`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        description:
-          'Sculptor of Your Body 💪\n\nПерсональные программы тренировок, план питания и онлайн-ведение.\nНажмите «Старт», чтобы открыть выбранную услугу и способы оплаты.',
-      }),
-    });
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setMyShortDescription`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        short_description:
-          'Программы тренировок, план питания и онлайн-ведение. Оплата через бота.',
-      }),
-    });
-
     if (result.ok) {
       return NextResponse.json({
         success: true,
