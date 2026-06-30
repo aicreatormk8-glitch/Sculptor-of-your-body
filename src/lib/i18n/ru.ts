@@ -159,8 +159,8 @@ export const ru: Dict = {
     selectService: "Выбери услугу",
     services: [
       { value: "coaching", label: "Онлайн-ведение", price: "$120/мес" },
-      { value: "nutrition", label: "План питания", price: "$60" },
-      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$33" },
+      { value: "nutrition", label: "План питания", price: "$50" },
+      { value: "program", label: "Программа «Твоя лучшая версия»", price: "$17" },
     ],
     nameLabel: "Твоё имя *",
     namePlaceholder: "Как тебя зовут?",

@@ -159,8 +159,8 @@ export const en: Dict = {
     selectService: "Choose a service",
     services: [
       { value: "coaching", label: "Online Coaching", price: "$120/mo" },
-      { value: "nutrition", label: "Nutrition Plan", price: "$60" },
-      { value: "program", label: "\"Your Best Version\" Program", price: "$33" },
+      { value: "nutrition", label: "Nutrition Plan", price: "$50" },
+      { value: "program", label: "\"Your Best Version\" Program", price: "$17" },
     ],
     nameLabel: "Your Name *",
     namePlaceholder: "What's your name?",
