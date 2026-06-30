@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U';
 const OWNER_TELEGRAM = 'MK_sculptor1';
 const CARD_FULL = '4400 0055 4407 7511';
-const CARD_MASKED = '4400 **** **** 7511';
+const CARD_MASKED = '4400 •••• •••• 7511';
 const PAYPAL_EMAIL = 'mm4446008@gmail.com';
-const PAYPAL_MASKED = 'm....gmail';
+const PAYPAL_MASKED = 'm••••••••@gmail.com';
 
 // Cache for storing last message_id per chat
 const lastMessageIds: Map<number, number> = new Map();
@@ -282,8 +282,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
             : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
 
-      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_FULL}</code>\n\n⚠️ <i>${lang === 'ru' ? 'Не делитесь этим номером с кем-либо!' : lang === 'en' ? 'Do not share this number with anyone!' : 'Не ділитеся цим номером з ніким!'}</i>`;
-      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>`;
+      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>\n\n⚠️ <i>${lang === 'ru' ? 'Не делитесь этим номером с кем-либо!' : lang === 'en' ? 'Do not share this number with anyone!' : 'Не ділитеся цим номером з ніким!'}</i>`;
+      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
 
       const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
 
@@ -291,12 +291,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         inline_keyboard: [
           [
             {
-              text: '👁️ Скрыть номер карты',
-              callback_data: `hide_card:${lang}:${product}`,
+              text: MESSAGES[lang].common.showCardButton,
+              callback_data: `show_card:${lang}:${product}`,
             },
             {
-              text: '👁️ Скрыть PayPal',
-              callback_data: `hide_paypal:${lang}:${product}`,
+              text: MESSAGES[lang].common.showPaypalButton,
+              callback_data: `show_paypal:${lang}:${product}`,
             },
           ],
           [
@@ -320,20 +320,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (body.callback_query) {
       const { id, data, message } = body.callback_query;
       const chatId = message?.chat.id || body.callback_query.from.id;
-      // Try to get messageId from message, fallback to cached value
-      let messageId = message?.message_id;
+      // Get messageId from message
+      const messageId = message?.message_id;
+
       if (!messageId) {
-        messageId = lastMessageIds.get(chatId) || undefined;
+        await answerCallbackQuery(id, 'Error: message not found', true);
+        return NextResponse.json({ ok: true });
       }
-
-      // INSTANT TEST - send message to confirm webhook received
-      await sendTelegramMessage(chatId, `✅ WEBHOOK OK\n${data}\nMsgID: ${messageId}`);
-
-      console.log('=== CALLBACK DEBUG ===');
-      console.log('Data:', data);
-      console.log('Message:', message);
-      console.log('MessageId:', messageId);
-      console.log('ChatId:', chatId);
 
       if (data.startsWith('show_card:')) {
         const parts = data.split(':');
@@ -391,8 +384,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          // Just send new message - simple and reliable
-          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          // Edit the message in place
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -420,10 +413,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
           const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
 
-          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>\n\n💡 <i>${
-            lang === 'ru' ? 'Используйте этот адрес для оплаты через PayPal'
-            : lang === 'en' ? 'Use this email to pay via PayPal'
-            : 'Використовуйте цю адресу для оплати через PayPal'
+          const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>\n\n⚠️ <i>${
+            lang === 'ru' ? 'Не делитесь этим адресом с кем-либо!'
+            : lang === 'en' ? 'Do not share this address with anyone!'
+            : 'Не ділитеся цією адресою з ніким!'
           }</i>`;
 
           const updatedText = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
@@ -455,8 +448,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          // Just send new message - simple and reliable
-          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          // Edit the message in place
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -514,8 +507,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          // Just send new message - simple and reliable
-          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          // Edit the message in place
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -573,8 +566,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          // Just send new message - simple and reliable
-          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
+          // Edit the message in place
+          await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
