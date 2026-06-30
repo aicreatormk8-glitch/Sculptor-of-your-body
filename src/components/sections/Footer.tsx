@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useDict } from "@/lib/i18n/DictContext";
+import { useDict, useLang } from "@/lib/i18n/DictContext";
 
 const InstagramIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -24,6 +24,7 @@ const TelegramIcon = () => (
 
 export default function Footer() {
   const { footer, hero } = useDict();
+  const { locale } = useLang();
   const year = new Date().getFullYear();
 
   return (
@@ -96,9 +97,9 @@ export default function Footer() {
           <div className="flex sm:justify-end">
             <div className="flex flex-col gap-2.5">
               {[
-                { href: "/privacy", label: footer.privacy },
-                { href: "/terms", label: footer.terms },
-                { href: "/terms#payment", label: footer.payment },
+                { href: `/${locale}/privacy-policy`, label: footer.privacy },
+                { href: `/${locale}/terms-of-use`, label: footer.terms },
+                { href: `/${locale}/payment-terms`, label: footer.payment },
               ].map((item) => (
                 <Link
                   key={item.href}

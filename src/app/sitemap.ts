@@ -7,7 +7,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/ru`, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },
     { url: `${BASE_URL}/uk`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/en`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE_URL}/terms`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
+    ...["ru", "uk", "en"].flatMap((loc) => [
+      { url: `${BASE_URL}/${loc}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+      { url: `${BASE_URL}/${loc}/terms-of-use`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+      { url: `${BASE_URL}/${loc}/payment-terms`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+    ]),
   ];
 }

@@ -191,7 +191,7 @@ export default function Contact() {
 
           <p className="text-center text-[11px] text-[var(--text-muted)] mt-8">
             {contact.privacyText}{" "}
-            <Link href="/privacy" className="underline underline-offset-2 hover:text-[var(--blue-neon)] transition-colors">{contact.privacyLink}</Link>
+            <Link href={`/${locale}/privacy-policy`} className="underline underline-offset-2 hover:text-[var(--blue-neon)] transition-colors">{contact.privacyLink}</Link>
           </p>
         </AnimatedSection>
       </div>
