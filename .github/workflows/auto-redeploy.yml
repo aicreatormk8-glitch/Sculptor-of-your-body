@@ -1,0 +1,57 @@
+name: Auto-redeploy on failed Vercel deploy
+
+# Vercel reports each deployment back to GitHub as a `deployment_status` event.
+# When a production deploy fails or errors (usually a transient Vercel build
+# hiccup), this workflow automatically re-triggers the deploy via a Vercel
+# Deploy Hook — no manual "Redeploy" click needed.
+#
+# One-time setup (otherwise this workflow safely does nothing):
+#   1. Vercel → Project → Settings → Git → Deploy Hooks → create a hook for
+#      branch `main`, copy its URL.
+#   2. GitHub → repo Settings → Secrets and variables → Actions → New secret
+#      named VERCEL_DEPLOY_HOOK with that URL as the value.
+
+on:
+  deployment_status: {}
+
+permissions:
+  deployments: read
+
+jobs:
+  retry:
+    if: github.event.deployment_status.state == 'failure' || github.event.deployment_status.state == 'error'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retry failed deploy (bounded, no infinite loop)
+        env:
+          DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          SHA: ${{ github.event.deployment.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${DEPLOY_HOOK:-}" ]; then
+            echo "VERCEL_DEPLOY_HOOK secret is not set — nothing to do."
+            echo "See this file's header for the one-time setup steps."
+            exit 0
+          fi
+
+          # Loop guard: count how many deployments already exist for this commit.
+          # Each retry adds a new deployment for the same SHA, so we stop after a
+          # couple of attempts to avoid an endless retry loop on a real failure.
+          count=$(curl -sS \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$REPO/deployments?sha=$SHA&per_page=100" \
+            | grep -c '"id":' || true)
+          echo "Existing deployments for $SHA: ${count:-0}"
+
+          if [ "${count:-0}" -ge 3 ]; then
+            echo "Already retried this commit a couple of times — giving up to avoid a loop."
+            exit 0
+          fi
+
+          echo "Deploy failed — triggering a fresh Vercel deploy..."
+          curl -sS -X POST "$DEPLOY_HOOK" >/dev/null
+          echo "Redeploy triggered."
