@@ -282,8 +282,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ? `<s>$${PRODUCTS[product].oldPriceUSD} USD</s> → 🇺🇸 <b>$${PRODUCTS[product].priceUSD} USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} UAH</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} UAH</b>`
             : `<s>${PRODUCTS[product].oldPriceUSD}$ USD</s> → 🇺🇸 <b>${PRODUCTS[product].priceUSD}$ USD</b> <b>(-${discount}%)</b>\n<s>≈ ${Math.round(oldPriceUAH)} ₴</s> → 🇺🇦 <b>≈ ${Math.round(priceUAH)} ₴ UAH</b>`;
 
-      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_MASKED}</code>`;
-      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_MASKED}</code>`;
+      const cardSection = `${MESSAGES[lang].common.cardLabel}\n\n<code>${CARD_FULL}</code>\n\n⚠️ <i>${lang === 'ru' ? 'Не делитесь этим номером с кем-либо!' : lang === 'en' ? 'Do not share this number with anyone!' : 'Не ділитеся цим номером з ніким!'}</i>`;
+      const paypalSection = `<b>PayPal:</b>\n\n<code>${PAYPAL_EMAIL}</code>`;
 
       const paymentMessage = `<b>${productInfo.name}</b>\n\n${productInfo.description}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.costLabel}\n\n${priceSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.methodsLabel}\n\n${cardSection}\n\n${paypalSection}\n\n━━━━━━━━━━━━━━━━━━━━\n\n${MESSAGES[lang].common.instructionLabel}\n\n${MESSAGES[lang].common.instruction1}\n${MESSAGES[lang].common.instruction2}\n${MESSAGES[lang].common.instruction3}`;
 
@@ -291,12 +291,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         inline_keyboard: [
           [
             {
-              text: MESSAGES[lang].common.showCardButton,
-              callback_data: `show_card:${lang}:${product}`,
+              text: '👁️ Скрыть номер карты',
+              callback_data: `hide_card:${lang}:${product}`,
             },
             {
-              text: MESSAGES[lang].common.showPaypalButton,
-              callback_data: `show_paypal:${lang}:${product}`,
+              text: '👁️ Скрыть PayPal',
+              callback_data: `hide_paypal:${lang}:${product}`,
             },
           ],
           [
