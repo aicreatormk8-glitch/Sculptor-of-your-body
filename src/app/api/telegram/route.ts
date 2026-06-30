@@ -391,16 +391,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          if (messageId) {
-            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
-            if (!editSuccess) {
-              console.log('Edit failed, sending new message instead');
-              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-            }
-          } else {
-            console.log('No messageId, sending new message');
-            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-          }
+          // Just send new message - simple and reliable
+          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -463,16 +455,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          if (messageId) {
-            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
-            if (!editSuccess) {
-              console.log('Edit failed, sending new message instead');
-              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-            }
-          } else {
-            console.log('No messageId, sending new message');
-            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-          }
+          // Just send new message - simple and reliable
+          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -530,16 +514,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          if (messageId) {
-            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
-            if (!editSuccess) {
-              console.log('Edit failed, sending new message instead');
-              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-            }
-          } else {
-            console.log('No messageId, sending new message');
-            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-          }
+          // Just send new message - simple and reliable
+          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
@@ -597,16 +573,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             ],
           };
 
-          if (messageId) {
-            const editSuccess = await editTelegramMessage(chatId, messageId, updatedText, updatedMarkup);
-            if (!editSuccess) {
-              console.log('Edit failed, sending new message instead');
-              await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-            }
-          } else {
-            console.log('No messageId, sending new message');
-            await sendTelegramMessage(chatId, updatedText, updatedMarkup);
-          }
+          // Just send new message - simple and reliable
+          await sendTelegramMessage(chatId, updatedText, updatedMarkup);
         }
 
         await answerCallbackQuery(id, '✅', false);
