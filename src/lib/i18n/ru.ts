@@ -71,7 +71,7 @@ export const ru: Dict = {
         cta: "Приобрести", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=ru", featured: false, color: "#0090c0",
       },
       {
-        title: "Твоя лучшая версия", price: "$17", period: "", oldPrice: "$50", tag: "SALE",
+        title: "Твоя лучшая версия", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-недельная программа тренировок с акцентом на ягодицы, тонус и форму тела.",
         features: ["Тренировочный план на 8 недель", "Акцент на ягодицы", "Структура по неделям", "Доступ навсегда", "Подходит для самостоятельного прохождения"],
         cta: "Приобрести программу", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=ru", featured: true, color: "#00d4ff",

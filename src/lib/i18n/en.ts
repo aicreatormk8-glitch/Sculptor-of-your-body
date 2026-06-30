@@ -71,7 +71,7 @@ export const en: Dict = {
         cta: "Purchase", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition", featured: false, color: "#0090c0",
       },
       {
-        title: "Your Best Version", price: "$17", period: "", oldPrice: "$50", tag: "SALE",
+        title: "Your Best Version", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-week training program focused on glutes, tone and body shape.",
         features: ["8-week training plan", "Glutes focus", "Weekly structure", "Lifetime access", "Suitable for self-paced training"],
         cta: "Purchase Program", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program", featured: true, color: "#00d4ff",

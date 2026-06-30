@@ -71,7 +71,7 @@ export const uk: Dict = {
         cta: "Придбати", ctaHref: "https://t.me/MK_sculptor_bot?start=product=nutrition&lang=uk", featured: false, color: "#0090c0",
       },
       {
-        title: "Твоя найкраща версія", price: "$17", period: "", oldPrice: "$50", tag: "SALE",
+        title: "Твоя найкраща версія", price: "$17", period: "", oldPrice: "$117", tag: "SALE",
         description: "8-тижнева програма тренувань з акцентом на сідниці, тонус та форму тіла.",
         features: ["Тренувальний план на 8 тижнів", "Акцент на сідниці", "Структура по тижнях", "Доступ назавжди", "Підходить для самостійного проходження"],
         cta: "Придбати програму", ctaHref: "https://t.me/MK_sculptor_bot?start=product=program&lang=uk", featured: true, color: "#00d4ff",

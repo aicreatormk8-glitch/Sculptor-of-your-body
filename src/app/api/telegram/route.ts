@@ -11,7 +11,7 @@ type Language = 'ru' | 'en' | 'uk';
 const PRODUCTS = {
   program: {
     priceUSD: 17,
-    oldPriceUSD: 50,
+    oldPriceUSD: 117,
   },
   nutrition: {
     priceUSD: 50,
