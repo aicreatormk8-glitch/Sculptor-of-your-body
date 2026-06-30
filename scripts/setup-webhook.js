@@ -29,7 +29,7 @@ function makeRequest(url, options = {}) {
 }
 
 async function setupWebhook() {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const token = process.env.TELEGRAM_BOT_TOKEN || '8639462645:AAGDSXmsFVSnnPI9JN6mqH7NWoar5-OoZ4U';
 
   if (!token) {
     console.log('⚠️  TELEGRAM_BOT_TOKEN not set. Skipping webhook setup.');
