@@ -2,19 +2,29 @@
 
 import { useState, useEffect } from "react";
 
-const DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+// Owner's timezone — the sale resets at local midnight here every day.
+const TIMEZONE = "Europe/Kyiv";
 
-// Rolling 24-hour window anchored to fixed daily boundaries (UTC midnights).
-// It always shows time left in the current 24h cycle and resets automatically
-// every day — the same for every visitor, no storage needed.
+const timeFmt = new Intl.DateTimeFormat("en-GB", {
+  timeZone: TIMEZONE,
+  hour12: false,
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
+// Countdown to the next midnight in TIMEZONE. Resets automatically every day
+// at 00:00 local time and shows the same value for every visitor, regardless
+// of their own timezone (DST handled by the Intl API). No storage needed.
 function calcTimeLeft() {
-  const now = Date.now();
-  const deadline = Math.ceil(now / DURATION_MS) * DURATION_MS;
-  const diff = Math.max(0, deadline - now);
+  const parts = timeFmt.formatToParts(new Date());
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value ?? 0);
+  const elapsed = (get("hour") % 24) * 3600 + get("minute") * 60 + get("second");
+  const remaining = 86_400 - elapsed;
   return {
-    hours:   Math.floor(diff / 3_600_000),
-    minutes: Math.floor(diff / 60_000) % 60,
-    seconds: Math.floor(diff / 1_000) % 60,
+    hours:   Math.floor(remaining / 3600),
+    minutes: Math.floor(remaining / 60) % 60,
+    seconds: remaining % 60,
   };
 }
 
