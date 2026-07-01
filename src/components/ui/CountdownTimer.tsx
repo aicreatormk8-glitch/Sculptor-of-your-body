@@ -2,29 +2,29 @@
 
 import { useState, useEffect } from "react";
 
-const DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-const STORAGE_KEY = "sale_start_ts";
+// Owner's timezone — the sale resets at local midnight here every day.
+const TIMEZONE = "Europe/Kyiv";
 
-// Per-visitor rolling 24h window. Each visitor starts at 24:00:00 on their
-// first visit; when the 24h elapse, it rolls over to a fresh 24:00:00
-// automatically. The start moment is kept in the browser so the countdown
-// stays consistent across reloads within the same 24h cycle.
-function getDeadline(): number {
-  const now = Date.now();
-  let start = Number(localStorage.getItem(STORAGE_KEY));
-  if (!start || now - start >= DURATION_MS) {
-    start = now;
-    localStorage.setItem(STORAGE_KEY, String(start));
-  }
-  return start + DURATION_MS;
-}
+const timeFmt = new Intl.DateTimeFormat("en-GB", {
+  timeZone: TIMEZONE,
+  hour12: false,
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
 
+// Countdown to the next midnight in TIMEZONE. Resets automatically every day
+// at 00:00 local time and shows the same value for every visitor, regardless
+// of their own timezone (DST handled by the Intl API). No storage needed.
 function calcTimeLeft() {
-  const diff = Math.max(0, getDeadline() - Date.now());
+  const parts = timeFmt.formatToParts(new Date());
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value ?? 0);
+  const elapsed = (get("hour") % 24) * 3600 + get("minute") * 60 + get("second");
+  const remaining = 86_400 - elapsed;
   return {
-    hours:   Math.floor(diff / 3_600_000),
-    minutes: Math.floor(diff / 60_000) % 60,
-    seconds: Math.floor(diff / 1_000) % 60,
+    hours:   Math.floor(remaining / 3600),
+    minutes: Math.floor(remaining / 60) % 60,
+    seconds: remaining % 60,
   };
 }
 
