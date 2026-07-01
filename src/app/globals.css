@@ -143,6 +143,20 @@ body::before {
   .heartbeat { animation: none; }
 }
 
+/* ─── Blinking timer ─────────────────────── */
+@keyframes timerBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+.timer-blink {
+  animation: timerBlink 1.1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer-blink { animation: none; }
+}
+
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position: 200% 0; }

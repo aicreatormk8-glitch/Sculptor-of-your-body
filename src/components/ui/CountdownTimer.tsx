@@ -48,7 +48,7 @@ export default function CountdownTimer({ label, units }: Props) {
   const displayUnits = [units[1], units[2], units[3]];
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 timer-blink">
       <p className="text-[11px] font-600 tracking-[0.2em] uppercase text-center mb-3" style={{ color: "rgba(0,212,255,0.7)" }}>
         {label}
       </p>
