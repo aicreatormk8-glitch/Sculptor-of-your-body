@@ -3,22 +3,14 @@
 import { useState, useEffect } from "react";
 
 const DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-const STORAGE_KEY = "sale_start_ts";
 
-function getDeadline(): number {
-  if (typeof window === "undefined") return Date.now() + DURATION_MS;
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    const start = parseInt(stored, 10);
-    return start + DURATION_MS;
-  }
+// Rolling 24-hour window anchored to fixed daily boundaries (UTC midnights).
+// It always shows time left in the current 24h cycle and resets automatically
+// every day — the same for every visitor, no storage needed.
+function calcTimeLeft() {
   const now = Date.now();
-  localStorage.setItem(STORAGE_KEY, String(now));
-  return now + DURATION_MS;
-}
-
-function calcTimeLeft(deadline: number) {
-  const diff = Math.max(0, deadline - Date.now());
+  const deadline = Math.ceil(now / DURATION_MS) * DURATION_MS;
+  const diff = Math.max(0, deadline - now);
   return {
     hours:   Math.floor(diff / 3_600_000),
     minutes: Math.floor(diff / 60_000) % 60,
@@ -35,9 +27,8 @@ export default function CountdownTimer({ label, units }: Props) {
   const [timeLeft, setTimeLeft] = useState({ hours: 24, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const deadline = getDeadline();
-    setTimeLeft(calcTimeLeft(deadline));
-    const id = setInterval(() => setTimeLeft(calcTimeLeft(deadline)), 1000);
+    setTimeLeft(calcTimeLeft());
+    const id = setInterval(() => setTimeLeft(calcTimeLeft()), 1000);
     return () => clearInterval(id);
   }, []);
 

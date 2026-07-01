@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/AnimatedSection";
+import CountdownTimer from "../ui/CountdownTimer";
 import { useDict } from "@/lib/i18n/DictContext";
 
 export default function Services() {
@@ -66,6 +67,9 @@ export default function Services() {
                     <span className="text-5xl sm:text-6xl font-800 leading-none" style={{ color: s.featured ? "var(--blue-neon)" : "white", textShadow: s.featured ? "0 0 28px rgba(0,212,255,0.5)" : "0 0 20px rgba(255,255,255,0.08)" }}>{s.price}</span>
                     {s.period && <span className="text-sm text-[var(--text-muted)] pb-1">{s.period}</span>}
                   </div>
+                  {s.featured && (
+                    <CountdownTimer label={services.saleTimerLabel} units={services.saleTimerUnits} />
+                  )}
                 </div>
                 <hr className="hr-glow mb-6" />
                 <ul className="space-y-3 mb-8 flex-1">
