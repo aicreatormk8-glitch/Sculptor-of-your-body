@@ -48,33 +48,31 @@ export default function CountdownTimer({ label, units }: Props) {
   const displayUnits = [units[1], units[2], units[3]];
 
   return (
-    <div className="mt-5 timer-blink">
-      <p className="text-[11px] font-600 tracking-[0.2em] uppercase text-center mb-3" style={{ color: "rgba(0,212,255,0.7)" }}>
+    <div className="mt-5">
+      <p className="text-[11px] font-700 tracking-[0.2em] uppercase text-center mb-3" style={{ color: "rgba(120,235,255,0.95)" }}>
         {label}
       </p>
       <div className="flex items-center justify-center gap-1.5">
         {values.map((val, i) => (
           <div key={i} className="flex items-center gap-1.5">
             <div
-              className="flex flex-col items-center justify-center rounded-xl px-3 py-2 min-w-[52px]"
+              className="timer-box flex flex-col items-center justify-center rounded-xl px-3 py-2 min-w-[52px]"
               style={{
-                background: "rgba(0,212,255,0.07)",
-                border: "1px solid rgba(0,212,255,0.25)",
-                boxShadow: "0 0 14px rgba(0,212,255,0.15)",
+                background: "rgba(0,212,255,0.16)",
               }}
             >
               <span
                 className="text-2xl font-800 tabular-nums leading-none"
-                style={{ color: "var(--blue-neon)", textShadow: "0 0 18px rgba(0,212,255,0.7)" }}
+                style={{ color: "#7DF0FF", textShadow: "0 0 22px rgba(0,229,255,0.95), 0 0 40px rgba(0,212,255,0.5)" }}
               >
                 {pad(val)}
               </span>
-              <span className="text-[9px] font-600 mt-1 tracking-widest uppercase" style={{ color: "rgba(0,212,255,0.5)" }}>
+              <span className="text-[9px] font-700 mt-1 tracking-widest uppercase" style={{ color: "rgba(120,235,255,0.85)" }}>
                 {displayUnits[i]}
               </span>
             </div>
             {i < 2 && (
-              <span className="text-xl font-700 mb-3" style={{ color: "rgba(0,212,255,0.45)" }}>:</span>
+              <span className="text-xl font-800 mb-3" style={{ color: "rgba(0,229,255,0.85)" }}>:</span>
             )}
           </div>
         ))}
